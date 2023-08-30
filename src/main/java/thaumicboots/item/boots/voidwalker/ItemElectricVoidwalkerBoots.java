@@ -106,7 +106,7 @@ public class ItemElectricVoidwalkerBoots extends ItemArmor
         super.onArmorTick(world, player, stack);
         // repair
         if (!world.isRemote && stack.isItemDamaged() && player.ticksExisted % 20 == 0) {
-            stack.damageItem(-1, player);
+            // stack.damageItem(-1, player);
         }
 
         // particles
@@ -204,7 +204,7 @@ public class ItemElectricVoidwalkerBoots extends ItemArmor
     }
 
     public double getDamageAbsorptionRatio() {
-        return 0.5D;
+        return 2.25D;
     }
 
     private double getBaseAbsorptionRatio() {

@@ -106,7 +106,7 @@ public class ItemQuantumVoidwalkerBoots extends ItemArmor
         super.onArmorTick(world, player, stack);
         // repair
         if (!world.isRemote && stack.isItemDamaged() && player.ticksExisted % 20 == 0) {
-            stack.damageItem(-1, player);
+            // stack.damageItem(-1, player);
         }
 
         // particles
@@ -204,7 +204,7 @@ public class ItemQuantumVoidwalkerBoots extends ItemArmor
     }
 
     public double getDamageAbsorptionRatio() {
-        return 0.5D;
+        return 3D;
     }
 
     private double getBaseAbsorptionRatio() {

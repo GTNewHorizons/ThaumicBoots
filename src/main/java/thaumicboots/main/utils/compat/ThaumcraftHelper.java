@@ -5,6 +5,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.oredict.OreDictionary;
 
 import emt.init.EMTItems;
 import flaxbeard.thaumicexploration.ThaumicExploration;
@@ -256,6 +257,10 @@ public class ThaumcraftHelper implements IModHelper {
     public static InfusionRecipe nanoComet;
     public static InfusionRecipe quantumComet;
 
+    public static InfusionRecipe electricMeteor;
+    public static InfusionRecipe nanoMeteor;
+    public static InfusionRecipe quantumMeteor;
+
     public static InfusionRecipe voidMeteor;
     public static InfusionRecipe voidComet;
 
@@ -271,98 +276,146 @@ public class ThaumcraftHelper implements IModHelper {
 
         electricComet = ThaumcraftApi.addInfusionCraftingRecipe(
                 "TB_Explorations_EMT_Compat",
-                new ItemStack(Config.bootsElectricComet),
+                new ItemStack(Config.bootsElectricComet, 1, OreDictionary.WILDCARD_VALUE),
                 0,
                 new AspectList().add(Aspect.EXCHANGE, 75).add(Aspect.MAGIC, 50).add(Aspect.CRAFT, 50)
                         .add(TB_Aspect.SPACE, 25).add(TB_Aspect.BOOTS, 25),
                 new ItemStack(Config.arcaniumLens),
                 new ItemStack[] { new ItemStack(ThaumicExploration.bootsComet),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
-                        new ItemStack(shard, 1, ShardType.BALANCED.ordinal()),
+                        new ItemStack(ConfigItems.itemShard, 1, 6),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
-                        new ItemStack(EMTItems.electricBootsTraveller),
+                        new ItemStack(EMTItems.electricBootsTraveller, 1, OreDictionary.WILDCARD_VALUE),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
-                        new ItemStack(shard, 1, ShardType.BALANCED.ordinal()),
+                        new ItemStack(ConfigItems.itemShard, 1, 6),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()) });
 
         nanoComet = ThaumcraftApi.addInfusionCraftingRecipe(
                 "TB_Explorations_EMT_Compat",
-                new ItemStack(Config.bootsNanoComet),
+                new ItemStack(Config.bootsNanoComet, 1, OreDictionary.WILDCARD_VALUE),
                 0,
                 new AspectList().add(Aspect.EXCHANGE, 75).add(Aspect.MAGIC, 50).add(Aspect.CRAFT, 50)
                         .add(TB_Aspect.SPACE, 25).add(TB_Aspect.BOOTS, 25),
                 new ItemStack(Config.arcaniumLens),
                 new ItemStack[] { new ItemStack(ThaumicExploration.bootsComet),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
-                        new ItemStack(shard, 1, ShardType.BALANCED.ordinal()),
+                        new ItemStack(ConfigItems.itemShard, 1, 6),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
-                        new ItemStack(EMTItems.nanoBootsTraveller),
+                        new ItemStack(EMTItems.nanoBootsTraveller, 1, OreDictionary.WILDCARD_VALUE),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
-                        new ItemStack(shard, 1, ShardType.BALANCED.ordinal()),
+                        new ItemStack(ConfigItems.itemShard, 1, 6),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()) });
 
         quantumComet = ThaumcraftApi.addInfusionCraftingRecipe(
                 "TB_Explorations_EMT_Compat",
-                new ItemStack(Config.bootsQuantumComet),
+                new ItemStack(Config.bootsQuantumComet, 1, OreDictionary.WILDCARD_VALUE),
                 0,
                 new AspectList().add(Aspect.EXCHANGE, 75).add(Aspect.MAGIC, 50).add(Aspect.CRAFT, 50)
                         .add(TB_Aspect.SPACE, 25).add(TB_Aspect.BOOTS, 25),
                 new ItemStack(Config.arcaniumLens),
                 new ItemStack[] { new ItemStack(ThaumicExploration.bootsComet),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
-                        new ItemStack(shard, 1, ShardType.BALANCED.ordinal()),
+                        new ItemStack(ConfigItems.itemShard, 1, 6),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
-                        new ItemStack(EMTItems.quantumBootsTraveller),
+                        new ItemStack(EMTItems.quantumBootsTraveller, 1, OreDictionary.WILDCARD_VALUE),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
-                        new ItemStack(shard, 1, ShardType.BALANCED.ordinal()),
+                        new ItemStack(ConfigItems.itemShard, 1, 6),
+                        new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()) });
+
+        electricComet = ThaumcraftApi.addInfusionCraftingRecipe(
+                "TB_Explorations_EMT_Compat",
+                new ItemStack(Config.bootsElectricMeteor, 1, OreDictionary.WILDCARD_VALUE),
+                0,
+                new AspectList().add(Aspect.EXCHANGE, 75).add(Aspect.MAGIC, 50).add(Aspect.CRAFT, 50)
+                        .add(TB_Aspect.SPACE, 25).add(TB_Aspect.BOOTS, 25),
+                new ItemStack(Config.arcaniumLens),
+                new ItemStack[] { new ItemStack(ThaumicExploration.bootsMeteor),
+                        new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
+                        new ItemStack(ConfigItems.itemShard, 1, 6),
+                        new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
+                        new ItemStack(EMTItems.electricBootsTraveller, 1, OreDictionary.WILDCARD_VALUE),
+                        new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
+                        new ItemStack(ConfigItems.itemShard, 1, 6),
+                        new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()) });
+
+        nanoComet = ThaumcraftApi.addInfusionCraftingRecipe(
+                "TB_Explorations_EMT_Compat",
+                new ItemStack(Config.bootsNanoMeteor, 1, OreDictionary.WILDCARD_VALUE),
+                0,
+                new AspectList().add(Aspect.EXCHANGE, 75).add(Aspect.MAGIC, 50).add(Aspect.CRAFT, 50)
+                        .add(TB_Aspect.SPACE, 25).add(TB_Aspect.BOOTS, 25),
+                new ItemStack(Config.arcaniumLens),
+                new ItemStack[] { new ItemStack(ThaumicExploration.bootsMeteor),
+                        new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
+                        new ItemStack(ConfigItems.itemShard, 1, 6),
+                        new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
+                        new ItemStack(EMTItems.nanoBootsTraveller, 1, OreDictionary.WILDCARD_VALUE),
+                        new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
+                        new ItemStack(ConfigItems.itemShard, 1, 6),
+                        new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()) });
+
+        quantumComet = ThaumcraftApi.addInfusionCraftingRecipe(
+                "TB_Explorations_EMT_Compat",
+                new ItemStack(Config.bootsQuantumMeteor, 1, OreDictionary.WILDCARD_VALUE),
+                0,
+                new AspectList().add(Aspect.EXCHANGE, 75).add(Aspect.MAGIC, 50).add(Aspect.CRAFT, 50)
+                        .add(TB_Aspect.SPACE, 25).add(TB_Aspect.BOOTS, 25),
+                new ItemStack(Config.arcaniumLens),
+                new ItemStack[] { new ItemStack(ThaumicExploration.bootsMeteor),
+                        new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
+                        new ItemStack(ConfigItems.itemShard, 1, 6),
+                        new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
+                        new ItemStack(EMTItems.quantumBootsTraveller, 1, OreDictionary.WILDCARD_VALUE),
+                        new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
+                        new ItemStack(ConfigItems.itemShard, 1, 6),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()) });
 
         electricVoid = ThaumcraftApi.addInfusionCraftingRecipe(
                 "TB_EMT_Tainted_Compat",
-                new ItemStack(Config.bootsElectricVoid),
+                new ItemStack(Config.bootsElectricVoid, 1, OreDictionary.WILDCARD_VALUE),
                 0,
                 new AspectList().add(Aspect.EXCHANGE, 75).add(Aspect.MAGIC, 50).add(Aspect.CRAFT, 50)
                         .add(TB_Aspect.SPACE, 25).add(TB_Aspect.BOOTS, 25),
                 new ItemStack(Config.arcaniumLens),
                 new ItemStack[] { new ItemStack(ItemRegistry.ItemVoidwalkerBoots),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
-                        new ItemStack(shard, 1, ShardType.BALANCED.ordinal()),
+                        new ItemStack(ConfigItems.itemShard, 1, 6),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
-                        new ItemStack(EMTItems.electricBootsTraveller),
+                        new ItemStack(EMTItems.electricBootsTraveller, 1, OreDictionary.WILDCARD_VALUE),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
-                        new ItemStack(shard, 1, ShardType.BALANCED.ordinal()),
+                        new ItemStack(ConfigItems.itemShard, 1, 6),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()) });
 
         nanoVoid = ThaumcraftApi.addInfusionCraftingRecipe(
                 "TB_EMT_Tainted_Compat",
-                new ItemStack(Config.bootsNanoVoid),
+                new ItemStack(Config.bootsNanoVoid, 1, OreDictionary.WILDCARD_VALUE),
                 0,
                 new AspectList().add(Aspect.EXCHANGE, 75).add(Aspect.MAGIC, 50).add(Aspect.CRAFT, 50)
                         .add(TB_Aspect.SPACE, 25).add(TB_Aspect.BOOTS, 25),
                 new ItemStack(Config.arcaniumLens),
                 new ItemStack[] { new ItemStack(ItemRegistry.ItemVoidwalkerBoots),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
-                        new ItemStack(shard, 1, ShardType.BALANCED.ordinal()),
+                        new ItemStack(ConfigItems.itemShard, 1, 6),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
-                        new ItemStack(EMTItems.nanoBootsTraveller),
+                        new ItemStack(EMTItems.nanoBootsTraveller, 1, OreDictionary.WILDCARD_VALUE),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
-                        new ItemStack(shard, 1, ShardType.BALANCED.ordinal()),
+                        new ItemStack(ConfigItems.itemShard, 1, 6),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()) });
 
         quantumVoid = ThaumcraftApi.addInfusionCraftingRecipe(
                 "TB_EMT_Tainted_Compat",
-                new ItemStack(Config.bootsQuantumVoid),
+                new ItemStack(Config.bootsQuantumVoid, 1, OreDictionary.WILDCARD_VALUE),
                 0,
                 new AspectList().add(Aspect.EXCHANGE, 75).add(Aspect.MAGIC, 50).add(Aspect.CRAFT, 50)
                         .add(TB_Aspect.SPACE, 25).add(TB_Aspect.BOOTS, 25),
                 new ItemStack(Config.arcaniumLens),
                 new ItemStack[] { new ItemStack(ItemRegistry.ItemVoidwalkerBoots),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
-                        new ItemStack(shard, 1, ShardType.BALANCED.ordinal()),
+                        new ItemStack(ConfigItems.itemShard, 1, 6),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
-                        new ItemStack(EMTItems.quantumBootsTraveller),
+                        new ItemStack(EMTItems.quantumBootsTraveller, 1, OreDictionary.WILDCARD_VALUE),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
-                        new ItemStack(shard, 1, ShardType.BALANCED.ordinal()),
+                        new ItemStack(ConfigItems.itemShard, 1, 6),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()) });
 
         voidMeteor = ThaumcraftApi.addInfusionCraftingRecipe(
@@ -374,11 +427,11 @@ public class ThaumcraftHelper implements IModHelper {
                 new ItemStack(Config.arcaniumLens),
                 new ItemStack[] { new ItemStack(ItemRegistry.ItemVoidwalkerBoots),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
-                        new ItemStack(shard, 1, ShardType.BALANCED.ordinal()),
+                        new ItemStack(ConfigItems.itemShard, 1, 6),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
                         new ItemStack(ThaumicExploration.bootsMeteor),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
-                        new ItemStack(shard, 1, ShardType.BALANCED.ordinal()),
+                        new ItemStack(ConfigItems.itemShard, 1, 6),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()) });
 
         voidComet = ThaumcraftApi.addInfusionCraftingRecipe(
@@ -390,15 +443,15 @@ public class ThaumcraftHelper implements IModHelper {
                 new ItemStack(Config.arcaniumLens),
                 new ItemStack[] { new ItemStack(ItemRegistry.ItemVoidwalkerBoots),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
-                        new ItemStack(shard, 1, ShardType.BALANCED.ordinal()),
+                        new ItemStack(ConfigItems.itemShard, 1, 6),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
                         new ItemStack(ThaumicExploration.bootsComet),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
-                        new ItemStack(shard, 1, ShardType.BALANCED.ordinal()),
+                        new ItemStack(ConfigItems.itemShard, 1, 6),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()) });
 
         cometMeteor = ThaumcraftApi.addInfusionCraftingRecipe(
-                "TB_Explorations_Tainted_Compat",
+                "TB_Explorations_Compat",
                 new ItemStack(Config.bootsCometMeteor),
                 0,
                 new AspectList().add(Aspect.EXCHANGE, 75).add(Aspect.MAGIC, 50).add(Aspect.CRAFT, 50)
@@ -406,15 +459,15 @@ public class ThaumcraftHelper implements IModHelper {
                 new ItemStack(Config.arcaniumLens),
                 new ItemStack[] { new ItemStack(ThaumicExploration.bootsComet),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
-                        new ItemStack(shard, 1, ShardType.BALANCED.ordinal()),
+                        new ItemStack(ConfigItems.itemShard, 1, 2),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
                         new ItemStack(ThaumicExploration.bootsMeteor),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
-                        new ItemStack(shard, 1, ShardType.BALANCED.ordinal()),
+                        new ItemStack(ConfigItems.itemShard, 1, 6),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()) });
 
         meteorComet = ThaumcraftApi.addInfusionCraftingRecipe(
-                "TB_Explorations_Tainted_Compat",
+                "TB_Explorations_Compat",
                 new ItemStack(Config.bootsMeteoricComet),
                 0,
                 new AspectList().add(Aspect.EXCHANGE, 75).add(Aspect.MAGIC, 50).add(Aspect.CRAFT, 50)
@@ -422,11 +475,11 @@ public class ThaumcraftHelper implements IModHelper {
                 new ItemStack(Config.arcaniumLens),
                 new ItemStack[] { new ItemStack(ThaumicExploration.bootsMeteor),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
-                        new ItemStack(shard, 1, ShardType.BALANCED.ordinal()),
+                        new ItemStack(ConfigItems.itemShard, 1, 6),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
                         new ItemStack(ThaumicExploration.bootsComet),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()),
-                        new ItemStack(shard, 1, ShardType.BALANCED.ordinal()),
+                        new ItemStack(ConfigItems.itemShard, 1, 1),
                         new ItemStack(miscResource, 1, MiscResource.SALIS.ordinal()) });
 
     }
@@ -437,127 +490,146 @@ public class ThaumcraftHelper implements IModHelper {
                 category,
                 new ResourceLocation(VersionInfo.ModID, "textures/items/bootsCometMeteor.png"),
                 new ResourceLocation(VersionInfo.ModID, "textures/gui/research_bg1_b.png"));
+
         ResearchItem coreResearch;
         ResearchItem explorationsCore, emtCore, taintedCore, uniqueCore;
         ResearchPage core1, core2, explorationsCore1, explorationsCore2, emtCore1, emtCore2, taintedCore1, taintedCore2,
                 uniqueCore1, uniqueCore2;
-        ResearchPage explorationsEMT1, explorationsEMT2, explorationsEMT3, explorationsEMT4, emtTainted1, emtTainted2,
-                emtTainted3, emtTainted4, explorationsTainted1, explorationsTainted2, explorationsTainted3,
-                explorationsCompat1, explorationsCompat2, explorationsCompat3;
+        ResearchPage explorationsEMT1, explorationsEMT2, explorationsEMT3, explorationsEMT4, explorationsEMT5,
+                explorationsEMT6, explorationsEMT7, emtTainted1, emtTainted2, emtTainted3, emtTainted4,
+                explorationsTainted1, explorationsTainted2, explorationsTainted3, explorationsCompat1,
+                explorationsCompat2, explorationsCompat3;
 
         ResearchItem explorationsEmtCompat, emtTaintedCompat, explorationsTaintedCompat, explorationsCompat;
         coreResearch = new ResearchItem(
                 "TB_Core_Research",
                 category,
-                new AspectList(),
+                new AspectList().add(TB_Aspect.BOOTS, 10).add(Aspect.EXCHANGE, 10),
                 0,
                 0,
                 0,
-                new ItemStack(Config.arcaniumLens)).setParents("THAUMIUM").setAutoUnlock();
+                new ItemStack(Config.arcaniumLens));
 
         explorationsCore = new ResearchItem(
                 "TB_Explorations_Core",
                 category,
-                new AspectList().add(Aspect.CRAFT, 1).add(Aspect.EXCHANGE, 1).add(TB_Aspect.SPACE, 1)
-                        .add(Aspect.MAGIC, 1),
+                new AspectList().add(TB_Aspect.BOOTS, 25).add(TB_Aspect.SPACE, 25).add(Aspect.EXCHANGE, 15),
                 0,
                 -3,
                 0,
-                new ItemStack(ThaumicExploration.bootsMeteor)).setParents("METEORBOOTS", "COMETBOOTS");
+                new ItemStack(ThaumicExploration.bootsMeteor));
 
         emtCore = new ResearchItem(
                 "TB_EMT_Core",
                 category,
-                new AspectList(),
+                new AspectList().add(TB_Aspect.BOOTS, 25).add(Aspect.ENERGY, 25).add(Aspect.EXCHANGE, 15),
                 -3,
                 2,
                 0,
-                new ItemStack(EMTItems.electricBootsTraveller)).setParents("Electric Boots of the Traveller")
-                        .setAutoUnlock();
+                new ItemStack(EMTItems.electricBootsTraveller));
 
         taintedCore = new ResearchItem(
                 "TB_Tainted_Core",
                 category,
-                new AspectList(),
+                new AspectList().add(TB_Aspect.BOOTS, 25).add(Aspect.ELDRITCH, 25).add(Aspect.EXCHANGE, 15),
                 3,
                 2,
                 0,
-                new ItemStack(ItemRegistry.ItemVoidwalkerBoots)).setParents("VOIDWALKERBOOTS").setAutoUnlock();
+                new ItemStack(ItemRegistry.ItemVoidwalkerBoots));
 
         emtTaintedCompat = new ResearchItem(
                 "TB_EMT_Tainted_Compat",
                 category,
-                new AspectList(),
+                new AspectList().add(TB_Aspect.BOOTS, 25).add(Aspect.ELDRITCH, 25).add(Aspect.ENERGY, 25)
+                        .add(Aspect.EXCHANGE, 15),
                 0,
                 3,
                 0,
-                new ItemStack(Config.bootsElectricVoid))
-                        .setParents("TB_Tainted_Core", "TB_EMT_Core", "TB_Core_Research");
+                new ItemStack(Config.bootsElectricVoid));
 
         explorationsTaintedCompat = new ResearchItem(
                 "TB_Explorations_Tainted_Compat",
                 category,
-                new AspectList(),
+                new AspectList().add(TB_Aspect.BOOTS, 25).add(TB_Aspect.SPACE, 25).add(Aspect.ELDRITCH, 25)
+                        .add(Aspect.EXCHANGE, 15),
                 3,
                 -2,
                 0,
-                new ItemStack(Config.bootsMeteorVoid))
-                        .setParents("TB_Explorations_Core", "TB_Tainted_Core", "TB_Core_Research");
+                new ItemStack(Config.bootsMeteorVoid));
 
         explorationsEmtCompat = new ResearchItem(
                 "TB_Explorations_EMT_Compat",
                 category,
-                new AspectList(),
+                new AspectList().add(TB_Aspect.BOOTS, 25).add(TB_Aspect.SPACE, 25).add(Aspect.ENERGY, 15)
+                        .add(Aspect.EXCHANGE, 15),
                 -3,
                 -2,
                 0,
-                new ItemStack(Config.bootsElectricMeteor))
-                        .setParents("TB_Core_Research", "TB_Explorations_Core", "TB_EMT_Core");
+                new ItemStack(Config.bootsElectricMeteor));
 
         explorationsCompat = new ResearchItem(
                 "TB_Explorations_Compat",
                 category,
-                new AspectList(),
+                new AspectList().add(TB_Aspect.BOOTS, 25).add(TB_Aspect.SPACE, 25).add(Aspect.EXCHANGE, 15),
                 0,
                 -2,
                 0,
-                new ItemStack(Config.bootsCometMeteor)).setParents("TB_Core_Research", "TB_Explorations_Core");
+                new ItemStack(Config.bootsCometMeteor));
 
         core1 = new ResearchPage("Core.1");
         core2 = new ResearchPage(thaumaturgicCombinator);
         coreResearch.setPages(core1, core2);
+        coreResearch.setParents("THAUMIUM");
 
         explorationsCore1 = new ResearchPage("ExplorationsCore.1");
         explorationsCore.setPages(explorationsCore1);
+        explorationsCore.setConcealed().setParents("METEORBOOTS", "COMETBOOTS");
 
         taintedCore1 = new ResearchPage("TaintedCore.1");
         taintedCore.setPages(taintedCore1);
+        taintedCore.setConcealed().setParents("VOIDWALKERBOOTS");
 
         emtCore1 = new ResearchPage("EMTCore.1");
         emtCore2 = new ResearchPage("EMTCore.2");
         emtCore.setPages(emtCore1, emtCore2);
+        emtCore.setConcealed().setParents("Electric Boots of the Traveller");
 
         explorationsEMT1 = new ResearchPage("ExplorationsEMT.1");
         explorationsEMT2 = new ResearchPage(electricComet);
         explorationsEMT3 = new ResearchPage(nanoComet);
         explorationsEMT4 = new ResearchPage(quantumComet);
-        explorationsEmtCompat.setPages(explorationsEMT1, explorationsEMT2, explorationsEMT3, explorationsEMT4);
+        explorationsEMT5 = new ResearchPage(electricComet);
+        explorationsEMT6 = new ResearchPage(nanoComet);
+        explorationsEMT7 = new ResearchPage(quantumComet);
+        explorationsEmtCompat.setPages(
+                explorationsEMT1,
+                explorationsEMT2,
+                explorationsEMT3,
+                explorationsEMT4,
+                explorationsEMT5,
+                explorationsEMT6,
+                explorationsEMT7);
+        explorationsEmtCompat.setConcealed().setParents("TB_Core_Research", "TB_Explorations_Core", "TB_EMT_Core");
 
         explorationsTainted1 = new ResearchPage("ExplorationsTainted.1");
         explorationsTainted2 = new ResearchPage(voidMeteor);
         explorationsTainted3 = new ResearchPage(voidComet);
         explorationsTaintedCompat.setPages(explorationsTainted1, explorationsTainted2, explorationsTainted3);
+        explorationsTaintedCompat.setConcealed()
+                .setParents("TB_Explorations_Core", "TB_Tainted_Core", "TB_Core_Research");
 
         emtTainted1 = new ResearchPage("EMTTainted.1");
         emtTainted2 = new ResearchPage(electricVoid);
         emtTainted3 = new ResearchPage(nanoVoid);
         emtTainted4 = new ResearchPage(quantumVoid);
         emtTaintedCompat.setPages(emtTainted1, emtTainted2, emtTainted3, emtTainted4);
+        emtTaintedCompat.setConcealed().setParents("TB_Tainted_Core", "TB_EMT_Core", "TB_Core_Research");
 
         explorationsCompat1 = new ResearchPage("ExplorationsCompat.1");
         explorationsCompat2 = new ResearchPage(cometMeteor);
         explorationsCompat3 = new ResearchPage(meteorComet);
         explorationsCompat.setPages(explorationsCompat1, explorationsCompat2, explorationsCompat3);
+        explorationsCompat.setConcealed().setParents("TB_Core_Research", "TB_Explorations_Core");
 
         /*
          * uniqueCore = new ResearchItem( "TB_Unique_Core", category, new AspectList(), 0, 3, 0, new
