@@ -162,7 +162,7 @@ public class ItemQuantumCometBoots extends ItemElectricCometBoots
     }
 
     public double getDamageAbsorptionRatio() {
-        return 0.5D;
+        return 2D;
     }
 
     private double getBaseAbsorptionRatio() {

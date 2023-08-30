@@ -139,7 +139,7 @@ public class ItemNanoMeteorBoots extends ItemElectricMeteorBoots implements IRep
     }
 
     public double getDamageAbsorptionRatio() {
-        return 0.5D;
+        return 1.5D;
     }
 
     private double getBaseAbsorptionRatio() {

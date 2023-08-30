@@ -162,7 +162,7 @@ public class ItemElectricCometBoots extends ItemArmor
     }
 
     public double getDamageAbsorptionRatio() {
-        return 0.5D;
+        return 1.25D;
     }
 
     private double getBaseAbsorptionRatio() {

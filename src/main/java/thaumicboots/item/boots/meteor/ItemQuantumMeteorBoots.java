@@ -139,7 +139,7 @@ public class ItemQuantumMeteorBoots extends ItemNanoMeteorBoots implements IRepa
     }
 
     public double getDamageAbsorptionRatio() {
-        return 0.5D;
+        return 2D;
     }
 
     private double getBaseAbsorptionRatio() {
