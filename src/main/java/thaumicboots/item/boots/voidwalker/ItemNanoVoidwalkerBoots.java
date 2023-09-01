@@ -16,10 +16,8 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingEvent;
 
 import baubles.common.lib.PlayerHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import ic2.api.item.ElectricItem;
@@ -145,22 +143,6 @@ public class ItemNanoVoidwalkerBoots extends ItemArmor
         // negate fall damage
         if (player.fallDistance > 3.0F) {
             player.fallDistance = 1.0F;
-        }
-    }
-
-    @SubscribeEvent
-    public void playerJumps(final LivingEvent.LivingJumpEvent event) {
-        if (event.entity instanceof EntityPlayer) {
-            final EntityPlayer player = (EntityPlayer) event.entity;
-            final ItemStack boots = player.inventory.armorItemInSlot(0);
-            final ItemStack sash = PlayerHandler.getPlayerBaubles(player).getStackInSlot(3);
-
-            if (boots != null && boots.getItem() == ItemRegistry.ItemVoidwalkerBoots) {
-                player.motionY *= 1.25D;
-            }
-            if (sash != null && sash.getItem() == ItemRegistry.ItemVoidwalkerSash) {
-                player.motionY *= 1.05D;
-            }
         }
     }
 
