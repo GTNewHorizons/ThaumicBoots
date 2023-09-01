@@ -1,4 +1,4 @@
-package thaumicboots.item.boots.voidwalker;
+package thaumicboots.item.boots.unimplemented;
 
 import java.util.List;
 
