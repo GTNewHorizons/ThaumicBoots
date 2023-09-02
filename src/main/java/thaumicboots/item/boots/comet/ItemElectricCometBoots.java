@@ -126,8 +126,7 @@ public class ItemElectricCometBoots extends ItemArmor
                 player.fallDistance -= 0.50F;
                 if ((player.fallDistance > 3.5F)) {
                     float tEnergyDemand = energyPerDamage
-                            * (((player.fallDistance > 20.0F) ? player.fallDistance * 3
-                            : player.fallDistance) - 3.5F);
+                            * (((player.fallDistance > 20.0F) ? player.fallDistance * 3 : player.fallDistance) - 3.5F);
                     if (tEnergyDemand <= ElectricItem.manager.getCharge(itemStack)) {
                         ElectricItem.manager.discharge(itemStack, tEnergyDemand, Integer.MAX_VALUE, true, false, false);
                         player.fallDistance = 0.0F;

@@ -127,7 +127,7 @@ public class ItemNanoCometBoots extends ItemElectricCometBoots
                 if ((player.fallDistance > 5.0F)) {
                     float tEnergyDemand = energyPerDamage
                             * (((player.fallDistance > EMTConfigHandler.nanoBootsMaxDrop) ? player.fallDistance * 3
-                            : player.fallDistance) - 5.0F);
+                                    : player.fallDistance) - 5.0F);
                     if (tEnergyDemand <= ElectricItem.manager.getCharge(itemStack)) {
                         ElectricItem.manager.discharge(itemStack, tEnergyDemand, Integer.MAX_VALUE, true, false, false);
                         player.fallDistance = 0.0F;
