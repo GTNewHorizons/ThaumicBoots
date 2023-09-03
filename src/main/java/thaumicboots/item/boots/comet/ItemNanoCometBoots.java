@@ -124,15 +124,17 @@ public class ItemNanoCometBoots extends ItemElectricCometBoots
             }
             if (player.fallDistance > 6.0F) {
                 player.fallDistance -= 1.0F;
-                if ((player.fallDistance > 5.0F)) {
-                    float tEnergyDemand = energyPerDamage
-                            * (((player.fallDistance > EMTConfigHandler.nanoBootsMaxDrop) ? player.fallDistance * 3
-                                    : player.fallDistance) - 5.0F);
-                    if (tEnergyDemand <= ElectricItem.manager.getCharge(itemStack)) {
-                        ElectricItem.manager.discharge(itemStack, tEnergyDemand, Integer.MAX_VALUE, true, false, false);
-                        player.fallDistance = 0.0F;
-                    }
+
+                float distanceMultiplier = (player.fallDistance > EMTConfigHandler.nanoBootsMaxDrop)
+                        ? player.fallDistance * 3
+                        : player.fallDistance;
+                float tEnergyDemand = energyPerDamage * (distanceMultiplier - 5.0F);
+
+                if (tEnergyDemand <= ElectricItem.manager.getCharge(itemStack)) {
+                    ElectricItem.manager.discharge(itemStack, tEnergyDemand, Integer.MAX_VALUE, true, false, false);
+                    player.fallDistance = 0.0F;
                 }
+
             } else {
                 player.fallDistance = 0.0F;
             }

@@ -124,15 +124,17 @@ public class ItemQuantumCometBoots extends ItemElectricCometBoots
             }
             if (player.fallDistance > 10.0F) {
                 player.fallDistance -= 2.0F;
-                if ((player.fallDistance > 8.0F)) {
-                    float tEnergyDemand = energyPerDamage
-                            * (((player.fallDistance > EMTConfigHandler.quantumBootsMaxDrop) ? player.fallDistance * 3
-                                    : player.fallDistance) - 8.0F);
-                    if (tEnergyDemand <= ElectricItem.manager.getCharge(itemStack)) {
-                        ElectricItem.manager.discharge(itemStack, tEnergyDemand, Integer.MAX_VALUE, true, false, false);
-                        player.fallDistance = 0.0F;
-                    }
+
+                float distanceMultiplier = (player.fallDistance > EMTConfigHandler.quantumBootsMaxDrop)
+                        ? player.fallDistance * 3
+                        : player.fallDistance;
+                float tEnergyDemand = energyPerDamage * (distanceMultiplier - 8.0F);
+
+                if (tEnergyDemand <= ElectricItem.manager.getCharge(itemStack)) {
+                    ElectricItem.manager.discharge(itemStack, tEnergyDemand, Integer.MAX_VALUE, true, false, false);
+                    player.fallDistance = 0.0F;
                 }
+
             } else {
                 player.fallDistance = 0.0F;
             }
