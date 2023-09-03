@@ -120,7 +120,7 @@ public class ItemElectricCometBoots extends ItemArmor
     @Override
     public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
 
-        if (player.capabilities.isFlying || player.moveForward == 0F) {
+        if (player.capabilities.isFlying || player.moveForward <= 0F) {
             return;
         }
 
