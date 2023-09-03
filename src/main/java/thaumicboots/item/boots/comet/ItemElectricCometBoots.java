@@ -2,9 +2,6 @@ package thaumicboots.item.boots.comet;
 
 import java.util.List;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import emt.EMT;
-
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -26,15 +23,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 import emt.util.EMTTextHelper;
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
-import net.minecraftforge.event.entity.living.LivingFallEvent;
 import thaumcraft.api.IRepairable;
 import thaumcraft.api.IRunicArmor;
 import thaumcraft.api.IVisDiscountGear;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.items.armor.Hover;
-import thaumicboots.main.ThaumicBoots;
-import thaumicboots.main.utils.LogHelper;
 import thaumicboots.main.utils.TabThaumicBoots;
 
 public class ItemElectricCometBoots extends ItemArmor
@@ -92,18 +86,19 @@ public class ItemElectricCometBoots extends ItemArmor
                 : super.getIsRepairable(par1ItemStack, par2ItemStack);
     }
 
-    public float getPowerConsumptionMultiplier(float distance){
+    public float getPowerConsumptionMultiplier(float distance) {
         return (distance > 20.0F) ? distance * 3 : distance;
     }
 
-    public float getPowerConsumption(float distance){
-       return energyPerDamage * (getPowerConsumptionMultiplier(distance) - getMinimumHeight());
+    public float getPowerConsumption(float distance) {
+        return energyPerDamage * (getPowerConsumptionMultiplier(distance) - getMinimumHeight());
     }
-    public float getMinimumHeight(){
+
+    public float getMinimumHeight() {
         return 4F;
     }
 
-    protected float computeBonus(ItemStack itemStack, EntityPlayer player){
+    protected float computeBonus(ItemStack itemStack, EntityPlayer player) {
         float bonus = 0.165F;
         int ticks = player.inventory.armorItemInSlot(0).stackTagCompound.getInteger("runTicks");
 

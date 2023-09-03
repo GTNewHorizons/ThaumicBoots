@@ -11,10 +11,8 @@ import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.IIcon;
-import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 
 import cpw.mods.fml.relauncher.Side;
@@ -27,8 +25,6 @@ import thaumcraft.api.IRepairable;
 import thaumcraft.api.IRunicArmor;
 import thaumcraft.api.IVisDiscountGear;
 import thaumcraft.api.aspects.Aspect;
-import thaumcraft.common.Thaumcraft;
-import thaumcraft.common.items.armor.Hover;
 import thaumicboots.main.utils.TabThaumicBoots;
 
 public class ItemQuantumCometBoots extends ItemElectricCometBoots
@@ -101,12 +97,12 @@ public class ItemQuantumCometBoots extends ItemElectricCometBoots
     }
 
     @Override
-    public float getPowerConsumptionMultiplier(float distance){
-        return (distance >EMTConfigHandler.quantumBootsMaxDrop) ? distance *3 : distance;
+    public float getPowerConsumptionMultiplier(float distance) {
+        return (distance > EMTConfigHandler.quantumBootsMaxDrop) ? distance * 3 : distance;
     }
 
     @Override
-    public float getMinimumHeight(){
+    public float getMinimumHeight() {
         return 10F;
     }
 

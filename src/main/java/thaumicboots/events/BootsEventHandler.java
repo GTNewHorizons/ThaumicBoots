@@ -2,8 +2,6 @@ package thaumicboots.events;
 
 import java.util.HashMap;
 
-import emt.EMT;
-import ic2.api.item.ElectricItem;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.PlayerCapabilities;
@@ -15,13 +13,15 @@ import net.minecraft.util.Vec3;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
 
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import emt.EMT;
 import flaxbeard.thaumicexploration.ThaumicExploration;
 import flaxbeard.thaumicexploration.common.ConfigTX;
 import flaxbeard.thaumicexploration.integration.TTIntegration;
-import net.minecraftforge.event.entity.living.LivingFallEvent;
+import ic2.api.item.ElectricItem;
 import thaumicboots.item.boots.comet.ItemElectricCometBoots;
 import thaumicboots.item.boots.comet.ItemNanoCometBoots;
 import thaumicboots.item.boots.comet.ItemQuantumCometBoots;
@@ -38,22 +38,22 @@ public class BootsEventHandler {
 
     @SubscribeEvent
     public void livingTick(LivingUpdateEvent event) {
-        if (!(event.entity instanceof EntityPlayer)){
+        if (!(event.entity instanceof EntityPlayer)) {
             return;
         }
 
         EntityPlayer player = (EntityPlayer) event.entity;
         checkAir(player);
 
-        if (!(event.entity.worldObj.isRemote)){
+        if (!(event.entity.worldObj.isRemote)) {
             return;
         }
 
         ItemStack boots = player.inventory.armorItemInSlot(0);
 
-        if ((this.prevStep.containsKey(event.entity.getEntityId())) && (
-                (boots == null) || !((boots.getItem() instanceof ItemElectricMeteorBoots) || (boots.getItem() instanceof ItemElectricCometBoots))
-        )) {
+        if ((this.prevStep.containsKey(event.entity.getEntityId()))
+                && ((boots == null) || !((boots.getItem() instanceof ItemElectricMeteorBoots)
+                        || (boots.getItem() instanceof ItemElectricCometBoots)))) {
             event.entity.stepHeight = (this.prevStep.get(event.entity.getEntityId()));
             this.prevStep.remove(event.entity.getEntityId());
         }
@@ -72,21 +72,22 @@ public class BootsEventHandler {
     public void playerJumps(LivingEvent.LivingJumpEvent event) {
 
         // if not a player
-        if (!(event.entity instanceof  EntityPlayer)){
+        if (!(event.entity instanceof EntityPlayer)) {
             return;
         }
 
         EntityPlayer player = (EntityPlayer) event.entity;
 
         // if no boots equipped
-        if (player.inventory.armorItemInSlot(0) == null){
+        if (player.inventory.armorItemInSlot(0) == null) {
             return;
         }
 
         Item item = player.inventory.armorItemInSlot(0).getItem();
 
-        if ((item instanceof ItemElectricMeteorBoots)  || (item instanceof ItemCometMeteorBoots)
-                || (item instanceof ItemMeteoricCometBoots) || (item instanceof ItemMeteorVoidwalkerBoots)) {
+        if ((item instanceof ItemElectricMeteorBoots) || (item instanceof ItemCometMeteorBoots)
+                || (item instanceof ItemMeteoricCometBoots)
+                || (item instanceof ItemMeteorVoidwalkerBoots)) {
 
             if (player.isSneaking()) {
                 Vec3 vector = event.entityLiving.getLook(0.5F);
@@ -105,19 +106,15 @@ public class BootsEventHandler {
                 event.entityLiving.motionZ += (jump + 1) * vector.zCoord * 4;
                 event.entityLiving.motionX += (jump + 1) * vector.xCoord * 4;
 
-            }
-            else {
+            } else {
                 // 0.275D is approx 3 blocks, 0.265D will get you to just 3 blocks,
                 if (item instanceof ItemQuantumMeteorBoots) {
                     event.entityLiving.motionY += 0.275D * 4; // 12 blocks
-                }
-                else if (item instanceof ItemNanoMeteorBoots) {
+                } else if (item instanceof ItemNanoMeteorBoots) {
                     event.entityLiving.motionY += 0.275D * 2.9; // 8 blocks
-                }
-                else if (item instanceof ItemMeteorVoidwalkerBoots) {
+                } else if (item instanceof ItemMeteorVoidwalkerBoots) {
                     event.entityLiving.motionY += 0.275D * 3.2; // 3 blocks
-                }
-                else {
+                } else {
                     event.entityLiving.motionY += 0.275D * 1.9; // 5 blocks
                 }
             }
@@ -127,14 +124,11 @@ public class BootsEventHandler {
             // 0.55D is approx 5.5 blocks, so 0.275 is around 2.25 additional blocks
             if (item instanceof ItemNanoCometBoots) {
                 event.entityLiving.motionY += 0.275D * 2.3; // 5.5 blocks
-            }
-            else if (item instanceof ItemQuantumCometBoots) {
+            } else if (item instanceof ItemQuantumCometBoots) {
                 event.entityLiving.motionY += 0.275D * 3.3; // 12 blocks
-            }
-            else if (item instanceof ItemCometVoidwalkerBoots) {
+            } else if (item instanceof ItemCometVoidwalkerBoots) {
                 event.entityLiving.motionY += 0.450D; // 3.5 blocks
-            }
-            else {
+            } else {
                 event.entityLiving.motionY += 0.275D; // 3 blocks
             }
         }
@@ -142,47 +136,45 @@ public class BootsEventHandler {
         else if ((item instanceof ItemElectricVoidwalkerBoots) || (item instanceof ItemNanoVoidwalkerBoots)
                 || (item instanceof ItemQuantumVoidwalkerBoots)) {
 
-            if (item instanceof ItemElectricVoidwalkerBoots) {
-                event.entityLiving.motionY += 0.275D * 1.7;
-            }
-            else if (item instanceof ItemNanoVoidwalkerBoots) {
-                event.entityLiving.motionY += 0.275D * 2.7;
-            }
-            else { // ItemQuantumVoidwalkerBoots
-                event.entityLiving.motionY += 0.275D * 3.7;
-            }
-        }
+                    if (item instanceof ItemElectricVoidwalkerBoots) {
+                        event.entityLiving.motionY += 0.275D * 1.7;
+                    } else if (item instanceof ItemNanoVoidwalkerBoots) {
+                        event.entityLiving.motionY += 0.275D * 2.7;
+                    } else { // ItemQuantumVoidwalkerBoots
+                        event.entityLiving.motionY += 0.275D * 3.7;
+                    }
+                }
     }
 
     @SubscribeEvent
     public void onLivingFall(LivingFallEvent event) {
-        if (!EMT.instance.isSimulating()){
+        if (!EMT.instance.isSimulating()) {
             return;
         }
 
         // if entity isn't a player
-        if (!(event.entity instanceof EntityPlayer)){
+        if (!(event.entity instanceof EntityPlayer)) {
             return;
         }
 
         EntityPlayer entity = (EntityPlayer) event.entity;
 
         // if no boots equiped
-        if (entity.inventory.armorInventory[0] == null){
+        if (entity.inventory.armorInventory[0] == null) {
             return;
         }
         ItemStack itemStack = entity.inventory.armorInventory[0];
         Item item = itemStack.getItem();
 
         // if the boots aren't Comet boots or its derivative
-        if (!(item instanceof ItemElectricCometBoots)){
+        if (!(item instanceof ItemElectricCometBoots)) {
             return;
         }
 
         ItemElectricCometBoots bootItem = (ItemElectricCometBoots) item;
 
         // nullifying the fall damages due to jump boost
-        if (event.distance <= bootItem.getMinimumHeight()){
+        if (event.distance <= bootItem.getMinimumHeight()) {
             event.setCanceled(true);
             return;
         }
@@ -196,7 +188,7 @@ public class BootsEventHandler {
         }
     }
 
-    public void grief(EntityPlayer player){
+    public void grief(EntityPlayer player) {
         // anti-griefing config
         if (!ConfigTX.allowBootsIce) {
             return;
@@ -242,7 +234,7 @@ public class BootsEventHandler {
     public void checkAir(EntityPlayer player) {
 
         // no item in boots slot
-        if (player.inventory.armorItemInSlot(0) == null){
+        if (player.inventory.armorItemInSlot(0) == null) {
             return;
         }
 
@@ -292,33 +284,30 @@ public class BootsEventHandler {
                 ticksAir = 0;
             }
             if (smashing) {
-                for (String particleName : new String[]{"flame", "smoke", "flame"}) {
+                for (String particleName : new String[] { "flame", "smoke", "flame" }) {
                     player.worldObj.spawnParticle(
-                        particleName,
-                        player.posX + Math.random() - 0.5F,
-                        player.posY + Math.random() - 0.5F,
-                        player.posZ + Math.random() - 0.5F,
-                        0.0D,
-                        0.0D,
-                        0.0D
-                    );
+                            particleName,
+                            player.posX + Math.random() - 0.5F,
+                            player.posY + Math.random() - 0.5F,
+                            player.posZ + Math.random() - 0.5F,
+                            0.0D,
+                            0.0D,
+                            0.0D);
                 }
 
                 player.motionY -= 0.1F;
                 ticks++;
-            }
-            else {
+            } else {
                 double motion = Math.abs(player.motionX) + Math.abs(player.motionZ) + Math.abs(0.5 * player.motionY);
                 if (!player.isWet() && motion > 0.1F) {
                     player.worldObj.spawnParticle(
-                        "flame",
-                        player.posX + Math.random() - 0.5F,
-                        player.boundingBox.minY + 0.25F + ((Math.random() - 0.5) * 0.25F),
-                        player.posZ + Math.random() - 0.5F,
-                        0.0D,
-                        0.025D,
-                        0.0D
-                    );
+                            "flame",
+                            player.posX + Math.random() - 0.5F,
+                            player.boundingBox.minY + 0.25F + ((Math.random() - 0.5) * 0.25F),
+                            player.posZ + Math.random() - 0.5F,
+                            0.0D,
+                            0.025D,
+                            0.0D);
                 }
             }
 
@@ -340,8 +329,7 @@ public class BootsEventHandler {
 
             int ticks = itemStack.stackTagCompound.getInteger("runTicks");
 
-            double motion = Math.abs(player.motionX) + Math.abs(player.motionZ)
-                    + Math.abs(player.motionY);
+            double motion = Math.abs(player.motionX) + Math.abs(player.motionZ) + Math.abs(player.motionY);
             if (motion > 0.1F || !player.onGround || player.isOnLadder()) {
                 if (ticks < 100) ticks++;
             } else {
@@ -349,7 +337,14 @@ public class BootsEventHandler {
             }
 
             if (!player.isWet() && motion > 0.1F) {
-                player.worldObj.spawnParticle("fireworksSpark",player.posX + Math.random() - 0.5F,player.boundingBox.minY + 0.25F + ((Math.random() - 0.5) * 0.25F),player.posZ + Math.random() - 0.5F,0.0D,0.025D,0.0D);
+                player.worldObj.spawnParticle(
+                        "fireworksSpark",
+                        player.posX + Math.random() - 0.5F,
+                        player.boundingBox.minY + 0.25F + ((Math.random() - 0.5) * 0.25F),
+                        player.posZ + Math.random() - 0.5F,
+                        0.0D,
+                        0.025D,
+                        0.0D);
             }
 
             itemStack.stackTagCompound.setInteger("runTicks", ticks);
@@ -371,8 +366,7 @@ public class BootsEventHandler {
             int ticksSmash = itemStack.stackTagCompound.getInteger("smashTicksMix");
             int ticksAir = itemStack.stackTagCompound.getInteger("airTicksMix");
             int ticksRun = itemStack.stackTagCompound.getInteger("runTicksMix");
-            double motionRun = Math.abs(player.motionX) + Math.abs(player.motionZ)
-                    + Math.abs(player.motionY);
+            double motionRun = Math.abs(player.motionX) + Math.abs(player.motionZ) + Math.abs(player.motionY);
             if (motionRun > 0.1F || !player.onGround || player.isOnLadder()) {
                 if (ticksRun < 100) ticksRun++;
             } else {
@@ -387,13 +381,7 @@ public class BootsEventHandler {
                 ticksSmash = 0;
                 ticksAir = 0;
                 if (size > 0) {
-                    player.worldObj.createExplosion(
-                        player,
-                        player.posX,
-                        player.posY,
-                        player.posZ,
-                        size,
-                        false);
+                    player.worldObj.createExplosion(player, player.posX, player.posY, player.posZ, size, false);
                 }
             }
 
@@ -415,16 +403,15 @@ public class BootsEventHandler {
             }
             if (smashing) {
 
-                for (String particleName : new String[]{"flame", "smoke", "flame"}) {
+                for (String particleName : new String[] { "flame", "smoke", "flame" }) {
                     player.worldObj.spawnParticle(
-                        particleName,
-                        player.posX + Math.random() - 0.5F,
-                        player.posY + Math.random() - 0.5F,
-                        player.posZ + Math.random() - 0.5F,
-                        0.0D,
-                        0.0D,
-                        0.0D
-                    );
+                            particleName,
+                            player.posX + Math.random() - 0.5F,
+                            player.posY + Math.random() - 0.5F,
+                            player.posZ + Math.random() - 0.5F,
+                            0.0D,
+                            0.0D,
+                            0.0D);
                 }
 
                 player.motionY -= 0.1F;
@@ -432,15 +419,15 @@ public class BootsEventHandler {
             }
 
             if (!player.isWet() && motionRun > 0.1F) {
-                for (String particleName : new String[]{"fireworksSpark","flame", "flame"}) {
+                for (String particleName : new String[] { "fireworksSpark", "flame", "flame" }) {
                     player.worldObj.spawnParticle(
-                        particleName,
-                        player.posX + Math.random() - 0.5F,
-                        player.boundingBox.minY + 0.25F + ((Math.random() - 0.5) * 0.25F),
-                        player.posZ + Math.random() - 0.5F,
-                        0.0D,
-                        0.025D,
-                        0.0D);
+                            particleName,
+                            player.posX + Math.random() - 0.5F,
+                            player.boundingBox.minY + 0.25F + ((Math.random() - 0.5) * 0.25F),
+                            player.posZ + Math.random() - 0.5F,
+                            0.0D,
+                            0.025D,
+                            0.0D);
                 }
             }
 
