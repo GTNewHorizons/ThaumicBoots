@@ -4,7 +4,6 @@ import java.util.List;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,7 +28,6 @@ import thaumcraft.api.IRunicArmor;
 import thaumcraft.api.IVisDiscountGear;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.common.Thaumcraft;
-import thaumcraft.common.config.Config;
 import thaumcraft.common.items.armor.Hover;
 import thaumicboots.main.utils.TabThaumicBoots;
 
@@ -90,13 +88,12 @@ public class ItemNanoCometBoots extends ItemElectricCometBoots
 
     @Override
     public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
-        if (player.capabilities.isFlying || player.moveForward == 0F){
+        if (player.capabilities.isFlying || player.moveForward == 0F) {
             return;
         }
 
         if (player.worldObj.isRemote) {
-            if (!Thaumcraft.instance.entityEventHandler.prevStep
-                    .containsKey(Integer.valueOf(player.getEntityId()))) {
+            if (!Thaumcraft.instance.entityEventHandler.prevStep.containsKey(Integer.valueOf(player.getEntityId()))) {
                 Thaumcraft.instance.entityEventHandler.prevStep
                         .put(Integer.valueOf(player.getEntityId()), Float.valueOf(player.stepHeight));
             }
@@ -113,8 +110,7 @@ public class ItemNanoCometBoots extends ItemElectricCometBoots
         bonus = bonus + ((ticks / 5) * 0.003F);
         if (ElectricItem.manager.getCharge(itemStack) == 0) {
             bonus = 0;
-        }
-        else if (player.isInWater()) {
+        } else if (player.isInWater()) {
             bonus /= 4.0F;
         }
 

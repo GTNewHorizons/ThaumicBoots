@@ -4,7 +4,6 @@ import java.util.List;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,7 +28,6 @@ import thaumcraft.api.IRunicArmor;
 import thaumcraft.api.IVisDiscountGear;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.common.Thaumcraft;
-import thaumcraft.common.config.Config;
 import thaumcraft.common.items.armor.Hover;
 import thaumicboots.main.utils.TabThaumicBoots;
 
@@ -90,13 +88,14 @@ public class ItemElectricCometBoots extends ItemArmor
 
     @Override
     public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
-        if (player.capabilities.isFlying || player.moveForward == 0F){
+        if (player.capabilities.isFlying || player.moveForward == 0F) {
             return;
         }
 
         if (player.worldObj.isRemote) {
             if (!Thaumcraft.instance.entityEventHandler.prevStep.containsKey(Integer.valueOf(player.getEntityId()))) {
-                Thaumcraft.instance.entityEventHandler.prevStep.put(Integer.valueOf(player.getEntityId()), Float.valueOf(player.stepHeight));
+                Thaumcraft.instance.entityEventHandler.prevStep
+                        .put(Integer.valueOf(player.getEntityId()), Float.valueOf(player.stepHeight));
             }
             player.stepHeight = 1.0F;
         }
@@ -110,8 +109,7 @@ public class ItemElectricCometBoots extends ItemArmor
         bonus = bonus + ((ticks / 5) * 0.003F);
         if (ElectricItem.manager.getCharge(itemStack) == 0) {
             bonus = 0;
-        }
-        else if (player.isInWater()) {
+        } else if (player.isInWater()) {
             bonus /= 4.0F;
         }
 
@@ -126,8 +124,7 @@ public class ItemElectricCometBoots extends ItemArmor
         if (player.fallDistance > 4.0F) {
             player.fallDistance -= 0.50F;
 
-            float distanceMultiplicator = (player.fallDistance > 20.0F) ? player.fallDistance * 3
-                    : player.fallDistance;
+            float distanceMultiplicator = (player.fallDistance > 20.0F) ? player.fallDistance * 3 : player.fallDistance;
             float tEnergyDemand = energyPerDamage * (distanceMultiplicator - 3.5F);
 
             if (tEnergyDemand <= ElectricItem.manager.getCharge(itemStack)) {
