@@ -4,7 +4,6 @@ import java.util.List;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,7 +28,6 @@ import thaumcraft.api.IRunicArmor;
 import thaumcraft.api.IVisDiscountGear;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.common.Thaumcraft;
-import thaumcraft.common.config.Config;
 import thaumcraft.common.items.armor.Hover;
 import thaumicboots.main.utils.TabThaumicBoots;
 
@@ -90,52 +88,51 @@ public class ItemElectricCometBoots extends ItemArmor
 
     @Override
     public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
-        if ((!player.capabilities.isFlying) && (player.moveForward > 0.0F)) {
-            int haste = EnchantmentHelper
-                    .getEnchantmentLevel(Config.enchHaste.effectId, player.inventory.armorItemInSlot(0));
-            if (player.worldObj.isRemote) {
-                if (!Thaumcraft.instance.entityEventHandler.prevStep
-                        .containsKey(Integer.valueOf(player.getEntityId()))) {
-                    Thaumcraft.instance.entityEventHandler.prevStep
-                            .put(Integer.valueOf(player.getEntityId()), Float.valueOf(player.stepHeight));
-                }
-                player.stepHeight = 1.0F;
+        if (player.capabilities.isFlying || player.moveForward == 0F) {
+            return;
+        }
+
+        if (player.worldObj.isRemote) {
+            if (!Thaumcraft.instance.entityEventHandler.prevStep.containsKey(Integer.valueOf(player.getEntityId()))) {
+                Thaumcraft.instance.entityEventHandler.prevStep
+                        .put(Integer.valueOf(player.getEntityId()), Float.valueOf(player.stepHeight));
             }
-            if (!player.inventory.armorItemInSlot(0).hasTagCompound()) {
-                NBTTagCompound par1NBTTagCompound = new NBTTagCompound();
-                player.inventory.armorItemInSlot(0).setTagCompound(par1NBTTagCompound);
-                player.inventory.armorItemInSlot(0).stackTagCompound.setInteger("runTicks", 0);
-            }
-            int ticks = player.inventory.armorItemInSlot(0).stackTagCompound.getInteger("runTicks");
-            float bonus = 0.165F;
-            bonus = bonus + ((ticks / 5) * 0.003F);
-            if (ElectricItem.manager.getCharge(itemStack) == 0) {
-                bonus *= 0;
-            }
-            if (player.isInWater()) {
-                bonus /= 4.0F;
-            }
-            if (player.onGround || player.isOnLadder()) {
-                player.moveFlying(0.0F, 1.0F, bonus);
-            } else if (Hover.getHover(player.getEntityId())) {
-                player.jumpMovementFactor = 0.03F;
-            } else {
-                player.jumpMovementFactor = 0.05F;
-            }
-            if (player.fallDistance > 4.0F) {
-                player.fallDistance -= 0.50F;
-                if ((player.fallDistance > 3.5F)) {
-                    float tEnergyDemand = energyPerDamage
-                            * (((player.fallDistance > 20.0F) ? player.fallDistance * 3 : player.fallDistance) - 3.5F);
-                    if (tEnergyDemand <= ElectricItem.manager.getCharge(itemStack)) {
-                        ElectricItem.manager.discharge(itemStack, tEnergyDemand, Integer.MAX_VALUE, true, false, false);
-                        player.fallDistance = 0.0F;
-                    }
-                }
-            } else {
+            player.stepHeight = 1.0F;
+        }
+        if (!player.inventory.armorItemInSlot(0).hasTagCompound()) {
+            NBTTagCompound par1NBTTagCompound = new NBTTagCompound();
+            player.inventory.armorItemInSlot(0).setTagCompound(par1NBTTagCompound);
+            player.inventory.armorItemInSlot(0).stackTagCompound.setInteger("runTicks", 0);
+        }
+        int ticks = player.inventory.armorItemInSlot(0).stackTagCompound.getInteger("runTicks");
+        float bonus = 0.165F;
+        bonus = bonus + ((ticks / 5) * 0.003F);
+        if (ElectricItem.manager.getCharge(itemStack) == 0) {
+            bonus = 0;
+        } else if (player.isInWater()) {
+            bonus /= 4.0F;
+        }
+
+        if (player.onGround || player.isOnLadder()) {
+            player.moveFlying(0.0F, 1.0F, bonus);
+        } else if (Hover.getHover(player.getEntityId())) {
+            player.jumpMovementFactor = 0.03F;
+        } else {
+            player.jumpMovementFactor = 0.05F;
+        }
+
+        if (player.fallDistance > 4.0F) {
+            player.fallDistance -= 0.50F;
+
+            float distanceMultiplicator = (player.fallDistance > 20.0F) ? player.fallDistance * 3 : player.fallDistance;
+            float tEnergyDemand = energyPerDamage * (distanceMultiplicator - 3.5F);
+
+            if (tEnergyDemand <= ElectricItem.manager.getCharge(itemStack)) {
+                ElectricItem.manager.discharge(itemStack, tEnergyDemand, Integer.MAX_VALUE, true, false, false);
                 player.fallDistance = 0.0F;
             }
-
+        } else {
+            player.fallDistance = 0.0F;
         }
     }
 
