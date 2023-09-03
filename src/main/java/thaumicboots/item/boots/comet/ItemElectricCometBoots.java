@@ -86,9 +86,36 @@ public class ItemElectricCometBoots extends ItemArmor
                 : super.getIsRepairable(par1ItemStack, par2ItemStack);
     }
 
+    public float getPowerConsumptionMultiplier(float distance) {
+        return (distance > 20.0F) ? distance * 3 : distance;
+    }
+
+    public float getPowerConsumption(float distance) {
+        return energyPerDamage * (getPowerConsumptionMultiplier(distance) - getMinimumHeight());
+    }
+
+    public float getMinimumHeight() {
+        return 4F;
+    }
+
+    protected float computeBonus(ItemStack itemStack, EntityPlayer player) {
+        float bonus = 0.165F;
+        int ticks = player.inventory.armorItemInSlot(0).stackTagCompound.getInteger("runTicks");
+
+        bonus = bonus + ((ticks / 5) * 0.003F);
+        if (ElectricItem.manager.getCharge(itemStack) == 0) {
+            bonus = 0;
+        } else if (player.isInWater()) {
+            bonus /= 4.0F;
+        }
+
+        return bonus;
+    }
+
     @Override
     public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
-        if (player.capabilities.isFlying || player.moveForward == 0F) {
+
+        if (player.capabilities.isFlying || player.moveForward <= 0F) {
             return;
         }
 
@@ -104,14 +131,8 @@ public class ItemElectricCometBoots extends ItemArmor
             player.inventory.armorItemInSlot(0).setTagCompound(par1NBTTagCompound);
             player.inventory.armorItemInSlot(0).stackTagCompound.setInteger("runTicks", 0);
         }
-        int ticks = player.inventory.armorItemInSlot(0).stackTagCompound.getInteger("runTicks");
-        float bonus = 0.165F;
-        bonus = bonus + ((ticks / 5) * 0.003F);
-        if (ElectricItem.manager.getCharge(itemStack) == 0) {
-            bonus = 0;
-        } else if (player.isInWater()) {
-            bonus /= 4.0F;
-        }
+
+        float bonus = computeBonus(itemStack, player);
 
         if (player.onGround || player.isOnLadder()) {
             player.moveFlying(0.0F, 1.0F, bonus);
@@ -119,20 +140,6 @@ public class ItemElectricCometBoots extends ItemArmor
             player.jumpMovementFactor = 0.03F;
         } else {
             player.jumpMovementFactor = 0.05F;
-        }
-
-        if (player.fallDistance > 4.0F) {
-            player.fallDistance -= 0.50F;
-
-            float distanceMultiplicator = (player.fallDistance > 20.0F) ? player.fallDistance * 3 : player.fallDistance;
-            float tEnergyDemand = energyPerDamage * (distanceMultiplicator - 3.5F);
-
-            if (tEnergyDemand <= ElectricItem.manager.getCharge(itemStack)) {
-                ElectricItem.manager.discharge(itemStack, tEnergyDemand, Integer.MAX_VALUE, true, false, false);
-                player.fallDistance = 0.0F;
-            }
-        } else {
-            player.fallDistance = 0.0F;
         }
     }
 
