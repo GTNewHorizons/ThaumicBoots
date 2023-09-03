@@ -31,7 +31,6 @@ import thaumicboots.item.boots.meteor.ItemQuantumMeteorBoots;
 import thaumicboots.item.boots.unique.ItemCometMeteorBoots;
 import thaumicboots.item.boots.unique.ItemMeteoricCometBoots;
 import thaumicboots.item.boots.voidwalker.*;
-import thaumicboots.main.utils.LogHelper;
 
 public class BootsEventHandler {
 
@@ -159,8 +158,7 @@ public class BootsEventHandler {
 
     @SubscribeEvent
     public void onLivingFall(LivingFallEvent event) {
-        // if clientside
-        if (EMT.instance.isSimulating()){
+        if (!EMT.instance.isSimulating()){
             return;
         }
 
@@ -168,8 +166,6 @@ public class BootsEventHandler {
         if (!(event.entity instanceof EntityPlayer)){
             return;
         }
-
-        LogHelper.info("Player falling");
 
         EntityPlayer entity = (EntityPlayer) event.entity;
 
@@ -189,22 +185,16 @@ public class BootsEventHandler {
 
         // nullifying the fall damages due to jump boost
         if (event.distance <= bootItem.getMinimumHeight()){
-            LogHelper.info("fall from below or equal "+bootItem.getMinimumHeight()+" blocks.");
             event.setCanceled(true);
-            // something is uncancelling the event, so overriding the distance it is
-            event.distance = 0F;
             return;
         }
 
         double energyDemand = bootItem.getPowerConsumption(event.distance);
-        LogHelper.info("energy demanded is "+energyDemand+". energy in stock is "+ ElectricItem.manager.getCharge(itemStack));
 
         // if boots can be discharged nullifying the fall damages
         if (energyDemand <= ElectricItem.manager.getCharge(itemStack)) {
             ElectricItem.manager.discharge(itemStack, energyDemand, Integer.MAX_VALUE, true, false, false);
             event.setCanceled(true);
-            // something is uncancelling the event, so overriding the distance it is
-            event.distance = 0F;
         }
     }
 
