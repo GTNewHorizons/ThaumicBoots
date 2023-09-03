@@ -94,8 +94,6 @@ public class ItemNanoCometBoots extends ItemElectricCometBoots
             return;
         }
 
-        int haste = EnchantmentHelper.getEnchantmentLevel(Config.enchHaste.effectId, player.inventory.armorItemInSlot(0));
-
         if (player.worldObj.isRemote) {
             if (!Thaumcraft.instance.entityEventHandler.prevStep
                     .containsKey(Integer.valueOf(player.getEntityId()))) {
