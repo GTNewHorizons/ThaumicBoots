@@ -87,24 +87,7 @@ public class ItemNanoCometBoots extends ItemElectricCometBoots
     }
 
     @Override
-    public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
-        if (player.capabilities.isFlying || player.moveForward == 0F) {
-            return;
-        }
-
-        if (player.worldObj.isRemote) {
-            if (!Thaumcraft.instance.entityEventHandler.prevStep.containsKey(Integer.valueOf(player.getEntityId()))) {
-                Thaumcraft.instance.entityEventHandler.prevStep
-                        .put(Integer.valueOf(player.getEntityId()), Float.valueOf(player.stepHeight));
-            }
-            player.stepHeight = 1.0F;
-        }
-        if (!player.inventory.armorItemInSlot(0).hasTagCompound()) {
-            NBTTagCompound par1NBTTagCompound = new NBTTagCompound();
-            player.inventory.armorItemInSlot(0).setTagCompound(par1NBTTagCompound);
-            player.inventory.armorItemInSlot(0).stackTagCompound.setInteger("runTicks", 0);
-        }
-
+    protected float computeBonus(ItemStack itemStack, EntityPlayer player){
         int ticks = player.inventory.armorItemInSlot(0).stackTagCompound.getInteger("runTicks");
         float bonus = (float) EMTConfigHandler.nanoBootsSpeed + 0.110F;
         bonus = bonus + ((ticks / 5) * 0.003F);
@@ -114,31 +97,17 @@ public class ItemNanoCometBoots extends ItemElectricCometBoots
             bonus /= 4.0F;
         }
 
-        if (player.onGround || player.isOnLadder()) {
-            player.moveFlying(0.0F, 1.0F, bonus);
-        } else if (Hover.getHover(player.getEntityId())) {
-            player.jumpMovementFactor = 0.03F;
-        } else {
-            player.jumpMovementFactor = 0.05F;
-        }
+        return bonus;
+    }
 
-        if (player.fallDistance > 6.0F) {
-            player.fallDistance -= 1.0F;
+    @Override
+    public float getMinimumHeight(){
+        return 6F;
+    }
 
-            float distanceMultiplier = (player.fallDistance > EMTConfigHandler.nanoBootsMaxDrop)
-                    ? player.fallDistance * 3
-                    : player.fallDistance;
-            float tEnergyDemand = energyPerDamage * (distanceMultiplier - 5.0F);
-
-            if (tEnergyDemand <= ElectricItem.manager.getCharge(itemStack)) {
-                ElectricItem.manager.discharge(itemStack, tEnergyDemand, Integer.MAX_VALUE, true, false, false);
-                player.fallDistance = 0.0F;
-            }
-
-        } else {
-            player.fallDistance = 0.0F;
-        }
-
+    @Override
+    public float getPowerConsumptionMultiplier(float distance){
+        return (distance > EMTConfigHandler.nanoBootsMaxDrop) ? distance * 3 : distance;
     }
 
     public int getRunicCharge(ItemStack arg0) {
