@@ -1,7 +1,8 @@
 package thaumicboots.item.boots.comet;
 
-import emt.util.EMTConfigHandler;
 import net.minecraft.item.EnumRarity;
+
+import emt.util.EMTConfigHandler;
 
 public class ItemNanoCometBoots extends ItemElectricCometBoots {
 
@@ -10,7 +11,7 @@ public class ItemNanoCometBoots extends ItemElectricCometBoots {
     }
 
     @Override
-    protected void setBootsData(){
+    protected void setBootsData() {
         maxCharge = 1_000_000;
         energyPerDamage = 5_000;
         visDiscount = 4;

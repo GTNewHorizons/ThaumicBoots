@@ -60,7 +60,7 @@ public class ItemElectricCometBoots extends ItemArmor
 
     }
 
-    protected void setBootsData(){
+    protected void setBootsData() {
         maxCharge = 100_000;
         energyPerDamage = 1_000;
         runicCharge = 0;
@@ -113,7 +113,8 @@ public class ItemElectricCometBoots extends ItemArmor
     }
 
     public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack) {
-        return par2ItemStack.isItemEqual(new ItemStack(Items.leather)) || super.getIsRepairable(par1ItemStack, par2ItemStack);
+        return par2ItemStack.isItemEqual(new ItemStack(Items.leather))
+                || super.getIsRepairable(par1ItemStack, par2ItemStack);
     }
 
     public float getPowerConsumptionMultiplier(float distance) {
