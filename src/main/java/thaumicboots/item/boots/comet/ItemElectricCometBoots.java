@@ -35,17 +35,48 @@ public class ItemElectricCometBoots extends ItemArmor
         implements IRepairable, IRunicArmor, IElectricItem, IVisDiscountGear, ISpecialArmor {
 
     public IIcon icon;
-
-    public int maxCharge = 100000;
-    public int energyPerDamage = 1000;
-    public int visDiscount = 2;
-
-    public double transferLimit = 100;
+    public float baseBonus;
+    public float minimumHeight;
+    public int maxCharge;
+    public int energyPerDamage;
+    public int visDiscount;
+    public int runicCharge;
+    public int tier;
+    public double minimumDistance;
+    public double damageAbsorptionRatio;
+    public double baseAbsorptionRatio;
+    public double transferLimit;
+    public boolean provideEnergy;
+    public String iconResPath;
+    public String armorResPath;
+    public String unlocalisedName;
+    public EnumRarity rarity;
 
     public ItemElectricCometBoots(ArmorMaterial par2EnumArmorMaterial, int par3, int par4) {
         super(par2EnumArmorMaterial, par3, par4);
+        setBootsData();
         setCreativeTab(TabThaumicBoots.tabThaumicBoots);
-        setUnlocalizedName("ItemElectricComet");
+        setUnlocalizedName(unlocalisedName);
+
+    }
+
+    protected void setBootsData() {
+        maxCharge = 100_000;
+        energyPerDamage = 1_000;
+        runicCharge = 0;
+        visDiscount = 2;
+        provideEnergy = false;
+        baseAbsorptionRatio = 0.15D;
+        damageAbsorptionRatio = 1.5D;
+        transferLimit = 100;
+        baseBonus = 0.165F;
+        minimumHeight = 4F;
+        minimumDistance = 20d;
+        tier = 2;
+        iconResPath = "thaumicboots:electricComet_16x";
+        armorResPath = "thaumicboots:model/electricbootsComet.png";
+        unlocalisedName = "ItemElectricComet";
+        rarity = EnumRarity.rare;
     }
 
     @SideOnly(Side.CLIENT)
@@ -63,7 +94,7 @@ public class ItemElectricCometBoots extends ItemArmor
 
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister ir) {
-        this.icon = ir.registerIcon("thaumicboots:electricComet_16x");
+        this.icon = ir.registerIcon(iconResPath);
     }
 
     @SideOnly(Side.CLIENT)
@@ -73,7 +104,7 @@ public class ItemElectricCometBoots extends ItemArmor
 
     @Override
     public String getArmorTexture(ItemStack stack, Entity entity, int slot, String layer) {
-        return "thaumicboots:model/electricbootsComet.png";
+        return armorResPath;
     }
 
     @Override
@@ -82,12 +113,12 @@ public class ItemElectricCometBoots extends ItemArmor
     }
 
     public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack) {
-        return par2ItemStack.isItemEqual(new ItemStack(Items.leather)) ? true
-                : super.getIsRepairable(par1ItemStack, par2ItemStack);
+        return par2ItemStack.isItemEqual(new ItemStack(Items.leather))
+                || super.getIsRepairable(par1ItemStack, par2ItemStack);
     }
 
     public float getPowerConsumptionMultiplier(float distance) {
-        return (distance > 20.0F) ? distance * 3 : distance;
+        return (distance > minimumDistance) ? distance * 3 : distance;
     }
 
     public float getPowerConsumption(float distance) {
@@ -95,14 +126,13 @@ public class ItemElectricCometBoots extends ItemArmor
     }
 
     public float getMinimumHeight() {
-        return 4F;
+        return minimumHeight;
     }
 
     protected float computeBonus(ItemStack itemStack, EntityPlayer player) {
-        float bonus = 0.165F;
         int ticks = player.inventory.armorItemInSlot(0).stackTagCompound.getInteger("runTicks");
 
-        bonus = bonus + ((ticks / 5) * 0.003F);
+        float bonus = baseBonus + ((ticks / 5) * 0.003F);
         if (ElectricItem.manager.getCharge(itemStack) == 0) {
             bonus = 0;
         } else if (player.isInWater()) {
@@ -144,7 +174,7 @@ public class ItemElectricCometBoots extends ItemArmor
     }
 
     public int getRunicCharge(ItemStack arg0) {
-        return 0;
+        return runicCharge;
     }
 
     @Override
@@ -176,11 +206,11 @@ public class ItemElectricCometBoots extends ItemArmor
     }
 
     public double getDamageAbsorptionRatio() {
-        return 1.25D;
+        return damageAbsorptionRatio;
     }
 
-    private double getBaseAbsorptionRatio() {
-        return 0.15D;
+    protected double getBaseAbsorptionRatio() {
+        return baseAbsorptionRatio;
     }
 
     @Override
@@ -194,7 +224,7 @@ public class ItemElectricCometBoots extends ItemArmor
 
     @Override
     public boolean canProvideEnergy(ItemStack itemStack) {
-        return false;
+        return provideEnergy;
     }
 
     @Override
