@@ -1,7 +1,5 @@
 package thaumicboots.item.boots.meteor;
 
-import emt.util.EMTConfigHandler;
-
 public class ItemNanoMeteorBoots extends ItemElectricMeteorBoots {
 
     public ItemNanoMeteorBoots(ArmorMaterial par2EnumArmorMaterial, int par3, int par4) {
@@ -15,7 +13,7 @@ public class ItemNanoMeteorBoots extends ItemElectricMeteorBoots {
         damageAbsorptionRatio = 1.5D;
         transferLimit = 1600;
         jumpBonus = 0.275D * 2.9;
-        baseBonus = (float) EMTConfigHandler.nanoBootsSpeed;
+        baseBonus = getEMTNanoSpeed();
         tier = 3;
         iconResPath = "thaumicboots:nanoMeteor_16x";
         armorResPath = "thaumicboots:model/nanobootsMeteor.png";
