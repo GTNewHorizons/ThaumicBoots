@@ -2,7 +2,6 @@ package thaumicboots.item.boots.voidwalker;
 
 public class ItemNanoVoidwalkerBoots extends ItemElectricVoidwalkerBoots {
 
-
     public ItemNanoVoidwalkerBoots(final ArmorMaterial material, final int j, final int k) {
         super(material, j, k);
     }

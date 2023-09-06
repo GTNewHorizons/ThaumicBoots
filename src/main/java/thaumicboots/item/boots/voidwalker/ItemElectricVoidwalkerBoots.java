@@ -2,18 +2,14 @@ package thaumicboots.item.boots.voidwalker;
 
 import java.util.List;
 
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
@@ -25,11 +21,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
 import taintedmagic.common.registry.ItemRegistry;
-import thaumcraft.api.IRepairable;
-import thaumcraft.api.IRunicArmor;
-import thaumcraft.api.IVisDiscountGear;
 import thaumcraft.api.IWarpingGear;
-import thaumcraft.api.aspects.Aspect;
 import thaumcraft.client.fx.ParticleEngine;
 import thaumcraft.client.fx.particles.FXWispEG;
 import thaumcraft.common.Thaumcraft;
@@ -37,8 +29,7 @@ import thaumcraft.common.items.armor.Hover;
 import thaumicboots.api.ItemBoots;
 import thaumicboots.main.utils.TabThaumicBoots;
 
-public class ItemElectricVoidwalkerBoots extends ItemBoots
-        implements IWarpingGear, ISpecialArmor, IElectricItem {
+public class ItemElectricVoidwalkerBoots extends ItemBoots implements IWarpingGear, ISpecialArmor, IElectricItem {
 
     float bonus;
 
@@ -170,8 +161,13 @@ public class ItemElectricVoidwalkerBoots extends ItemBoots
     public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot) {
         ElectricItem.manager.discharge(stack, damage * getEnergyPerDamage(), 0x7fffffff, true, false, false);
     }
+
     @Override
     public void addInformation(final ItemStack stack, final EntityPlayer player, final List list, final boolean b) {
-        list.add(EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("tc.visdiscount") + ": " + visDiscount + "%");
+        list.add(
+                EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("tc.visdiscount")
+                        + ": "
+                        + visDiscount
+                        + "%");
     }
 }

@@ -1,7 +1,5 @@
 package thaumicboots.api;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,12 +8,13 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
-import org.jetbrains.annotations.NotNull;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import thaumcraft.api.IRepairable;
 import thaumcraft.api.IRunicArmor;
 import thaumcraft.api.IVisDiscountGear;
 import thaumcraft.api.aspects.Aspect;
-import thaumicboots.main.utils.TabThaumicBoots;
 
 public class ItemBoots extends ItemArmor implements ITBootJumpable, IVisDiscountGear, IRunicArmor, IRepairable {
 
@@ -25,7 +24,7 @@ public class ItemBoots extends ItemArmor implements ITBootJumpable, IVisDiscount
     public int energyPerDamage;
     public double transferLimit;
     public boolean provideEnergy;
-    
+
     public float baseBonus;
     public int visDiscount;
     public int runicCharge;
@@ -38,6 +37,7 @@ public class ItemBoots extends ItemArmor implements ITBootJumpable, IVisDiscount
     public EnumRarity rarity;
 
     public double jumpBonus;
+
     public ItemBoots(ArmorMaterial par2EnumArmorMaterial, int par3, int par4) {
         super(par2EnumArmorMaterial, par3, par4);
         setBootsData();
@@ -77,8 +77,8 @@ public class ItemBoots extends ItemArmor implements ITBootJumpable, IVisDiscount
     // TODO: the part not from interfaces
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister ir) {
-        if (iconResPath == null){
-           iconResPath = "thaumicboots:VoidwalkerBootsComet_-_Purple.png";
+        if (iconResPath == null) {
+            iconResPath = "thaumicboots:VoidwalkerBootsComet_-_Purple.png";
         }
         this.icon = ir.registerIcon(iconResPath);
     }

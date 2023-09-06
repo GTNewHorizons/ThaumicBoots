@@ -1,8 +1,7 @@
 package thaumicboots.api;
 
-import baubles.common.lib.PlayerHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,6 +12,10 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
+
+import baubles.common.lib.PlayerHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import taintedmagic.common.registry.ItemRegistry;
 import thaumcraft.api.IWarpingGear;
 import thaumcraft.client.fx.ParticleEngine;
@@ -20,8 +23,6 @@ import thaumcraft.client.fx.particles.FXWispEG;
 import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.items.armor.Hover;
 import thaumicboots.main.utils.TabThaumicBoots;
-
-import java.util.List;
 
 public class ItemVoidBoots extends ItemBoots implements IWarpingGear, ISpecialArmor {
 
@@ -54,7 +55,7 @@ public class ItemVoidBoots extends ItemBoots implements IWarpingGear, ISpecialAr
 
     @Override
     public ArmorProperties getProperties(final EntityLivingBase entity, final ItemStack stack,
-                                         final DamageSource source, final double dmg, final int slot) {
+            final DamageSource source, final double dmg, final int slot) {
         int priority = 0;
         double ratio = damageReduceAmount / 90.0D;
 
@@ -67,6 +68,7 @@ public class ItemVoidBoots extends ItemBoots implements IWarpingGear, ISpecialAr
         }
         return new ArmorProperties(priority, ratio, stack.getMaxDamage() + 1 - stack.getItemDamage());
     }
+
     @Override
     public int getArmorDisplay(final EntityPlayer player, final ItemStack stack, final int slot) {
         return damageReduceAmount;
@@ -74,7 +76,7 @@ public class ItemVoidBoots extends ItemBoots implements IWarpingGear, ISpecialAr
 
     @Override
     public void damageArmor(final EntityLivingBase entity, final ItemStack stack, final DamageSource source,
-                            final int dmg, final int slot) {
+            final int dmg, final int slot) {
         if (source != DamageSource.fall) {
             stack.damageItem(dmg, entity);
         }
