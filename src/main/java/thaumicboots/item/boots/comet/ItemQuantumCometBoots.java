@@ -21,6 +21,7 @@ public class ItemQuantumCometBoots extends ItemElectricCometBoots {
         armorResPath = "thaumicboots:model/quantumbootsComet.png";
         rarity = EnumRarity.rare;
         baseBonus = (float) EMTConfigHandler.quantumBootsSpeed + 0.220F;
+        jumpBonus = 0.275D * 3.3;
         minimumDistance = EMTConfigHandler.quantumBootsMaxDrop;
         minimumHeight = 10F;
         runicCharge = 0;

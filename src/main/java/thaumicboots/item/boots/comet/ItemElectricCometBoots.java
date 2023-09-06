@@ -29,35 +29,19 @@ import thaumcraft.api.IVisDiscountGear;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.items.armor.Hover;
+import thaumicboots.api.ITBootJumpable;
+import thaumicboots.api.ItemBoots;
 import thaumicboots.main.utils.TabThaumicBoots;
 
-public class ItemElectricCometBoots extends ItemArmor
-        implements IRepairable, IRunicArmor, IElectricItem, IVisDiscountGear, ISpecialArmor {
-
-    public IIcon icon;
-    public float baseBonus;
+public class ItemElectricCometBoots extends ItemBoots
+        implements IElectricItem, ISpecialArmor {
     public float minimumHeight;
-    public int maxCharge;
-    public int energyPerDamage;
-    public int visDiscount;
-    public int runicCharge;
-    public int tier;
     public double minimumDistance;
-    public double damageAbsorptionRatio;
-    public double baseAbsorptionRatio;
-    public double transferLimit;
-    public boolean provideEnergy;
-    public String iconResPath;
-    public String armorResPath;
-    public String unlocalisedName;
-    public EnumRarity rarity;
 
     public ItemElectricCometBoots(ArmorMaterial par2EnumArmorMaterial, int par3, int par4) {
         super(par2EnumArmorMaterial, par3, par4);
-        setBootsData();
         setCreativeTab(TabThaumicBoots.tabThaumicBoots);
         setUnlocalizedName(unlocalisedName);
-
     }
 
     protected void setBootsData() {
@@ -66,10 +50,9 @@ public class ItemElectricCometBoots extends ItemArmor
         runicCharge = 0;
         visDiscount = 2;
         provideEnergy = false;
-        baseAbsorptionRatio = 0.15D;
         damageAbsorptionRatio = 1.5D;
         transferLimit = 100;
-        baseBonus = 0.165F;
+        jumpBonus = 0.275D;
         minimumHeight = 4F;
         minimumDistance = 20d;
         tier = 2;
@@ -77,39 +60,6 @@ public class ItemElectricCometBoots extends ItemArmor
         armorResPath = "thaumicboots:model/electricbootsComet.png";
         unlocalisedName = "ItemElectricComet";
         rarity = EnumRarity.rare;
-    }
-
-    @SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs par2CreativeTabs, List itemList) {
-        ItemStack itemStack = new ItemStack(this, 1);
-        if (getChargedItem(itemStack) == this) {
-            ItemStack charged = new ItemStack(this, 1);
-            ElectricItem.manager.charge(charged, 2147483647, 2147483647, true, false);
-            itemList.add(charged);
-        }
-        if (getEmptyItem(itemStack) == this) {
-            itemList.add(new ItemStack(this, 1, getMaxDamage()));
-        }
-    }
-
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister ir) {
-        this.icon = ir.registerIcon(iconResPath);
-    }
-
-    @SideOnly(Side.CLIENT)
-    public IIcon func_77617_a(int par1) {
-        return this.icon;
-    }
-
-    @Override
-    public String getArmorTexture(ItemStack stack, Entity entity, int slot, String layer) {
-        return armorResPath;
-    }
-
-    @Override
-    public EnumRarity getRarity(ItemStack par1ItemStack) {
-        return EnumRarity.rare;
     }
 
     public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack) {
@@ -140,6 +90,19 @@ public class ItemElectricCometBoots extends ItemArmor
         }
 
         return bonus;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(Item item, CreativeTabs par2CreativeTabs, List itemList) {
+        ItemStack itemStack = new ItemStack(this, 1);
+        if (getChargedItem(itemStack) == this) {
+            ItemStack charged = new ItemStack(this, 1);
+            ElectricItem.manager.charge(charged, 2147483647, 2147483647, true, false);
+            itemList.add(charged);
+        }
+        if (getEmptyItem(itemStack) == this) {
+            itemList.add(new ItemStack(this, 1, getMaxDamage()));
+        }
     }
 
     @Override
@@ -173,10 +136,6 @@ public class ItemElectricCometBoots extends ItemArmor
         }
     }
 
-    public int getRunicCharge(ItemStack arg0) {
-        return runicCharge;
-    }
-
     @Override
     public ISpecialArmor.ArmorProperties getProperties(EntityLivingBase player, ItemStack armor, DamageSource source,
             double damage, int slot) {
@@ -205,55 +164,8 @@ public class ItemElectricCometBoots extends ItemArmor
         ElectricItem.manager.discharge(stack, damage * getEnergyPerDamage(), 0x7fffffff, true, false, false);
     }
 
-    public double getDamageAbsorptionRatio() {
-        return damageAbsorptionRatio;
-    }
-
-    protected double getBaseAbsorptionRatio() {
-        return baseAbsorptionRatio;
-    }
-
     @Override
     public void addInformation(ItemStack stack, EntityPlayer par2EntityPlayer, List list, boolean par4) {
         list.add(EMTTextHelper.PURPLE + EMTTextHelper.localize("tooltip.EMT.visDiscount") + ": " + visDiscount + "%");
-    }
-
-    public int getEnergyPerDamage() {
-        return energyPerDamage;
-    }
-
-    @Override
-    public boolean canProvideEnergy(ItemStack itemStack) {
-        return provideEnergy;
-    }
-
-    @Override
-    public double getMaxCharge(ItemStack itemStack) {
-        return maxCharge;
-    }
-
-    @Override
-    public int getTier(ItemStack itemStack) {
-        return 2;
-    }
-
-    @Override
-    public double getTransferLimit(ItemStack itemStack) {
-        return transferLimit;
-    }
-
-    @Override
-    public Item getChargedItem(ItemStack itemStack) {
-        return this;
-    }
-
-    @Override
-    public Item getEmptyItem(ItemStack itemStack) {
-        return this;
-    }
-
-    @Override
-    public int getVisDiscount(ItemStack stack, EntityPlayer player, Aspect aspect) {
-        return visDiscount;
     }
 }

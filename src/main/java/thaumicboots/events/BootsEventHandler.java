@@ -22,6 +22,7 @@ import flaxbeard.thaumicexploration.ThaumicExploration;
 import flaxbeard.thaumicexploration.common.ConfigTX;
 import flaxbeard.thaumicexploration.integration.TTIntegration;
 import ic2.api.item.ElectricItem;
+import thaumicboots.api.ITBootJumpable;
 import thaumicboots.item.boots.comet.ItemElectricCometBoots;
 import thaumicboots.item.boots.comet.ItemNanoCometBoots;
 import thaumicboots.item.boots.comet.ItemQuantumCometBoots;
@@ -113,36 +114,19 @@ public class BootsEventHandler {
                 } else if (item instanceof ItemNanoMeteorBoots) {
                     event.entityLiving.motionY += 0.275D * 2.9; // 8 blocks
                 } else if (item instanceof ItemMeteorVoidwalkerBoots) {
-                    event.entityLiving.motionY += 0.275D * 3.2; // 3 blocks
-                } else {
+                    event.entityLiving.motionY += ((ITBootJumpable)item).getJumpModifier();
+                } else { // electric + combinations
                     event.entityLiving.motionY += 0.275D * 1.9; // 5 blocks
                 }
             }
         }
 
         else if ((item instanceof ItemElectricCometBoots) || (item instanceof ItemCometVoidwalkerBoots)) {
-            // 0.55D is approx 5.5 blocks, so 0.275 is around 2.25 additional blocks
-            if (item instanceof ItemNanoCometBoots) {
-                event.entityLiving.motionY += 0.275D * 2.3; // 5.5 blocks
-            } else if (item instanceof ItemQuantumCometBoots) {
-                event.entityLiving.motionY += 0.275D * 3.3; // 12 blocks
-            } else if (item instanceof ItemCometVoidwalkerBoots) {
-                event.entityLiving.motionY += 0.450D; // 3.5 blocks
-            } else {
-                event.entityLiving.motionY += 0.275D; // 3 blocks
-            }
-        }
+            event.entityLiving.motionY += ((ITBootJumpable)item).getJumpModifier();
+        } // 0.55D is approx 5.5 blocks, so 0.275 is around 2.25 additional blocks
 
-        else if ((item instanceof ItemElectricVoidwalkerBoots) || (item instanceof ItemNanoVoidwalkerBoots)
-                || (item instanceof ItemQuantumVoidwalkerBoots)) {
-
-                    if (item instanceof ItemElectricVoidwalkerBoots) {
-                        event.entityLiving.motionY += 0.275D * 1.7;
-                    } else if (item instanceof ItemNanoVoidwalkerBoots) {
-                        event.entityLiving.motionY += 0.275D * 2.7;
-                    } else { // ItemQuantumVoidwalkerBoots
-                        event.entityLiving.motionY += 0.275D * 3.7;
-                    }
+        else if (item instanceof ItemElectricVoidwalkerBoots) {
+            event.entityLiving.motionY += ((ITBootJumpable)item).getJumpModifier();
                 }
     }
 

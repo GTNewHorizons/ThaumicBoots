@@ -21,6 +21,7 @@ public class ItemNanoCometBoots extends ItemElectricCometBoots {
         unlocalisedName = "ItemNanoComet";
         rarity = EnumRarity.rare;
         baseBonus = (float) EMTConfigHandler.nanoBootsSpeed + 0.110F;
+        jumpBonus = 0.275D *  2.3;
         minimumHeight = 6F;
         minimumDistance = EMTConfigHandler.nanoBootsMaxDrop;
         runicCharge = 0;

@@ -2,6 +2,7 @@ package thaumicboots.item.boots.voidwalker;
 
 import java.util.List;
 
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -12,6 +13,7 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
@@ -32,24 +34,53 @@ import thaumcraft.client.fx.ParticleEngine;
 import thaumcraft.client.fx.particles.FXWispEG;
 import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.items.armor.Hover;
+import thaumicboots.api.ItemBoots;
 import thaumicboots.main.utils.TabThaumicBoots;
 
-public class ItemElectricVoidwalkerBoots extends ItemArmor
-        implements IVisDiscountGear, IWarpingGear, IRunicArmor, IRepairable, ISpecialArmor, IElectricItem {
+public class ItemElectricVoidwalkerBoots extends ItemBoots
+        implements IWarpingGear, ISpecialArmor, IElectricItem {
 
-    public int maxCharge = 1000000;
-    public int energyPerDamage = 500;
-    public int visDiscount = 5 + 2;
-
-    public double transferLimit = 400;
+    float bonus;
 
     public ItemElectricVoidwalkerBoots(final ArmorMaterial material, final int j, final int k) {
         super(material, j, k);
         setCreativeTab(TabThaumicBoots.tabThaumicBoots);
-        setUnlocalizedName("ItemElectricVoid");
-        setTextureName("thaumicboots:electricVoid_16x");
-
+        setUnlocalizedName(unlocalisedName);
+        setBootsData();
         MinecraftForge.EVENT_BUS.register(this);
+    }
+
+    protected void setBootsData() {
+        maxCharge = 1_000_000;
+        energyPerDamage = 500;
+        runicCharge = 0;
+        visDiscount = 5 + 2; // voidwalker + electric discount
+        provideEnergy = false;
+        damageAbsorptionRatio = 2.25D;
+        transferLimit = 400;
+        jumpBonus = 0.275D * 1.7;
+        bonus = 0.200F;
+        tier = 3;
+        iconResPath = "thaumicboots:electricVoid_16x";
+        armorResPath = "thaumicboots:model/electricbootsVoidwalker.png";
+        unlocalisedName = "ItemElectricVoid";
+        rarity = EnumRarity.epic;
+    }
+
+    @Override
+    public int getWarp(final ItemStack stack, final EntityPlayer player) {
+        return 5;
+    }
+
+    @SideOnly(Side.CLIENT)
+    protected void particles(final World world, final EntityPlayer player) {
+        final FXWispEG fx = new FXWispEG(
+                world,
+                player.posX + (Math.random() - Math.random()) * 0.5D,
+                player.boundingBox.minY + 0.05D + (Math.random() - Math.random()) * 0.1D,
+                player.posZ + (Math.random() - Math.random()) * 0.5D,
+                player);
+        ParticleEngine.instance.addEffect(world, fx);
     }
 
     @SideOnly(Side.CLIENT)
@@ -63,40 +94,6 @@ public class ItemElectricVoidwalkerBoots extends ItemArmor
         if (getEmptyItem(itemStack) == this) {
             itemList.add(new ItemStack(this, 1, getMaxDamage()));
         }
-    }
-
-    @Override
-    public String getArmorTexture(final ItemStack stack, final Entity entity, final int slot, final String type) {
-        return "thaumicboots:model/electricbootsVoidwalker.png";
-    }
-
-    @Override
-    public EnumRarity getRarity(final ItemStack stack) {
-        return EnumRarity.epic;
-    }
-
-    @Override
-    public int getRunicCharge(final ItemStack stack) {
-        return 0;
-    }
-
-    @Override
-    public int getWarp(final ItemStack stack, final EntityPlayer player) {
-        return 5;
-    }
-
-    @Override
-    public int getVisDiscount(final ItemStack stack, final EntityPlayer player, final Aspect aspect) {
-        return visDiscount;
-    }
-
-    @Override
-    public void addInformation(final ItemStack stack, final EntityPlayer player, final List list, final boolean b) {
-        list.add(
-                EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("tc.visdiscount")
-                        + ": "
-                        + getVisDiscount(stack, player, null)
-                        + "%");
     }
 
     @Override
@@ -146,17 +143,6 @@ public class ItemElectricVoidwalkerBoots extends ItemArmor
         }
     }
 
-    @SideOnly(Side.CLIENT)
-    private void particles(final World world, final EntityPlayer player) {
-        final FXWispEG fx = new FXWispEG(
-                world,
-                player.posX + (Math.random() - Math.random()) * 0.5D,
-                player.boundingBox.minY + 0.05D + (Math.random() - Math.random()) * 0.1D,
-                player.posZ + (Math.random() - Math.random()) * 0.5D,
-                player);
-        ParticleEngine.instance.addEffect(world, fx);
-    }
-
     @Override
     public ISpecialArmor.ArmorProperties getProperties(EntityLivingBase player, ItemStack armor, DamageSource source,
             double damage, int slot) {
@@ -184,46 +170,8 @@ public class ItemElectricVoidwalkerBoots extends ItemArmor
     public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot) {
         ElectricItem.manager.discharge(stack, damage * getEnergyPerDamage(), 0x7fffffff, true, false, false);
     }
-
-    public double getDamageAbsorptionRatio() {
-        return 2.25D;
-    }
-
-    private double getBaseAbsorptionRatio() {
-        return 0.15D;
-    }
-
-    public int getEnergyPerDamage() {
-        return energyPerDamage;
-    }
-
     @Override
-    public boolean canProvideEnergy(ItemStack itemStack) {
-        return false;
-    }
-
-    @Override
-    public double getMaxCharge(ItemStack itemStack) {
-        return maxCharge;
-    }
-
-    @Override
-    public int getTier(ItemStack itemStack) {
-        return 2;
-    }
-
-    @Override
-    public double getTransferLimit(ItemStack itemStack) {
-        return transferLimit;
-    }
-
-    @Override
-    public Item getChargedItem(ItemStack itemStack) {
-        return this;
-    }
-
-    @Override
-    public Item getEmptyItem(ItemStack itemStack) {
-        return this;
+    public void addInformation(final ItemStack stack, final EntityPlayer player, final List list, final boolean b) {
+        list.add(EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("tc.visdiscount") + ": " + visDiscount + "%");
     }
 }
