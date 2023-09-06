@@ -24,10 +24,7 @@ public class ItemQuantumCometBoots extends ItemElectricCometBoots {
         jumpBonus = 0.275D * 3.3;
         minimumDistance = EMTConfigHandler.quantumBootsMaxDrop;
         minimumHeight = 10F;
-        runicCharge = 0;
         damageAbsorptionRatio = 2D;
-        baseAbsorptionRatio = 0.15D;
-        provideEnergy = false;
         tier = 4;
     }
 }

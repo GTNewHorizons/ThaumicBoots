@@ -20,7 +20,6 @@ import taintedmagic.common.registry.ItemRegistry;
 import thaumcraft.api.IWarpingGear;
 import thaumcraft.client.fx.ParticleEngine;
 import thaumcraft.client.fx.particles.FXWispEG;
-import thaumcraft.common.items.armor.Hover;
 import thaumicboots.main.utils.TabThaumicBoots;
 
 public class ItemVoidBoots extends ItemBoots implements IWarpingGear, ISpecialArmor {
