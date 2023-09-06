@@ -1,5 +1,6 @@
 package thaumicboots.item.boots.meteor;
 
+import emt.util.EMTConfigHandler;
 import thaumcraft.api.IRepairable;
 import thaumcraft.api.IRunicArmor;
 
@@ -16,6 +17,7 @@ public class ItemQuantumMeteorBoots extends ItemElectricMeteorBoots implements I
         damageAbsorptionRatio = 2D;
         transferLimit = 12000;
         jumpBonus = 0.275D * 4;
+        baseBonus = (float) EMTConfigHandler.quantumBootsSpeed;
         tier = 4;
         iconResPath = "thaumicboots:quantumMeteor_16x";
         armorResPath = "thaumicboots:model/quantumbootsMeteor.png";
