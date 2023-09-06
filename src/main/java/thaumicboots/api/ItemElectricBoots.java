@@ -13,6 +13,7 @@ import net.minecraftforge.common.ISpecialArmor;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import emt.util.EMTConfigHandler;
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
 import thaumicboots.main.utils.TabThaumicBoots;
@@ -51,6 +52,23 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem {
 
     public double getTransferLimit(ItemStack itemStack) {
         return transferLimit;
+    }
+
+    // For some reason, sometimes the EMTConfigHandler returns this as 0,
+    // but only when it's called outside of EMT,
+    // this ensures this never happens internally.
+    public float getEMTNanoSpeed() {
+        if ((float) EMTConfigHandler.nanoBootsSpeed == 0.0F) {
+            return 0.275F;
+        }
+        return (float) EMTConfigHandler.nanoBootsSpeed;
+    }
+
+    public float getEMTQuantumSpeed() {
+        if ((float) EMTConfigHandler.quantumBootsSpeed == 0.0F) {
+            return 0.51F;
+        }
+        return (float) EMTConfigHandler.quantumBootsSpeed;
     }
 
     // TODO: non-variable related methods
