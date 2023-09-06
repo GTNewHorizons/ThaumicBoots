@@ -55,7 +55,7 @@ public class ItemVoidBoots extends ItemBoots implements IWarpingGear, ISpecialAr
 
     @Override
     public ArmorProperties getProperties(final EntityLivingBase entity, final ItemStack stack,
-            final DamageSource source, final double dmg, final int slot) {
+                                         final DamageSource source, final double dmg, final int slot) {
         int priority = 0;
         double ratio = damageReduceAmount / 90.0D;
 
@@ -76,7 +76,7 @@ public class ItemVoidBoots extends ItemBoots implements IWarpingGear, ISpecialAr
 
     @Override
     public void damageArmor(final EntityLivingBase entity, final ItemStack stack, final DamageSource source,
-            final int dmg, final int slot) {
+                            final int dmg, final int slot) {
         if (source != DamageSource.fall) {
             stack.damageItem(dmg, entity);
         }
@@ -115,34 +115,38 @@ public class ItemVoidBoots extends ItemBoots implements IWarpingGear, ISpecialAr
             particles(world, player);
         }
 
-        if (player.moveForward > 0.0F) {
-            // increased step height
-            if (player.worldObj.isRemote && !player.isSneaking()) {
-                if (!Thaumcraft.instance.entityEventHandler.prevStep.containsKey(player.getEntityId())) {
-                    Thaumcraft.instance.entityEventHandler.prevStep.put(player.getEntityId(), player.stepHeight);
-                }
-                player.stepHeight = 1.0F;
+        if (player.moveForward <= 0F) {
+            return;
+        }
+
+
+            if (!player.isSneaking()){
+                stepHeight(player);
             }
 
             // speed boost
-            if (player.onGround || player.capabilities.isFlying) {
+            if (player.onGround || player.capabilities.isFlying || player.isOnLadder()) {
                 float bonus = 0.215F * 3;
-                final ItemStack sash = PlayerHandler.getPlayerBaubles(player).getStackInSlot(3);
-                if (sash != null && sash.getItem() == ItemRegistry.ItemVoidwalkerSash) {
-                    bonus *= 3.0F;
-                }
-
                 player.moveFlying(0.0F, 1.0F, player.capabilities.isFlying ? bonus * 0.75F : bonus);
             } else if (Hover.getHover(player.getEntityId())) {
                 player.jumpMovementFactor = 0.03F;
             } else {
                 player.jumpMovementFactor = player.isSprinting() ? 0.045F : 0.04F;
             }
-        }
+
         // negate fall damage
         if (player.fallDistance > 3.0F) {
             player.fallDistance = 1.0F;
         }
+    }
+
+    // TODO: Extract this into it's own method
+    public float sashEquiped(final EntityPlayer player) {
+        final ItemStack sash = PlayerHandler.getPlayerBaubles(player).getStackInSlot(3);
+        if(sash !=null&&sash.getItem()==ItemRegistry.ItemVoidwalkerSash) {
+            return 3.0F;
+        }
+        return 1.0F;
     }
 
     @SideOnly(Side.CLIENT)

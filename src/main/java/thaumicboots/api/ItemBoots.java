@@ -11,6 +11,7 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
@@ -18,23 +19,30 @@ import net.minecraft.util.IIcon;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.util.StatCollector;
+import net.minecraft.world.World;
 import thaumcraft.api.IRepairable;
 import thaumcraft.api.IRunicArmor;
 import thaumcraft.api.IVisDiscountGear;
 import thaumcraft.api.aspects.Aspect;
+import thaumcraft.common.Thaumcraft;
+import thaumcraft.common.items.armor.Hover;
 
 import java.util.List;
 
-public class ItemBoots extends ItemArmor implements ITBootJumpable, IVisDiscountGear, IRunicArmor, IRepairable {
+public class ItemBoots extends ItemArmor implements ITBootJumpable, ITBootSpeed, IVisDiscountGear, IRunicArmor, IRepairable {
 
     public IIcon icon;
 
     public float baseBonus;
+    public float runningbonus;
     public int visDiscount;
     public int runicCharge;
     public int tier;
     public double damageAbsorptionRatio;
     public double baseAbsorptionRatio;
+    public boolean steadyBonus;
+    public boolean negateFall;
+    public boolean waterEffects;
     public String iconResPath;
     public String armorResPath;
     public String unlocalisedName;
@@ -54,6 +62,10 @@ public class ItemBoots extends ItemArmor implements ITBootJumpable, IVisDiscount
         damageAbsorptionRatio = 0.0D;
         baseBonus = 0.165F;
         tier = 0;
+        steadyBonus = false;
+        negateFall = false;
+        waterEffects = false;
+        runningbonus = 0.0F;
         iconResPath = "thaumicboots:electricVoid_16x";
         armorResPath = "thaumicboots:model/electricbootsVoidwalker.png";
         unlocalisedName = "ItemElectricVoid";
@@ -65,13 +77,15 @@ public class ItemBoots extends ItemArmor implements ITBootJumpable, IVisDiscount
         return jumpBonus;
     }
 
-    public void toggle() {
+    public void toggleJump() {}
 
-    }
-
-    public boolean getToggle() {
+    public boolean getJumpToggle() {
         return false;
     }
+
+    public float getSpeedModifier() { return 0F;}
+    public void toggleSpeed() {}
+    public boolean getSpeedToggle() { return false;}
 
     // TODO: the part not from interfaces
 
@@ -125,6 +139,70 @@ public class ItemBoots extends ItemArmor implements ITBootJumpable, IVisDiscount
     public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack) {
         return par2ItemStack.isItemEqual(new ItemStack(Items.leather))
                 || super.getIsRepairable(par1ItemStack, par2ItemStack);
+    }
+
+    protected float computeBonus(ItemStack itemStack, EntityPlayer player) {
+        int ticks = player.inventory.armorItemInSlot(0).stackTagCompound.getInteger("runTicks");
+        float bonus = baseBonus + ((ticks / 5) * runningbonus);
+        return bonus;
+    }
+    @Override
+    public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack){
+        if (player.moveForward <= 0F) {
+            return;
+        }
+
+        float bonus = baseBonus;
+        stepHeight(player);
+        if (steadyBonus) {
+            runningTicks(player);
+            bonus = computeBonus(itemStack, player);
+        }
+
+        applyBonus(player, bonus);
+
+        if (negateFall){
+            if (player.fallDistance > 0.0F) {
+                player.fallDistance = 0.0F;
+            }
+        }
+    }
+
+    public void stepHeight(EntityPlayer player){
+        if (player.worldObj.isRemote) {
+            if (!Thaumcraft.instance.entityEventHandler.prevStep.containsKey(Integer.valueOf(player.getEntityId()))) {
+                Thaumcraft.instance.entityEventHandler.prevStep
+                        .put(Integer.valueOf(player.getEntityId()), Float.valueOf(player.stepHeight));
+            }
+            player.stepHeight = 1.0F;
+        }
+    }
+
+    public void runningTicks(EntityPlayer player){
+        if (!player.inventory.armorItemInSlot(0).hasTagCompound()) {
+            NBTTagCompound par1NBTTagCompound = new NBTTagCompound();
+            player.inventory.armorItemInSlot(0).setTagCompound(par1NBTTagCompound);
+            player.inventory.armorItemInSlot(0).stackTagCompound.setInteger("runTicks", 0);
+        }
+    }
+
+    public void applyBonus(EntityPlayer player, float bonus){
+        if (waterEffects){
+            if (player.isInWater()) {
+                bonus /= 4.0F;
+            }
+        }
+        if (player.onGround || player.isOnLadder() || player.capabilities.isFlying ) {
+            player.moveFlying(0.0F, 1.0F, bonus);
+        } else if (Hover.getHover(player.getEntityId())) {
+            player.jumpMovementFactor = 0.03F;
+        } else {
+            player.jumpMovementFactor = 0.05F;
+        }
+    }
+
+    public void enviromentalEffects(){
+
     }
 
 

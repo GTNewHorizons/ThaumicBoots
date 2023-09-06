@@ -11,6 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import net.minecraft.util.DamageSource;
+import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 import thaumicboots.main.utils.TabThaumicBoots;
 
@@ -54,6 +55,20 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem {
 
     // TODO: non-variable related methods
 
+    @Override
+    protected float computeBonus(ItemStack itemStack, EntityPlayer player) {
+        int ticks = player.inventory.armorItemInSlot(0).stackTagCompound.getInteger("runTicks");
+
+        float bonus = baseBonus + ((ticks / 5) * 0.003F);
+        if (ElectricItem.manager.getCharge(itemStack) == 0) {
+            bonus = 0;
+        } else if (player.isInWater()) {
+            bonus /= 4.0F;
+        }
+
+        return bonus;
+    }
+
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs par2CreativeTabs, List itemList) {
         ItemStack itemStack = new ItemStack(this, 1);
@@ -66,6 +81,7 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem {
             itemList.add(new ItemStack(this, 1, getMaxDamage()));
         }
     }
+
 
     public ISpecialArmor.ArmorProperties getProperties(EntityLivingBase player, ItemStack armor, DamageSource source,
                                                        double damage, int slot) {
@@ -98,5 +114,29 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem {
 
     public Item getEmptyItem(ItemStack itemStack) {
         return this;
+    }
+
+    @Override
+    public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack){
+        if (player.moveForward <= 0F) {
+            return;
+        }
+
+        float bonus = baseBonus;
+        stepHeight(player);
+        if (steadyBonus) {
+            runningTicks(player);
+            bonus = computeBonus(itemStack, player);
+        }
+        if (ElectricItem.manager.getCharge(itemStack) == 0) {
+            bonus *= 0;
+        }
+        applyBonus(player, bonus);
+
+        if (negateFall){
+            if (player.fallDistance > 0.0F) {
+                player.fallDistance = 0.0F;
+            }
+        }
     }
 }

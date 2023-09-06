@@ -46,47 +46,12 @@ public class ItemElectricMeteorBoots extends ItemElectricBoots {
         damageAbsorptionRatio = 1.25D;
         transferLimit = 100;
         jumpBonus = 0.275D * 1.9;
+        baseBonus = 0.055F;
         tier = 2;
+        negateFall = true;
         iconResPath = "thaumicboots:electricMeteor_16x";
         armorResPath = "thaumicboots:model/electricbootsMeteor.png";
         unlocalisedName = "ItemElectricMeteor";
-    }
-
-    @Override
-    public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
-        if (player.fallDistance > 0.0F) {
-            player.fallDistance = 0.0F;
-        }
-
-        if ((!player.capabilities.isFlying) && (player.moveForward > 0.0F)) {
-            int haste = EnchantmentHelper
-                    .getEnchantmentLevel(Config.enchHaste.effectId, player.inventory.armorItemInSlot(0));
-            if (player.worldObj.isRemote) {
-                if (!Thaumcraft.instance.entityEventHandler.prevStep
-                        .containsKey(Integer.valueOf(player.getEntityId()))) {
-                    Thaumcraft.instance.entityEventHandler.prevStep
-                            .put(Integer.valueOf(player.getEntityId()), Float.valueOf(player.stepHeight));
-                }
-                player.stepHeight = 1.0F;
-            }
-            float bonus = 0.055F;
-            if (ElectricItem.manager.getCharge(itemStack) == 0) {
-                bonus *= 0;
-            }
-            if (player.isInWater()) {
-                bonus /= 4.0F;
-            }
-            if (player.onGround) {
-                player.moveFlying(0.0F, 1.0F, bonus);
-            } else if (Hover.getHover(player.getEntityId())) {
-                player.jumpMovementFactor = 0.03F;
-            } else {
-                player.jumpMovementFactor = 0.05F;
-            }
-            if (player.fallDistance > 0.0F) {
-                player.fallDistance = 0.0F;
-            }
-        }
     }
 
 
