@@ -91,4 +91,12 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem {
     public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot) {
         ElectricItem.manager.discharge(stack, damage * getEnergyPerDamage(), 0x7fffffff, true, false, false);
     }
+
+    public Item getChargedItem(ItemStack itemStack) {
+        return this;
+    }
+
+    public Item getEmptyItem(ItemStack itemStack) {
+        return this;
+    }
 }

@@ -23,6 +23,7 @@ import flaxbeard.thaumicexploration.common.ConfigTX;
 import flaxbeard.thaumicexploration.integration.TTIntegration;
 import ic2.api.item.ElectricItem;
 import thaumicboots.api.ITBootJumpable;
+import thaumicboots.api.ItemBoots;
 import thaumicboots.item.boots.comet.ItemElectricCometBoots;
 import thaumicboots.item.boots.meteor.ItemElectricMeteorBoots;
 import thaumicboots.item.boots.meteor.ItemNanoMeteorBoots;
@@ -84,11 +85,8 @@ public class BootsEventHandler {
 
         Item item = player.inventory.armorItemInSlot(0).getItem();
 
-        if ((item instanceof ItemElectricMeteorBoots) || (item instanceof ItemCometMeteorBoots)
-                || (item instanceof ItemMeteoricCometBoots)
-                || (item instanceof ItemMeteorVoidwalkerBoots)) {
-
-            if (player.isSneaking()) {
+        if (((item instanceof ItemElectricMeteorBoots) || (item instanceof ItemCometMeteorBoots)
+                || (item instanceof ItemMeteorVoidwalkerBoots)) && (player.isSneaking())) {
                 Vec3 vector = event.entityLiving.getLook(0.5F);
                 double total = Math.abs(vector.zCoord + vector.xCoord);
                 double jump = 0;
@@ -104,28 +102,12 @@ public class BootsEventHandler {
                 event.entityLiving.motionY += ((jump + 1) * vector.yCoord) / 1.5F;
                 event.entityLiving.motionZ += (jump + 1) * vector.zCoord * 4;
                 event.entityLiving.motionX += (jump + 1) * vector.xCoord * 4;
-
-            } else {
-                // 0.275D is approx 3 blocks, 0.265D will get you to just 3 blocks,
-                if (item instanceof ItemQuantumMeteorBoots) {
-                    event.entityLiving.motionY += 0.275D * 4; // 12 blocks
-                } else if (item instanceof ItemNanoMeteorBoots) {
-                    event.entityLiving.motionY += 0.275D * 2.9; // 8 blocks
-                } else if (item instanceof ItemMeteorVoidwalkerBoots) {
-                    event.entityLiving.motionY += ((ITBootJumpable) item).getJumpModifier();
-                } else { // electric + combinations
-                    event.entityLiving.motionY += 0.275D * 1.9; // 5 blocks
-                }
-            }
         }
-
-        else if ((item instanceof ItemElectricCometBoots) || (item instanceof ItemCometVoidwalkerBoots)) {
-            event.entityLiving.motionY += ((ITBootJumpable) item).getJumpModifier();
-        } // 0.55D is approx 5.5 blocks, so 0.275 is around 2.25 additional blocks
-
-        else if (item instanceof ItemElectricVoidwalkerBoots) {
+        else if (item instanceof ItemBoots) {
             event.entityLiving.motionY += ((ITBootJumpable) item).getJumpModifier();
         }
+        // 0.275D is approx 3 blocks, 0.265D will get you to just 3 blocks,
+        // 0.55D is approx 5.5 blocks, so 0.275 is around 2.25 additional blocks
     }
 
     @SubscribeEvent

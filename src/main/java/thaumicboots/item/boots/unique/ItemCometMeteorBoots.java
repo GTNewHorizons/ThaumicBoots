@@ -19,42 +19,30 @@ import thaumcraft.api.IRunicArmor;
 import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.config.Config;
 import thaumcraft.common.items.armor.Hover;
+import thaumicboots.api.ItemBoots;
 import thaumicboots.main.utils.TabThaumicBoots;
 
-public class ItemCometMeteorBoots extends ItemArmor implements IRepairable, IRunicArmor {
+public class ItemCometMeteorBoots extends ItemBoots implements IRepairable, IRunicArmor {
 
     public IIcon icon;
 
     public ItemCometMeteorBoots(ArmorMaterial par2EnumArmorMaterial, int par3, int par4) {
         super(par2EnumArmorMaterial, par3, par4);
         setCreativeTab(TabThaumicBoots.tabThaumicBoots);
-        setUnlocalizedName("ItemCometMeteor");
+        setUnlocalizedName(unlocalisedName);
     }
 
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister ir) {
-        this.icon = ir.registerIcon("thaumicboots:bootsCometMeteor");
+    protected void setBootsData() {
+        damageAbsorptionRatio = 1.5D;
+        jumpBonus = 0.35D;
+        tier = 2;
+        baseBonus = 0.165F;
+        iconResPath = "thaumicboots:bootsCometMeteor";
+        armorResPath = "thaumicboots:model/VoidwalkerBootsComet.png";
+        unlocalisedName = "ItemCometMeteor";
     }
 
-    @SideOnly(Side.CLIENT)
-    public IIcon func_77617_a(int par1) {
-        return this.icon;
-    }
 
-    @Override
-    public String getArmorTexture(ItemStack stack, Entity entity, int slot, String layer) {
-        return "thaumicboots:model/VoidwalkerBootsComet.png";
-    }
-
-    @Override
-    public EnumRarity getRarity(ItemStack par1ItemStack) {
-        return EnumRarity.rare;
-    }
-
-    public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack) {
-        return par2ItemStack.isItemEqual(new ItemStack(Items.leather)) ? true
-                : super.getIsRepairable(par1ItemStack, par2ItemStack);
-    }
 
     @Override
     public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
@@ -97,7 +85,4 @@ public class ItemCometMeteorBoots extends ItemArmor implements IRepairable, IRun
         }
     }
 
-    public int getRunicCharge(ItemStack arg0) {
-        return 0;
-    }
 }

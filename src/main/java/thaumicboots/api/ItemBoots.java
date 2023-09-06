@@ -122,14 +122,6 @@ public class ItemBoots extends ItemArmor implements ITBootJumpable, IVisDiscount
         return tier;
     }
 
-    public Item getChargedItem(ItemStack itemStack) {
-        return this;
-    }
-
-    public Item getEmptyItem(ItemStack itemStack) {
-        return this;
-    }
-
     public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack) {
         return par2ItemStack.isItemEqual(new ItemStack(Items.leather))
                 || super.getIsRepairable(par1ItemStack, par2ItemStack);
