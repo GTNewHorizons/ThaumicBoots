@@ -4,7 +4,7 @@ public interface ITBootJumpable {
 
     double getJumpModifier();
 
-    void toggle();
+    void toggleJump();
 
-    boolean getToggle();
+    boolean getJumpToggle();
 }

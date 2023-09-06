@@ -1,20 +1,21 @@
 package thaumicboots.api;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import ic2.api.item.ElectricItem;
-import ic2.api.item.IElectricItem;
+import java.util.List;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-
 import net.minecraft.util.DamageSource;
+import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
-import thaumicboots.main.utils.TabThaumicBoots;
 
-import java.util.List;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import ic2.api.item.ElectricItem;
+import ic2.api.item.IElectricItem;
+import thaumicboots.main.utils.TabThaumicBoots;
 
 public class ItemElectricBoots extends ItemBoots implements IElectricItem {
 
@@ -54,6 +55,20 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem {
 
     // TODO: non-variable related methods
 
+    @Override
+    protected float computeBonus(ItemStack itemStack, EntityPlayer player) {
+        int ticks = player.inventory.armorItemInSlot(0).stackTagCompound.getInteger("runTicks");
+
+        float bonus = baseBonus + ((ticks / 5) * 0.003F);
+        if (ElectricItem.manager.getCharge(itemStack) == 0) {
+            bonus = 0;
+        } else if (player.isInWater()) {
+            bonus /= 4.0F;
+        }
+
+        return bonus;
+    }
+
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs par2CreativeTabs, List itemList) {
         ItemStack itemStack = new ItemStack(this, 1);
@@ -68,7 +83,7 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem {
     }
 
     public ISpecialArmor.ArmorProperties getProperties(EntityLivingBase player, ItemStack armor, DamageSource source,
-                                                       double damage, int slot) {
+            double damage, int slot) {
         if (source.isUnblockable()) {
             return new net.minecraftforge.common.ISpecialArmor.ArmorProperties(0, 0.0D, 0);
         } else {
@@ -98,5 +113,29 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem {
 
     public Item getEmptyItem(ItemStack itemStack) {
         return this;
+    }
+
+    @Override
+    public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
+        if (player.moveForward <= 0F) {
+            return;
+        }
+
+        float bonus = baseBonus;
+        stepHeight(player);
+        if (steadyBonus) {
+            runningTicks(player);
+            bonus = computeBonus(itemStack, player);
+        }
+        if (ElectricItem.manager.getCharge(itemStack) == 0) {
+            bonus *= 0;
+        }
+        applyBonus(player, bonus);
+
+        if (negateFall) {
+            if (player.fallDistance > 0.0F) {
+                player.fallDistance = 0.0F;
+            }
+        }
     }
 }
