@@ -130,7 +130,7 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem {
         }
         if (ElectricItem.manager.getCharge(itemStack) == 0) {
             bonus *= 0;
-        }
+        } 
         applyBonus(player, bonus);
 
         if (negateFall){
