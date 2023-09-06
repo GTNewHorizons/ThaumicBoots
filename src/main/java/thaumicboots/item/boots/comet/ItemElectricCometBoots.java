@@ -21,10 +21,10 @@ import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
 import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.items.armor.Hover;
-import thaumicboots.api.ItemBoots;
+import thaumicboots.api.ItemElectricBoots;
 import thaumicboots.main.utils.TabThaumicBoots;
 
-public class ItemElectricCometBoots extends ItemBoots implements IElectricItem, ISpecialArmor {
+public class ItemElectricCometBoots extends ItemElectricBoots implements IElectricItem, ISpecialArmor {
 
     public float minimumHeight;
     public double minimumDistance;
@@ -53,10 +53,6 @@ public class ItemElectricCometBoots extends ItemBoots implements IElectricItem, 
         rarity = EnumRarity.rare;
     }
 
-    public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack) {
-        return par2ItemStack.isItemEqual(new ItemStack(Items.leather))
-                || super.getIsRepairable(par1ItemStack, par2ItemStack);
-    }
 
     public float getPowerConsumptionMultiplier(float distance) {
         return (distance > minimumDistance) ? distance * 3 : distance;
@@ -83,18 +79,6 @@ public class ItemElectricCometBoots extends ItemBoots implements IElectricItem, 
         return bonus;
     }
 
-    @SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs par2CreativeTabs, List itemList) {
-        ItemStack itemStack = new ItemStack(this, 1);
-        if (getChargedItem(itemStack) == this) {
-            ItemStack charged = new ItemStack(this, 1);
-            ElectricItem.manager.charge(charged, 2147483647, 2147483647, true, false);
-            itemList.add(charged);
-        }
-        if (getEmptyItem(itemStack) == this) {
-            itemList.add(new ItemStack(this, 1, getMaxDamage()));
-        }
-    }
 
     @Override
     public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
@@ -125,38 +109,5 @@ public class ItemElectricCometBoots extends ItemBoots implements IElectricItem, 
         } else {
             player.jumpMovementFactor = 0.05F;
         }
-    }
-
-    @Override
-    public ISpecialArmor.ArmorProperties getProperties(EntityLivingBase player, ItemStack armor, DamageSource source,
-            double damage, int slot) {
-        if (source.isUnblockable()) {
-            return new net.minecraftforge.common.ISpecialArmor.ArmorProperties(0, 0.0D, 0);
-        } else {
-            double absorptionRatio = getBaseAbsorptionRatio() * getDamageAbsorptionRatio();
-            int energyPerDamage = getEnergyPerDamage();
-            double damageLimit = energyPerDamage <= 0 ? 0
-                    : (25 * ElectricItem.manager.getCharge(armor)) / energyPerDamage;
-            return new net.minecraftforge.common.ISpecialArmor.ArmorProperties(0, absorptionRatio, (int) damageLimit);
-        }
-    }
-
-    @Override
-    public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot) {
-        if (ElectricItem.manager.getCharge(armor) >= getEnergyPerDamage()) {
-            return (int) Math.round(20D * getBaseAbsorptionRatio() * getDamageAbsorptionRatio());
-        } else {
-            return 0;
-        }
-    }
-
-    @Override
-    public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot) {
-        ElectricItem.manager.discharge(stack, damage * getEnergyPerDamage(), 0x7fffffff, true, false, false);
-    }
-
-    @Override
-    public void addInformation(ItemStack stack, EntityPlayer par2EntityPlayer, List list, boolean par4) {
-        list.add(EMTTextHelper.PURPLE + EMTTextHelper.localize("tooltip.EMT.visDiscount") + ": " + visDiscount + "%");
     }
 }

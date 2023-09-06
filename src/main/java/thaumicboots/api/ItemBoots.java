@@ -1,29 +1,33 @@
 package thaumicboots.api;
 
+import emt.util.EMTTextHelper;
+import ic2.api.item.ElectricItem;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.util.StatCollector;
 import thaumcraft.api.IRepairable;
 import thaumcraft.api.IRunicArmor;
 import thaumcraft.api.IVisDiscountGear;
 import thaumcraft.api.aspects.Aspect;
 
+import java.util.List;
+
 public class ItemBoots extends ItemArmor implements ITBootJumpable, IVisDiscountGear, IRunicArmor, IRepairable {
 
     public IIcon icon;
-
-    public int maxCharge;
-    public int energyPerDamage;
-    public double transferLimit;
-    public boolean provideEnergy;
 
     public float baseBonus;
     public int visDiscount;
@@ -44,11 +48,6 @@ public class ItemBoots extends ItemArmor implements ITBootJumpable, IVisDiscount
     }
 
     protected void setBootsData() {
-        maxCharge = 0;
-        energyPerDamage = 0;
-        provideEnergy = false;
-        transferLimit = 0;
-
         runicCharge = 0;
         visDiscount = 0;
         baseAbsorptionRatio = 0.15D;
@@ -75,17 +74,22 @@ public class ItemBoots extends ItemArmor implements ITBootJumpable, IVisDiscount
     }
 
     // TODO: the part not from interfaces
+
+    @SideOnly(Side.CLIENT) // this method is important, it's what initializes the texture
+    public IIcon func_77617_a(int par1) {
+        return this.icon;
+    }
     @SideOnly(Side.CLIENT)
+
     public void registerIcons(IIconRegister ir) {
-        if (iconResPath == null) {
-            iconResPath = "thaumicboots:VoidwalkerBootsComet_-_Purple.png";
-        }
         this.icon = ir.registerIcon(iconResPath);
     }
 
-    @SideOnly(Side.CLIENT)
-    public IIcon func_77617_a(int par1) {
-        return this.icon;
+    @Override
+    public void addInformation(ItemStack stack, EntityPlayer par2EntityPlayer, List list, boolean par4) {
+        if (visDiscount > 0) {
+            list.add(EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("tc.visdiscount") + ": " + visDiscount + "%");
+        }
     }
 
     @Override
@@ -102,6 +106,10 @@ public class ItemBoots extends ItemArmor implements ITBootJumpable, IVisDiscount
         return runicCharge;
     }
 
+    public int getVisDiscount(ItemStack stack, EntityPlayer player, Aspect aspect) {
+        return visDiscount;
+    }
+
     public double getDamageAbsorptionRatio() {
         return damageAbsorptionRatio;
     }
@@ -110,24 +118,8 @@ public class ItemBoots extends ItemArmor implements ITBootJumpable, IVisDiscount
         return baseAbsorptionRatio;
     }
 
-    public int getEnergyPerDamage() {
-        return energyPerDamage;
-    }
-
-    public boolean canProvideEnergy(ItemStack itemStack) {
-        return provideEnergy;
-    }
-
-    public double getMaxCharge(ItemStack itemStack) {
-        return maxCharge;
-    }
-
     public int getTier(ItemStack itemStack) {
         return tier;
-    }
-
-    public double getTransferLimit(ItemStack itemStack) {
-        return transferLimit;
     }
 
     public Item getChargedItem(ItemStack itemStack) {
@@ -138,7 +130,10 @@ public class ItemBoots extends ItemArmor implements ITBootJumpable, IVisDiscount
         return this;
     }
 
-    public int getVisDiscount(ItemStack stack, EntityPlayer player, Aspect aspect) {
-        return visDiscount;
+    public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack) {
+        return par2ItemStack.isItemEqual(new ItemStack(Items.leather))
+                || super.getIsRepairable(par1ItemStack, par2ItemStack);
     }
+
+
 }
