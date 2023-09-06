@@ -13,6 +13,7 @@ public class ItemCometVoidwalkerBoots extends ItemVoidBoots {
         damageAbsorptionRatio = 1.5D;
         jumpBonus = 0.450D;
         tier = 3;
+        baseBonus = 0.215F * 3;
         iconResPath = "thaumicboots:voidComet_16x";
         armorResPath = "thaumicboots:model/VoidwalkerBootsComet_-_Purple.png";
         unlocalisedName = "ItemVoidComet";

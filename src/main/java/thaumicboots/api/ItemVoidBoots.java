@@ -123,14 +123,8 @@ public class ItemVoidBoots extends ItemBoots implements IWarpingGear, ISpecialAr
         }
 
         // speed boost
-        if (player.onGround || player.capabilities.isFlying || player.isOnLadder()) {
-            float bonus = 0.215F * 3;
-            player.moveFlying(0.0F, 1.0F, player.capabilities.isFlying ? bonus * 0.75F : bonus);
-        } else if (Hover.getHover(player.getEntityId())) {
-            player.jumpMovementFactor = 0.03F;
-        } else {
-            player.jumpMovementFactor = player.isSprinting() ? 0.045F : 0.04F;
-        }
+        float bonus = baseBonus * sashEquiped(player);
+        applyBonus(player, bonus);
 
         // negate fall damage
         if (player.fallDistance > 3.0F) {

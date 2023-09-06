@@ -22,8 +22,6 @@ import thaumicboots.main.utils.TabThaumicBoots;
 
 public class ItemElectricVoidwalkerBoots extends ItemElectricBoots implements IWarpingGear, ISpecialArmor {
 
-    float bonus;
-
     public ItemElectricVoidwalkerBoots(final ArmorMaterial material, final int j, final int k) {
         super(material, j, k);
         setCreativeTab(TabThaumicBoots.tabThaumicBoots);
@@ -41,7 +39,8 @@ public class ItemElectricVoidwalkerBoots extends ItemElectricBoots implements IW
         damageAbsorptionRatio = 2.25D;
         transferLimit = 400;
         jumpBonus = 0.275D * 1.7;
-        bonus = 0.200F;
+        baseBonus = 0.200F;
+
         tier = 3;
         iconResPath = "thaumicboots:electricVoid_16x";
         armorResPath = "thaumicboots:model/electricbootsVoidwalker.png";

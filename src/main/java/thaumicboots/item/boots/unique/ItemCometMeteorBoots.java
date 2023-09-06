@@ -30,50 +30,12 @@ public class ItemCometMeteorBoots extends ItemBoots implements IRepairable, IRun
         jumpBonus = 0.35D;
         tier = 2;
         baseBonus = 0.165F;
+        runningbonus = 0.003F;
+        steadyBonus = true;
+        negateFall = true;
+        waterEffects = true;
         iconResPath = "thaumicboots:bootsCometMeteor";
         armorResPath = "thaumicboots:model/VoidwalkerBootsComet.png";
         unlocalisedName = "ItemCometMeteor";
     }
-
-    @Override
-    public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
-        if (player.fallDistance > 0.0F) {
-            player.fallDistance = 0.0F;
-        }
-        if ((!player.capabilities.isFlying) && (player.moveForward > 0.0F)) {
-            int haste = EnchantmentHelper
-                    .getEnchantmentLevel(Config.enchHaste.effectId, player.inventory.armorItemInSlot(0));
-            if (player.worldObj.isRemote) {
-                if (!Thaumcraft.instance.entityEventHandler.prevStep
-                        .containsKey(Integer.valueOf(player.getEntityId()))) {
-                    Thaumcraft.instance.entityEventHandler.prevStep
-                            .put(Integer.valueOf(player.getEntityId()), Float.valueOf(player.stepHeight));
-                }
-                player.stepHeight = 1.0F;
-            }
-
-            float bonus = 0.165F;
-            if (player.isInWater()) {
-                bonus /= 4.0F;
-            }
-            if (player.onGround) {
-                player.moveFlying(0.0F, 1.0F, bonus);
-            } else if (Hover.getHover(player.getEntityId())) {
-                player.jumpMovementFactor = 0.03F;
-            } else {
-                player.jumpMovementFactor = 0.05F;
-            }
-            if (player.fallDistance > 0.0F) {
-                player.fallDistance = 0.0F;
-            }
-            if (!player.inventory.armorItemInSlot(0).hasTagCompound()) {
-                NBTTagCompound par1NBTTagCompound = new NBTTagCompound();
-                player.inventory.armorItemInSlot(0).setTagCompound(par1NBTTagCompound);
-                player.inventory.armorItemInSlot(0).stackTagCompound.setInteger("runTicks", 0);
-            }
-            int ticks = player.inventory.armorItemInSlot(0).stackTagCompound.getInteger("runTicks");
-
-        }
-    }
-
 }
