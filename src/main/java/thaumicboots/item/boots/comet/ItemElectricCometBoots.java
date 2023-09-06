@@ -1,6 +1,5 @@
 package thaumicboots.item.boots.comet;
 
-import net.minecraft.item.EnumRarity;
 import net.minecraftforge.common.ISpecialArmor;
 
 import ic2.api.item.IElectricItem;
@@ -21,10 +20,7 @@ public class ItemElectricCometBoots extends ItemElectricBoots implements IElectr
     protected void setBootsData() {
         maxCharge = 100_000;
         energyPerDamage = 1_000;
-        runicCharge = 0;
         visDiscount = 2;
-        provideEnergy = false;
-        damageAbsorptionRatio = 1.5D;
         transferLimit = 100;
         jumpBonus = 0.275D;
         runningbonus = 0.003F;
@@ -34,7 +30,6 @@ public class ItemElectricCometBoots extends ItemElectricBoots implements IElectr
         iconResPath = "thaumicboots:electricComet_16x";
         armorResPath = "thaumicboots:model/electricbootsComet.png";
         unlocalisedName = "ItemElectricComet";
-        rarity = EnumRarity.rare;
     }
 
     public float getPowerConsumptionMultiplier(float distance) {

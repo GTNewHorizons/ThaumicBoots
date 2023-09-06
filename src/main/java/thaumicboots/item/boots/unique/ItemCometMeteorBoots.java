@@ -1,17 +1,9 @@
 package thaumicboots.item.boots.unique;
 
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
-import net.minecraft.world.World;
 
 import thaumcraft.api.IRepairable;
 import thaumcraft.api.IRunicArmor;
-import thaumcraft.common.Thaumcraft;
-import thaumcraft.common.config.Config;
-import thaumcraft.common.items.armor.Hover;
 import thaumicboots.api.ItemBoots;
 import thaumicboots.main.utils.TabThaumicBoots;
 
