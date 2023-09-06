@@ -20,7 +20,6 @@ import taintedmagic.common.registry.ItemRegistry;
 import thaumcraft.api.IWarpingGear;
 import thaumcraft.client.fx.ParticleEngine;
 import thaumcraft.client.fx.particles.FXWispEG;
-import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.items.armor.Hover;
 import thaumicboots.main.utils.TabThaumicBoots;
 
@@ -55,7 +54,7 @@ public class ItemVoidBoots extends ItemBoots implements IWarpingGear, ISpecialAr
 
     @Override
     public ArmorProperties getProperties(final EntityLivingBase entity, final ItemStack stack,
-                                         final DamageSource source, final double dmg, final int slot) {
+            final DamageSource source, final double dmg, final int slot) {
         int priority = 0;
         double ratio = damageReduceAmount / 90.0D;
 
@@ -76,7 +75,7 @@ public class ItemVoidBoots extends ItemBoots implements IWarpingGear, ISpecialAr
 
     @Override
     public void damageArmor(final EntityLivingBase entity, final ItemStack stack, final DamageSource source,
-                            final int dmg, final int slot) {
+            final int dmg, final int slot) {
         if (source != DamageSource.fall) {
             stack.damageItem(dmg, entity);
         }
@@ -119,20 +118,19 @@ public class ItemVoidBoots extends ItemBoots implements IWarpingGear, ISpecialAr
             return;
         }
 
+        if (!player.isSneaking()) {
+            stepHeight(player);
+        }
 
-            if (!player.isSneaking()){
-                stepHeight(player);
-            }
-
-            // speed boost
-            if (player.onGround || player.capabilities.isFlying || player.isOnLadder()) {
-                float bonus = 0.215F * 3;
-                player.moveFlying(0.0F, 1.0F, player.capabilities.isFlying ? bonus * 0.75F : bonus);
-            } else if (Hover.getHover(player.getEntityId())) {
-                player.jumpMovementFactor = 0.03F;
-            } else {
-                player.jumpMovementFactor = player.isSprinting() ? 0.045F : 0.04F;
-            }
+        // speed boost
+        if (player.onGround || player.capabilities.isFlying || player.isOnLadder()) {
+            float bonus = 0.215F * 3;
+            player.moveFlying(0.0F, 1.0F, player.capabilities.isFlying ? bonus * 0.75F : bonus);
+        } else if (Hover.getHover(player.getEntityId())) {
+            player.jumpMovementFactor = 0.03F;
+        } else {
+            player.jumpMovementFactor = player.isSprinting() ? 0.045F : 0.04F;
+        }
 
         // negate fall damage
         if (player.fallDistance > 3.0F) {
@@ -143,7 +141,7 @@ public class ItemVoidBoots extends ItemBoots implements IWarpingGear, ISpecialAr
     // TODO: Extract this into it's own method
     public float sashEquiped(final EntityPlayer player) {
         final ItemStack sash = PlayerHandler.getPlayerBaubles(player).getStackInSlot(3);
-        if(sash !=null&&sash.getItem()==ItemRegistry.ItemVoidwalkerSash) {
+        if (sash != null && sash.getItem() == ItemRegistry.ItemVoidwalkerSash) {
             return 3.0F;
         }
         return 1.0F;

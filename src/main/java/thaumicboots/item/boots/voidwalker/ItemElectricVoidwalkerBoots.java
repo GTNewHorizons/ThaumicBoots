@@ -1,16 +1,8 @@
 package thaumicboots.item.boots.voidwalker;
 
-import java.util.List;
-
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.MinecraftForge;
@@ -19,7 +11,6 @@ import baubles.common.lib.PlayerHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import ic2.api.item.ElectricItem;
-import ic2.api.item.IElectricItem;
 import taintedmagic.common.registry.ItemRegistry;
 import thaumcraft.api.IWarpingGear;
 import thaumcraft.client.fx.ParticleEngine;
@@ -29,8 +20,7 @@ import thaumcraft.common.items.armor.Hover;
 import thaumicboots.api.ItemElectricBoots;
 import thaumicboots.main.utils.TabThaumicBoots;
 
-public class ItemElectricVoidwalkerBoots extends ItemElectricBoots
-        implements IWarpingGear, ISpecialArmor {
+public class ItemElectricVoidwalkerBoots extends ItemElectricBoots implements IWarpingGear, ISpecialArmor {
 
     float bonus;
 

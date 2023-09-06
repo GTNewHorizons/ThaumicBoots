@@ -1,21 +1,21 @@
 package thaumicboots.api;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import ic2.api.item.ElectricItem;
-import ic2.api.item.IElectricItem;
+import java.util.List;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
-import thaumicboots.main.utils.TabThaumicBoots;
 
-import java.util.List;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import ic2.api.item.ElectricItem;
+import ic2.api.item.IElectricItem;
+import thaumicboots.main.utils.TabThaumicBoots;
 
 public class ItemElectricBoots extends ItemBoots implements IElectricItem {
 
@@ -82,9 +82,8 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem {
         }
     }
 
-
     public ISpecialArmor.ArmorProperties getProperties(EntityLivingBase player, ItemStack armor, DamageSource source,
-                                                       double damage, int slot) {
+            double damage, int slot) {
         if (source.isUnblockable()) {
             return new net.minecraftforge.common.ISpecialArmor.ArmorProperties(0, 0.0D, 0);
         } else {
@@ -117,7 +116,7 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem {
     }
 
     @Override
-    public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack){
+    public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
         if (player.moveForward <= 0F) {
             return;
         }
@@ -130,10 +129,10 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem {
         }
         if (ElectricItem.manager.getCharge(itemStack) == 0) {
             bonus *= 0;
-        } 
+        }
         applyBonus(player, bonus);
 
-        if (negateFall){
+        if (negateFall) {
             if (player.fallDistance > 0.0F) {
                 player.fallDistance = 0.0F;
             }

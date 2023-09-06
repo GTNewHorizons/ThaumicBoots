@@ -1,26 +1,9 @@
 package thaumicboots.item.boots.comet;
 
-import java.util.List;
-
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.DamageSource;
-import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import emt.util.EMTTextHelper;
-import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
-import thaumcraft.common.Thaumcraft;
-import thaumcraft.common.items.armor.Hover;
 import thaumicboots.api.ItemElectricBoots;
 import thaumicboots.main.utils.TabThaumicBoots;
 
@@ -53,7 +36,6 @@ public class ItemElectricCometBoots extends ItemElectricBoots implements IElectr
         unlocalisedName = "ItemElectricComet";
         rarity = EnumRarity.rare;
     }
-
 
     public float getPowerConsumptionMultiplier(float distance) {
         return (distance > minimumDistance) ? distance * 3 : distance;

@@ -10,7 +10,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
-import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
@@ -23,13 +22,10 @@ import flaxbeard.thaumicexploration.ThaumicExploration;
 import flaxbeard.thaumicexploration.common.ConfigTX;
 import flaxbeard.thaumicexploration.integration.TTIntegration;
 import ic2.api.item.ElectricItem;
-import thaumcraft.common.Thaumcraft;
 import thaumicboots.api.ITBootJumpable;
 import thaumicboots.api.ItemBoots;
 import thaumicboots.item.boots.comet.ItemElectricCometBoots;
 import thaumicboots.item.boots.meteor.ItemElectricMeteorBoots;
-import thaumicboots.item.boots.meteor.ItemNanoMeteorBoots;
-import thaumicboots.item.boots.meteor.ItemQuantumMeteorBoots;
 import thaumicboots.item.boots.unique.ItemCometMeteorBoots;
 import thaumicboots.item.boots.unique.ItemMeteoricCometBoots;
 import thaumicboots.item.boots.voidwalker.*;
@@ -89,23 +85,22 @@ public class BootsEventHandler {
 
         if (((item instanceof ItemElectricMeteorBoots) || (item instanceof ItemCometMeteorBoots)
                 || (item instanceof ItemMeteorVoidwalkerBoots)) && (player.isSneaking())) {
-                Vec3 vector = event.entityLiving.getLook(0.5F);
-                double total = Math.abs(vector.zCoord + vector.xCoord);
-                double jump = 0;
-                if (Loader.isModLoaded("ThaumicTinkerer")) {
-                    jump = TTIntegration.getAscentLevel((EntityPlayer) event.entity);
-                }
-                if (jump >= 1) {
-                    jump = (jump + 2D) / 4D;
-                }
+            Vec3 vector = event.entityLiving.getLook(0.5F);
+            double total = Math.abs(vector.zCoord + vector.xCoord);
+            double jump = 0;
+            if (Loader.isModLoaded("ThaumicTinkerer")) {
+                jump = TTIntegration.getAscentLevel((EntityPlayer) event.entity);
+            }
+            if (jump >= 1) {
+                jump = (jump + 2D) / 4D;
+            }
 
-                if (vector.yCoord < total) vector.yCoord = total;
+            if (vector.yCoord < total) vector.yCoord = total;
 
-                event.entityLiving.motionY += ((jump + 1) * vector.yCoord) / 1.5F;
-                event.entityLiving.motionZ += (jump + 1) * vector.zCoord * 4;
-                event.entityLiving.motionX += (jump + 1) * vector.xCoord * 4;
-        }
-        else if (item instanceof ItemBoots) {
+            event.entityLiving.motionY += ((jump + 1) * vector.yCoord) / 1.5F;
+            event.entityLiving.motionZ += (jump + 1) * vector.zCoord * 4;
+            event.entityLiving.motionX += (jump + 1) * vector.xCoord * 4;
+        } else if (item instanceof ItemBoots) {
             event.entityLiving.motionY += ((ITBootJumpable) item).getJumpModifier();
         }
         // 0.275D is approx 3 blocks, 0.265D will get you to just 3 blocks,
