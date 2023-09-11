@@ -20,7 +20,7 @@ public class ItemMeteorVoidwalkerBoots extends ItemVoidBoots
         damageAbsorptionRatio = 1.5D;
         jumpBonus = 0.275D * 3.2;
         tier = 3;
-        baseBonus = 0.300F;
+        runBonus = 0.300F;
         iconResPath = "thaumicboots:purpleHaze_16x";
         armorResPath = "thaumicboots:model/VoidwalkerBootsMeteor_-_Purple.png";
         unlocalisedName = "ItemVoidMeteor";

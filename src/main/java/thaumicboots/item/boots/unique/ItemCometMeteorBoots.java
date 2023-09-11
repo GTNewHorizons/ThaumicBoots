@@ -21,8 +21,8 @@ public class ItemCometMeteorBoots extends ItemBoots implements IRepairable, IRun
         damageAbsorptionRatio = 1.5D;
         jumpBonus = 0.35D;
         tier = 2;
-        baseBonus = 0.165F;
-        runningbonus = 0.003F;
+        runBonus = 0.165F;
+        longrunningbonus = 0.003F;
         steadyBonus = true;
         negateFall = true;
         waterEffects = true;

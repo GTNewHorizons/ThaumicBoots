@@ -122,7 +122,7 @@ public class ItemVoidBoots extends ItemBoots implements IWarpingGear, ISpecialAr
         }
 
         // speed boost
-        float bonus = baseBonus * sashEquiped(player);
+        float bonus = runBonus * sashEquiped(player);
         applyBonus(player, bonus);
 
         // negate fall damage

@@ -77,7 +77,7 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem {
     protected float computeBonus(ItemStack itemStack, EntityPlayer player) {
         int ticks = player.inventory.armorItemInSlot(0).stackTagCompound.getInteger("runTicks");
 
-        float bonus = baseBonus + ((ticks / 5) * 0.003F);
+        float bonus = runBonus + ((ticks / 5) * 0.003F);
         if (ElectricItem.manager.getCharge(itemStack) == 0) {
             bonus = 0;
         } else if (player.isInWater()) {
@@ -102,15 +102,11 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem {
 
     public ISpecialArmor.ArmorProperties getProperties(EntityLivingBase player, ItemStack armor, DamageSource source,
             double damage, int slot) {
-        if (source.isUnblockable()) {
-            return new net.minecraftforge.common.ISpecialArmor.ArmorProperties(0, 0.0D, 0);
-        } else {
-            double absorptionRatio = getBaseAbsorptionRatio() * getDamageAbsorptionRatio();
-            int energyPerDamage = getEnergyPerDamage();
-            double damageLimit = energyPerDamage <= 0 ? 0
-                    : (25 * ElectricItem.manager.getCharge(armor)) / energyPerDamage;
-            return new net.minecraftforge.common.ISpecialArmor.ArmorProperties(0, absorptionRatio, (int) damageLimit);
-        }
+        double absorptionRatio = getBaseAbsorptionRatio() * getDamageAbsorptionRatio();
+        int energyPerDamage = getEnergyPerDamage();
+        double damageLimit = energyPerDamage <= 0 ? 0 : (25 * ElectricItem.manager.getCharge(armor)) / energyPerDamage;
+        return new net.minecraftforge.common.ISpecialArmor.ArmorProperties(0, absorptionRatio, (int) damageLimit);
+
     }
 
     public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot) {
@@ -139,7 +135,7 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem {
             return;
         }
 
-        float bonus = baseBonus;
+        float bonus = runBonus;
         stepHeight(player);
         if (steadyBonus) {
             runningTicks(player);

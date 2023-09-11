@@ -17,7 +17,7 @@ public class ItemNanoCometBoots extends ItemElectricCometBoots {
         iconResPath = "thaumicboots:nanoComet_16x";
         armorResPath = "thaumicboots:model/nanobootsComet.png";
         unlocalisedName = "ItemNanoComet";
-        baseBonus = getEMTNanoSpeed() + 0.110F;
+        runBonus = getEMTNanoSpeed() + 0.110F;
         jumpBonus = 0.275D * 2.3;
         minimumHeight = 6F;
         minimumDistance = EMTConfigHandler.nanoBootsMaxDrop;

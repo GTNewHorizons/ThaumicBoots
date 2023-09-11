@@ -24,6 +24,7 @@ import flaxbeard.thaumicexploration.integration.TTIntegration;
 import ic2.api.item.ElectricItem;
 import thaumicboots.api.ITBootJumpable;
 import thaumicboots.api.ItemBoots;
+import thaumicboots.api.ItemElectricBoots;
 import thaumicboots.item.boots.comet.ItemElectricCometBoots;
 import thaumicboots.item.boots.meteor.ItemElectricMeteorBoots;
 import thaumicboots.item.boots.unique.ItemCometMeteorBoots;
@@ -82,6 +83,13 @@ public class BootsEventHandler {
         }
 
         Item item = player.inventory.armorItemInSlot(0).getItem();
+
+        // Is there some way I could make this better?
+        if (item instanceof ItemElectricBoots) {
+            if (ElectricItem.manager.getCharge(player.inventory.armorItemInSlot(0)) == 0) {
+                return;
+            }
+        }
 
         if (((item instanceof ItemElectricMeteorBoots) || (item instanceof ItemCometMeteorBoots)
                 || (item instanceof ItemMeteorVoidwalkerBoots)) && (player.isSneaking())) {

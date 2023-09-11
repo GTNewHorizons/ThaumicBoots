@@ -29,8 +29,8 @@ public class ItemBoots extends ItemArmor
 
     public IIcon icon;
 
-    public float baseBonus;
-    public float runningbonus;
+    public float runBonus;
+    public float longrunningbonus;
     public int visDiscount;
     public int runicCharge;
     public int tier;
@@ -56,17 +56,17 @@ public class ItemBoots extends ItemArmor
         visDiscount = 0;
         baseAbsorptionRatio = 0.15D;
         damageAbsorptionRatio = 0.0D;
-        baseBonus = 0.165F;
+        runBonus = 0.165F;
+        jumpBonus = 0.0D;
         tier = 0;
         steadyBonus = false;
         negateFall = false;
         waterEffects = false;
-        runningbonus = 0.0F;
+        longrunningbonus = 0.0F;
         iconResPath = "thaumicboots:electricVoid_16x";
         armorResPath = "thaumicboots:model/electricbootsVoidwalker.png";
         unlocalisedName = "ItemElectricVoid";
         rarity = EnumRarity.rare;
-        jumpBonus = 0.0D;
     }
 
     public double getJumpModifier() {
@@ -80,7 +80,7 @@ public class ItemBoots extends ItemArmor
     }
 
     public float getSpeedModifier() {
-        return 0F;
+        return runBonus;
     }
 
     public void toggleSpeed() {}
@@ -150,7 +150,7 @@ public class ItemBoots extends ItemArmor
 
     protected float computeBonus(ItemStack itemStack, EntityPlayer player) {
         int ticks = player.inventory.armorItemInSlot(0).stackTagCompound.getInteger("runTicks");
-        float bonus = baseBonus + ((ticks / 5) * runningbonus);
+        float bonus = runBonus + ((ticks / 5) * longrunningbonus);
         return bonus;
     }
 
@@ -160,7 +160,7 @@ public class ItemBoots extends ItemArmor
             return;
         }
 
-        float bonus = baseBonus;
+        float bonus = runBonus;
         stepHeight(player);
         if (steadyBonus) {
             runningTicks(player);
@@ -207,10 +207,6 @@ public class ItemBoots extends ItemArmor
         } else {
             player.jumpMovementFactor = 0.05F;
         }
-    }
-
-    public void enviromentalEffects() {
-
     }
 
 }

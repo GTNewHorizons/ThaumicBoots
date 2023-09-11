@@ -39,7 +39,7 @@ public class ItemElectricVoidwalkerBoots extends ItemElectricBoots implements IW
         damageAbsorptionRatio = 2.25D;
         transferLimit = 400;
         jumpBonus = 0.275D * 1.7;
-        baseBonus = 0.200F;
+        runBonus = 0.200F;
 
         tier = 3;
         iconResPath = "thaumicboots:electricVoid_16x";

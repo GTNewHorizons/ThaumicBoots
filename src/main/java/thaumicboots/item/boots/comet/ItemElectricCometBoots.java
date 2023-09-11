@@ -22,9 +22,9 @@ public class ItemElectricCometBoots extends ItemElectricBoots implements IElectr
         energyPerDamage = 1_000;
         visDiscount = 2;
         transferLimit = 100;
-        baseBonus = 0.165F;
+        runBonus = 0.165F;
         jumpBonus = 0.275D;
-        runningbonus = 0.003F;
+        longrunningbonus = 0.003F;
         minimumHeight = 4F;
         minimumDistance = 20d;
         tier = 2;
