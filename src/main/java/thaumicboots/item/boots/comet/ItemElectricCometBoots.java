@@ -1,12 +1,9 @@
 package thaumicboots.item.boots.comet;
 
-import net.minecraftforge.common.ISpecialArmor;
-
-import ic2.api.item.IElectricItem;
 import thaumicboots.api.ItemElectricBoots;
 import thaumicboots.main.utils.TabThaumicBoots;
 
-public class ItemElectricCometBoots extends ItemElectricBoots implements IElectricItem, ISpecialArmor {
+public class ItemElectricCometBoots extends ItemElectricBoots {
 
     public float minimumHeight;
     public double minimumDistance;

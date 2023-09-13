@@ -11,6 +11,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import emt.util.EMTConfigHandler;
@@ -57,6 +58,7 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem {
     // For some reason, sometimes the EMTConfigHandler returns this as 0,
     // but only when it's called outside of EMT,
     // this ensures this never happens internally.
+    @Optional.Method(modid = "EMT")
     public float getEMTNanoSpeed() {
         if ((float) EMTConfigHandler.nanoBootsSpeed == 0.0F) {
             return 0.275F;
@@ -64,6 +66,7 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem {
         return (float) EMTConfigHandler.nanoBootsSpeed;
     }
 
+    @Optional.Method(modid = "EMT")
     public float getEMTQuantumSpeed() {
         if ((float) EMTConfigHandler.quantumBootsSpeed == 0.0F) {
             return 0.51F;
@@ -74,6 +77,7 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem {
     // TODO: non-variable related methods
 
     @Override
+    @Optional.Method(modid = "EMT")
     protected float computeBonus(ItemStack itemStack, EntityPlayer player) {
         int ticks = player.inventory.armorItemInSlot(0).stackTagCompound.getInteger("runTicks");
 
@@ -87,6 +91,7 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem {
         return bonus;
     }
 
+    @Optional.Method(modid = "EMT")
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs par2CreativeTabs, List itemList) {
         ItemStack itemStack = new ItemStack(this, 1);
@@ -100,6 +105,7 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem {
         }
     }
 
+    @Optional.Method(modid = "EMT")
     public ISpecialArmor.ArmorProperties getProperties(EntityLivingBase player, ItemStack armor, DamageSource source,
             double damage, int slot) {
         double absorptionRatio = getBaseAbsorptionRatio() * getDamageAbsorptionRatio();
@@ -109,6 +115,7 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem {
 
     }
 
+    @Optional.Method(modid = "EMT")
     public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot) {
         if (ElectricItem.manager.getCharge(armor) >= getEnergyPerDamage()) {
             return (int) Math.round(20D * getBaseAbsorptionRatio() * getDamageAbsorptionRatio());
@@ -117,25 +124,29 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem {
         }
     }
 
+    @Optional.Method(modid = "EMT")
     public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot) {
         ElectricItem.manager.discharge(stack, damage * getEnergyPerDamage(), 0x7fffffff, true, false, false);
     }
 
+    @Optional.Method(modid = "EMT")
     public Item getChargedItem(ItemStack itemStack) {
         return this;
     }
 
+    @Optional.Method(modid = "EMT")
     public Item getEmptyItem(ItemStack itemStack) {
         return this;
     }
 
     @Override
+    @Optional.Method(modid = "EMT")
     public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
         if (player.moveForward <= 0F) {
             return;
         }
 
-        float bonus = runBonus;
+        float bonus = getSpeedModifier();
         stepHeight(player);
         if (steadyBonus) {
             runningTicks(player);
@@ -144,6 +155,7 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem {
         if (ElectricItem.manager.getCharge(itemStack) == 0) {
             bonus *= 0;
         }
+        bonus *= itemStack.stackTagCompound.getDouble(TAG_MODE_SPEED);
         applyBonus(player, bonus);
 
         if (negateFall) {

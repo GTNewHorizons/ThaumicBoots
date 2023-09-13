@@ -122,7 +122,8 @@ public class ItemVoidBoots extends ItemBoots implements IWarpingGear, ISpecialAr
         }
 
         // speed boost
-        float bonus = runBonus * sashEquiped(player);
+        float bonus = getSpeedModifier() * sashEquiped(player);
+        bonus *= stack.stackTagCompound.getDouble(TAG_MODE_SPEED);
         applyBonus(player, bonus);
 
         // negate fall damage

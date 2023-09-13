@@ -1,7 +1,5 @@
 package thaumicboots.item.boots.comet;
 
-import emt.util.EMTConfigHandler;
-
 public class ItemNanoCometBoots extends ItemElectricCometBoots {
 
     public ItemNanoCometBoots(ArmorMaterial par2EnumArmorMaterial, int par3, int par4) {
@@ -14,14 +12,14 @@ public class ItemNanoCometBoots extends ItemElectricCometBoots {
         energyPerDamage = 5_000;
         visDiscount = 4;
         transferLimit = 1_600;
-        iconResPath = "thaumicboots:nanoComet_16x";
-        armorResPath = "thaumicboots:model/nanobootsComet.png";
-        unlocalisedName = "ItemNanoComet";
         runBonus = getEMTNanoSpeed() + 0.110F;
         jumpBonus = 0.275D * 2.3;
         minimumHeight = 6F;
-        minimumDistance = EMTConfigHandler.nanoBootsMaxDrop;
+        minimumDistance = 35.0F;
         damageAbsorptionRatio = 1.5D;
         tier = 3;
+        iconResPath = "thaumicboots:nanoComet_16x";
+        armorResPath = "thaumicboots:model/nanobootsComet.png";
+        unlocalisedName = "ItemNanoComet";
     }
 }

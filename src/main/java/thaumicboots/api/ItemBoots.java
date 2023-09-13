@@ -2,6 +2,7 @@ package thaumicboots.api;
 
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,6 +16,9 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
+import com.gtnewhorizon.gtnhlib.GTNHLib;
+
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import thaumcraft.api.IRepairable;
@@ -45,6 +49,12 @@ public class ItemBoots extends ItemArmor
     public EnumRarity rarity;
 
     public double jumpBonus;
+    public double jumpToggle = 0.0;
+
+    public double speedToggle;
+
+    public static final String TAG_MODE_JUMP = "jump";
+    public static final String TAG_MODE_SPEED = "speed";
 
     public ItemBoots(ArmorMaterial par2EnumArmorMaterial, int par3, int par4) {
         super(par2EnumArmorMaterial, par3, par4);
@@ -67,26 +77,50 @@ public class ItemBoots extends ItemArmor
         armorResPath = "thaumicboots:model/electricbootsVoidwalker.png";
         unlocalisedName = "ItemElectricVoid";
         rarity = EnumRarity.rare;
+        jumpToggle = 0;
+        speedToggle = 0;
     }
 
     public double getJumpModifier() {
         return jumpBonus;
     }
 
-    public void toggleJump() {}
+    @SideOnly(Side.CLIENT)
+    public static double changeJump(double prevJump) {
+        double newJump = prevJump + 0.25;
+        if (newJump > 1.1) {
+            newJump = 0;
+        }
+        return newJump;
+    }
 
-    public boolean getJumpToggle() {
-        return false;
+    public static double isJumpEnabled(final ItemStack stack) {
+        return stack.stackTagCompound.getDouble(TAG_MODE_JUMP);
+    }
+
+    public static void setModeJump(ItemStack stack, double state) {
+        stack.stackTagCompound.setDouble(TAG_MODE_JUMP, state);
     }
 
     public float getSpeedModifier() {
         return runBonus;
     }
 
-    public void toggleSpeed() {}
+    @SideOnly(Side.CLIENT)
+    public static double changeSpeed(double prevSpeed) {
+        double newSpeed = prevSpeed + 0.25;
+        if (newSpeed > 1.1) {
+            newSpeed = 0;
+        }
+        return newSpeed;
+    }
 
-    public boolean getSpeedToggle() {
-        return false;
+    public static double isSpeedEnabled(final ItemStack stack) {
+        return stack.stackTagCompound.getDouble(TAG_MODE_SPEED);
+    }
+
+    public static void setModeSpeed(ItemStack stack, double state) {
+        stack.stackTagCompound.setDouble(TAG_MODE_SPEED, state);
     }
 
     // TODO: the part not from interfaces
@@ -160,13 +194,14 @@ public class ItemBoots extends ItemArmor
             return;
         }
 
-        float bonus = runBonus;
+        float bonus = getSpeedModifier();
         stepHeight(player);
         if (steadyBonus) {
             runningTicks(player);
             bonus = computeBonus(itemStack, player);
         }
 
+        bonus *= itemStack.stackTagCompound.getDouble(TAG_MODE_SPEED);
         applyBonus(player, bonus);
 
         if (negateFall) {
@@ -207,6 +242,52 @@ public class ItemBoots extends ItemArmor
         } else {
             player.jumpMovementFactor = 0.05F;
         }
+    }
+
+    // taken from Vazkii
+    public static ItemStack getBoots(EntityPlayer player) {
+        ItemStack stack1 = player.getCurrentArmor(0);
+        return isBoot(stack1) ? stack1 : null;
+    }
+
+    private static boolean isBoot(ItemStack stack) {
+        return stack != null && (stack.getItem() instanceof ItemBoots);
+    }
+
+    @Optional.Method(modid = "gtnhlib")
+    public static String getJumpModeText(ItemStack stack) {
+        double val = stack.stackTagCompound.getDouble(TAG_MODE_JUMP) * 100;
+        String endResult = String.valueOf((int) val) + "%";
+        return EnumChatFormatting.GOLD + StatCollector.translateToLocal("thaumicboots.jumpEffect")
+                + " "
+                + (isJumpEnabled(stack) > 0 ? EnumChatFormatting.GREEN + StatCollector.translateToLocal(endResult)
+                        : EnumChatFormatting.RED + StatCollector.translateToLocal(endResult));
+    }
+
+    @Optional.Method(modid = "gtnhlib")
+    @SideOnly(Side.CLIENT)
+    public static void renderHUDJumpNotification() {
+        Minecraft mc = Minecraft.getMinecraft();
+        String text = getJumpModeText(getBoots(mc.thePlayer));
+        GTNHLib.proxy.printMessageAboveHotbar(text, 60, true, true);
+    }
+
+    @Optional.Method(modid = "gtnhlib")
+    public static String getSpeedModeText(ItemStack stack) {
+        double val = stack.stackTagCompound.getDouble(TAG_MODE_SPEED) * 100;
+        String endResult = String.valueOf((int) val) + "%";
+        return EnumChatFormatting.GOLD + StatCollector.translateToLocal("thaumicboots.speedEffect")
+                + " "
+                + (isJumpEnabled(stack) > 0 ? EnumChatFormatting.GREEN + StatCollector.translateToLocal(endResult)
+                        : EnumChatFormatting.RED + StatCollector.translateToLocal(endResult));
+    }
+
+    @Optional.Method(modid = "gtnhlib")
+    @SideOnly(Side.CLIENT)
+    public static void renderHUDSpeedNotification() {
+        Minecraft mc = Minecraft.getMinecraft();
+        String text = getSpeedModeText(getBoots(mc.thePlayer));
+        GTNHLib.proxy.printMessageAboveHotbar(text, 60, true, true);
     }
 
 }
