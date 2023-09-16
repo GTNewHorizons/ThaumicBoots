@@ -214,6 +214,11 @@ public class ThaumcraftHelper implements IModHelper {
         setupItemAspects();
         setupCrafting();
         setupResearch();
+        if (EMTHelper.isActive()) {
+            EMTHelper.setupItemAspects();
+            EMTHelper.setupCrafting();
+            EMTHelper.setupResearch();
+        }
     }
 
     public static void getBlocks() {

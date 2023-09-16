@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
 import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.registry.GameRegistry;
 import emt.init.EMTItems;
 import flaxbeard.thaumicexploration.ThaumicExploration;
@@ -18,6 +19,12 @@ import thaumcraft.api.research.ResearchItem;
 import thaumcraft.api.research.ResearchPage;
 import thaumcraft.common.config.ConfigItems;
 import thaumicboots.api.TB_Aspect;
+import thaumicboots.item.boots.comet.ItemElectricCometBoots;
+import thaumicboots.item.boots.comet.ItemNanoCometBoots;
+import thaumicboots.item.boots.comet.ItemQuantumCometBoots;
+import thaumicboots.item.boots.meteor.ItemElectricMeteorBoots;
+import thaumicboots.item.boots.meteor.ItemNanoMeteorBoots;
+import thaumicboots.item.boots.meteor.ItemQuantumMeteorBoots;
 import thaumicboots.item.boots.voidwalker.ItemElectricVoidwalkerBoots;
 import thaumicboots.item.boots.voidwalker.ItemNanoVoidwalkerBoots;
 import thaumicboots.item.boots.voidwalker.ItemQuantumVoidwalkerBoots;
@@ -33,6 +40,15 @@ public class EMTHelper implements IModHelper {
     public static Item bootsNanoVoid;
     public static Item bootsQuantumVoid;
 
+    // Thaumic Explorations + EMT Compat
+    public static Item bootsElectricMeteor;
+    public static Item bootsNanoMeteor;
+    public static Item bootsQuantumMeteor;
+    public static Item bootsElectricComet;
+
+    public static Item bootsNanoComet;
+    public static Item bootsQuantumComet;
+
     public static boolean isActive() {
         return isEMTActive;
     }
@@ -47,19 +63,14 @@ public class EMTHelper implements IModHelper {
     @Override
     public void init() {
         if (isActive()) {
-            // getItems();
+            getItems();
         }
     }
 
     @Override
-    public void postInit() {
-        if (isActive()) {
-            setupItemAspects();
-            // setupCrafting();
-            // setupResearch();
-        }
-    }
+    public void postInit() {}
 
+    @Optional.Method(modid = "EMT")
     public void getItems() {
         if (TaintedHelper.isActive()) {
             bootsElectricVoid = new ItemElectricVoidwalkerBoots(ThaumcraftApi.armorMatSpecial, 4, 3);
@@ -70,6 +81,26 @@ public class EMTHelper implements IModHelper {
 
             bootsQuantumVoid = new ItemQuantumVoidwalkerBoots(ThaumcraftApi.armorMatSpecial, 4, 3);
             GameRegistry.registerItem(bootsQuantumVoid, bootsQuantumVoid.getUnlocalizedName());
+        }
+
+        if (ExplorationsHelper.isActive()) {
+            bootsElectricMeteor = new ItemElectricMeteorBoots(ThaumcraftApi.armorMatSpecial, 4, 3);
+            GameRegistry.registerItem(bootsElectricMeteor, bootsElectricMeteor.getUnlocalizedName());
+
+            bootsNanoMeteor = new ItemNanoMeteorBoots(ThaumcraftApi.armorMatSpecial, 4, 3);
+            GameRegistry.registerItem(bootsNanoMeteor, bootsNanoMeteor.getUnlocalizedName());
+
+            bootsQuantumMeteor = new ItemQuantumMeteorBoots(ThaumcraftApi.armorMatSpecial, 4, 3);
+            GameRegistry.registerItem(bootsQuantumMeteor, bootsQuantumMeteor.getUnlocalizedName());
+
+            bootsElectricComet = new ItemElectricCometBoots(ThaumcraftApi.armorMatSpecial, 4, 3);
+            GameRegistry.registerItem(bootsElectricComet, bootsElectricComet.getUnlocalizedName());
+
+            bootsNanoComet = new ItemNanoCometBoots(ThaumcraftApi.armorMatSpecial, 4, 3);
+            GameRegistry.registerItem(bootsNanoComet, bootsNanoComet.getUnlocalizedName());
+
+            bootsQuantumComet = new ItemQuantumCometBoots(ThaumcraftApi.armorMatSpecial, 4, 3);
+            GameRegistry.registerItem(bootsQuantumComet, bootsQuantumComet.getUnlocalizedName());
         }
     }
 
@@ -85,11 +116,11 @@ public class EMTHelper implements IModHelper {
     public static InfusionRecipe nanoMeteor;
     public static InfusionRecipe quantumMeteor;
 
-    public void setupCrafting() {
+    public static void setupCrafting() {
         if (ExplorationsHelper.isActive()) {
             electricComet = ThaumcraftApi.addInfusionCraftingRecipe(
                     "TB_Explorations_EMT_Compat",
-                    new ItemStack(ExplorationsHelper.bootsElectricComet, 1, OreDictionary.WILDCARD_VALUE),
+                    new ItemStack(EMTHelper.bootsElectricComet, 1, OreDictionary.WILDCARD_VALUE),
                     0,
                     new AspectList().add(Aspect.EXCHANGE, 75).add(Aspect.MAGIC, 50).add(Aspect.CRAFT, 50)
                             .add(TB_Aspect.SPACE, 25).add(TB_Aspect.BOOTS, 25),
@@ -117,7 +148,7 @@ public class EMTHelper implements IModHelper {
 
             nanoComet = ThaumcraftApi.addInfusionCraftingRecipe(
                     "TB_Explorations_EMT_Compat",
-                    new ItemStack(ExplorationsHelper.bootsNanoComet, 1, OreDictionary.WILDCARD_VALUE),
+                    new ItemStack(EMTHelper.bootsNanoComet, 1, OreDictionary.WILDCARD_VALUE),
                     0,
                     new AspectList().add(Aspect.EXCHANGE, 75).add(Aspect.MAGIC, 50).add(Aspect.CRAFT, 50)
                             .add(TB_Aspect.SPACE, 25).add(TB_Aspect.BOOTS, 25),
@@ -145,7 +176,7 @@ public class EMTHelper implements IModHelper {
 
             quantumComet = ThaumcraftApi.addInfusionCraftingRecipe(
                     "TB_Explorations_EMT_Compat",
-                    new ItemStack(ExplorationsHelper.bootsQuantumComet, 1, OreDictionary.WILDCARD_VALUE),
+                    new ItemStack(EMTHelper.bootsQuantumComet, 1, OreDictionary.WILDCARD_VALUE),
                     0,
                     new AspectList().add(Aspect.EXCHANGE, 75).add(Aspect.MAGIC, 50).add(Aspect.CRAFT, 50)
                             .add(TB_Aspect.SPACE, 25).add(TB_Aspect.BOOTS, 25),
@@ -173,7 +204,7 @@ public class EMTHelper implements IModHelper {
 
             electricMeteor = ThaumcraftApi.addInfusionCraftingRecipe(
                     "TB_Explorations_EMT_Compat",
-                    new ItemStack(ExplorationsHelper.bootsElectricMeteor, 1, OreDictionary.WILDCARD_VALUE),
+                    new ItemStack(EMTHelper.bootsElectricMeteor, 1, OreDictionary.WILDCARD_VALUE),
                     0,
                     new AspectList().add(Aspect.EXCHANGE, 75).add(Aspect.MAGIC, 50).add(Aspect.CRAFT, 50)
                             .add(TB_Aspect.SPACE, 25).add(TB_Aspect.BOOTS, 25),
@@ -201,7 +232,7 @@ public class EMTHelper implements IModHelper {
 
             nanoMeteor = ThaumcraftApi.addInfusionCraftingRecipe(
                     "TB_Explorations_EMT_Compat",
-                    new ItemStack(ExplorationsHelper.bootsNanoMeteor, 1, OreDictionary.WILDCARD_VALUE),
+                    new ItemStack(EMTHelper.bootsNanoMeteor, 1, OreDictionary.WILDCARD_VALUE),
                     0,
                     new AspectList().add(Aspect.EXCHANGE, 75).add(Aspect.MAGIC, 50).add(Aspect.CRAFT, 50)
                             .add(TB_Aspect.SPACE, 25).add(TB_Aspect.BOOTS, 25),
@@ -229,7 +260,7 @@ public class EMTHelper implements IModHelper {
 
             quantumMeteor = ThaumcraftApi.addInfusionCraftingRecipe(
                     "TB_Explorations_EMT_Compat",
-                    new ItemStack(ExplorationsHelper.bootsQuantumMeteor, 1, OreDictionary.WILDCARD_VALUE),
+                    new ItemStack(EMTHelper.bootsQuantumMeteor, 1, OreDictionary.WILDCARD_VALUE),
                     0,
                     new AspectList().add(Aspect.EXCHANGE, 75).add(Aspect.MAGIC, 50).add(Aspect.CRAFT, 50)
                             .add(TB_Aspect.SPACE, 25).add(TB_Aspect.BOOTS, 25),
@@ -343,7 +374,7 @@ public class EMTHelper implements IModHelper {
         }
     }
 
-    public void setupResearch() {
+    public static void setupResearch() {
         String category = "THAUMICBOOTS";
         ResearchItem emtCore;
         ResearchPage emtCore1, emtCore2;
@@ -392,7 +423,7 @@ public class EMTHelper implements IModHelper {
                     -3,
                     -2,
                     0,
-                    new ItemStack(ExplorationsHelper.bootsElectricMeteor));
+                    new ItemStack(EMTHelper.bootsElectricMeteor));
 
             explorationsEMT1 = new ResearchPage("ExplorationsEMT.1");
             explorationsEMT2 = new ResearchPage(electricComet);
@@ -414,7 +445,7 @@ public class EMTHelper implements IModHelper {
         }
     }
 
-    public void setupItemAspects() {
+    public static void setupItemAspects() {
         ItemStack item;
         AspectList list;
         list = new AspectList(new ItemStack(EMTItems.electricBootsTraveller)).add(TB_Aspect.BOOTS, 12);

@@ -8,11 +8,11 @@ public class ItemNanoVoidwalkerBoots extends ItemElectricVoidwalkerBoots {
 
     protected void setBootsData() {
         maxCharge = 10_000_000;
-        energyPerDamage = 2_500;
+        energyPerDamage = 2_500; // allows for 4k hits 2x more than base nano, 2x more than prev (for this mod)
         visDiscount = 5 + 4; // voidwalker + nano discount
         damageAbsorptionRatio = 2.75D;
         transferLimit = 2_400;
-        jumpBonus = 0.275D * 2.7;
+        jumpBonus = 0.7425D; // 7.5 blocks
         runBonus = 0.550F;
         iconResPath = "thaumicboots:nanoVoid_16x";
         armorResPath = "thaumicboots:model/nanobootsVoidwalker.png";

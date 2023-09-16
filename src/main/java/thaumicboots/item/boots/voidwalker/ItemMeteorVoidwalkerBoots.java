@@ -1,15 +1,9 @@
 package thaumicboots.item.boots.voidwalker;
 
-import net.minecraftforge.common.ISpecialArmor;
-
-import thaumcraft.api.IRepairable;
-import thaumcraft.api.IRunicArmor;
-import thaumcraft.api.IVisDiscountGear;
-import thaumcraft.api.IWarpingGear;
+import thaumicboots.api.IMeteor;
 import thaumicboots.api.ItemVoidBoots;
 
-public class ItemMeteorVoidwalkerBoots extends ItemVoidBoots
-        implements IVisDiscountGear, IWarpingGear, IRunicArmor, IRepairable, ISpecialArmor {
+public class ItemMeteorVoidwalkerBoots extends ItemVoidBoots implements IMeteor {
 
     public ItemMeteorVoidwalkerBoots(final ArmorMaterial material, final int j, final int k) {
         super(material, j, k);
@@ -17,8 +11,7 @@ public class ItemMeteorVoidwalkerBoots extends ItemVoidBoots
 
     protected void setBootsData() {
         visDiscount = 5;
-        damageAbsorptionRatio = 1.5D;
-        jumpBonus = 0.275D * 3.2;
+        jumpBonus = 0.88D; // 9 blocks
         tier = 3;
         runBonus = 0.300F;
         iconResPath = "thaumicboots:purpleHaze_16x";

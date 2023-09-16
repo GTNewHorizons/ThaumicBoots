@@ -1,5 +1,6 @@
 package thaumicboots.item.boots.voidwalker;
 
+import ic2.api.item.IElectricItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
@@ -32,13 +33,13 @@ public class ItemElectricVoidwalkerBoots extends ItemElectricBoots implements IW
 
     protected void setBootsData() {
         maxCharge = 1_000_000;
-        energyPerDamage = 500;
+        energyPerDamage = 500; // allows for 2k hits 2x more than base electric (for this mod)
         runicCharge = 0;
         visDiscount = 5 + 2; // voidwalker + electric discount
         provideEnergy = false;
         damageAbsorptionRatio = 2.25D;
         transferLimit = 400;
-        jumpBonus = 0.275D * 1.7;
+        jumpBonus = 0.4675D; // 4.5 blocks
         runBonus = 0.200F;
 
         tier = 3;
@@ -94,7 +95,9 @@ public class ItemElectricVoidwalkerBoots extends ItemElectricBoots implements IW
                     bonus *= 0;
                 }
 
-                player.moveFlying(0.0F, 1.0F, player.capabilities.isFlying ? bonus * 0.75F : bonus);
+                bonus = player.capabilities.isFlying ? bonus * 0.75F : bonus;
+                bonus *= stack.stackTagCompound.getDouble(TAG_MODE_SPEED);
+                player.moveFlying(0.0F, 1.0F, bonus);
             } else if (Hover.getHover(player.getEntityId())) {
                 player.jumpMovementFactor = 0.03F;
             } else {

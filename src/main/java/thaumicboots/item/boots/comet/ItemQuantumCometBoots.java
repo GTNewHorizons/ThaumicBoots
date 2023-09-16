@@ -11,12 +11,12 @@ public class ItemQuantumCometBoots extends ItemElectricCometBoots {
     @Override
     protected void setBootsData() {
         maxCharge = 10_000_000;
-        energyPerDamage = 20_000;
+        energyPerDamage = 2_500; // 4k hits, 2x prev
         visDiscount = 5;
         transferLimit = 12_000;
         rarity = EnumRarity.rare;
-        runBonus = getEMTQuantumSpeed() + 0.220F;
-        jumpBonus = 0.275D * 3.3;
+        runBonus = getEMTQuantumSpeed() + 0.220F; // quantum + comet * 4
+        jumpBonus = 0.9075D; // 9.5 blocks
         minimumDistance = 100.0F;
         minimumHeight = 10F;
         damageAbsorptionRatio = 2D;

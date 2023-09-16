@@ -32,7 +32,6 @@ public class ItemVoidBoots extends ItemBoots implements IWarpingGear, ISpecialAr
 
     protected void setBootsData() {
         visDiscount = 5;
-        damageAbsorptionRatio = 1.5D;
         jumpBonus = 0.450D;
         tier = 3;
         iconResPath = "thaumicboots:voidComet_16x";

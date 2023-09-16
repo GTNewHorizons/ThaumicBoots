@@ -38,8 +38,6 @@ public class ItemBoots extends ItemArmor
     public int visDiscount;
     public int runicCharge;
     public int tier;
-    public double damageAbsorptionRatio;
-    public double baseAbsorptionRatio;
     public boolean steadyBonus;
     public boolean negateFall;
     public boolean waterEffects;
@@ -49,8 +47,7 @@ public class ItemBoots extends ItemArmor
     public EnumRarity rarity;
 
     public double jumpBonus;
-    public double jumpToggle = 0.0;
-
+    public double jumpToggle;
     public double speedToggle;
 
     public static final String TAG_MODE_JUMP = "jump";
@@ -64,8 +61,6 @@ public class ItemBoots extends ItemArmor
     protected void setBootsData() {
         runicCharge = 0;
         visDiscount = 0;
-        baseAbsorptionRatio = 0.15D;
-        damageAbsorptionRatio = 0.0D;
         runBonus = 0.165F;
         jumpBonus = 0.0D;
         tier = 0;
@@ -88,7 +83,7 @@ public class ItemBoots extends ItemArmor
     @SideOnly(Side.CLIENT)
     public static double changeJump(double prevJump) {
         double newJump = prevJump + 0.25;
-        if (newJump > 1.1) {
+        if (newJump > 1) {
             newJump = 0;
         }
         return newJump;
@@ -109,7 +104,7 @@ public class ItemBoots extends ItemArmor
     @SideOnly(Side.CLIENT)
     public static double changeSpeed(double prevSpeed) {
         double newSpeed = prevSpeed + 0.25;
-        if (newSpeed > 1.1) {
+        if (newSpeed > 1) {
             newSpeed = 0;
         }
         return newSpeed;
@@ -165,13 +160,6 @@ public class ItemBoots extends ItemArmor
         return visDiscount;
     }
 
-    public double getDamageAbsorptionRatio() {
-        return damageAbsorptionRatio;
-    }
-
-    protected double getBaseAbsorptionRatio() {
-        return baseAbsorptionRatio;
-    }
 
     public int getTier(ItemStack itemStack) {
         return tier;
@@ -255,39 +243,37 @@ public class ItemBoots extends ItemArmor
     }
 
     @Optional.Method(modid = "gtnhlib")
-    public static String getJumpModeText(ItemStack stack) {
-        double val = stack.stackTagCompound.getDouble(TAG_MODE_JUMP) * 100;
-        String endResult = String.valueOf((int) val) + "%";
-        return EnumChatFormatting.GOLD + StatCollector.translateToLocal("thaumicboots.jumpEffect")
-                + " "
-                + (isJumpEnabled(stack) > 0 ? EnumChatFormatting.GREEN + StatCollector.translateToLocal(endResult)
-                        : EnumChatFormatting.RED + StatCollector.translateToLocal(endResult));
-    }
-
-    @Optional.Method(modid = "gtnhlib")
     @SideOnly(Side.CLIENT)
     public static void renderHUDJumpNotification() {
         Minecraft mc = Minecraft.getMinecraft();
-        String text = getJumpModeText(getBoots(mc.thePlayer));
+        String text = getModeText("thaumicboots.jumpEffect", getBoots(mc.thePlayer).stackTagCompound.getDouble(TAG_MODE_JUMP) * 100);
         GTNHLib.proxy.printMessageAboveHotbar(text, 60, true, true);
-    }
-
-    @Optional.Method(modid = "gtnhlib")
-    public static String getSpeedModeText(ItemStack stack) {
-        double val = stack.stackTagCompound.getDouble(TAG_MODE_SPEED) * 100;
-        String endResult = String.valueOf((int) val) + "%";
-        return EnumChatFormatting.GOLD + StatCollector.translateToLocal("thaumicboots.speedEffect")
-                + " "
-                + (isJumpEnabled(stack) > 0 ? EnumChatFormatting.GREEN + StatCollector.translateToLocal(endResult)
-                        : EnumChatFormatting.RED + StatCollector.translateToLocal(endResult));
     }
 
     @Optional.Method(modid = "gtnhlib")
     @SideOnly(Side.CLIENT)
     public static void renderHUDSpeedNotification() {
         Minecraft mc = Minecraft.getMinecraft();
-        String text = getSpeedModeText(getBoots(mc.thePlayer));
+        String text = getModeText("thaumicboots.speedEffect", getBoots(mc.thePlayer).stackTagCompound.getDouble(TAG_MODE_SPEED) * 100);
         GTNHLib.proxy.printMessageAboveHotbar(text, 60, true, true);
     }
 
+    @Optional.Method(modid = "gtnhlib")
+    public static String getModeText(String effect, double val) {
+        String endResult = (int) val + "%";
+        String result = switch ((int) val) {
+            case 0 -> EnumChatFormatting.DARK_RED + StatCollector.translateToLocal(endResult);
+            case 25 -> EnumChatFormatting.RED + StatCollector.translateToLocal(endResult);
+            case 50 -> EnumChatFormatting.DARK_GREEN + StatCollector.translateToLocal(endResult);
+            case 75 -> EnumChatFormatting.GREEN + StatCollector.translateToLocal(endResult);
+            case 100 -> EnumChatFormatting.AQUA + StatCollector.translateToLocal(endResult);
+            default -> EnumChatFormatting.DARK_GRAY + StatCollector.translateToLocal(endResult);
+        };
+
+        return EnumChatFormatting.GOLD + StatCollector.translateToLocal(effect)
+                + " "
+                + result;
+
+
+    }
 }

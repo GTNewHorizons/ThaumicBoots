@@ -1,8 +1,9 @@
 package thaumicboots.item.boots.voidwalker;
 
+import thaumicboots.api.IComet;
 import thaumicboots.api.ItemVoidBoots;
 
-public class ItemCometVoidwalkerBoots extends ItemVoidBoots {
+public class ItemCometVoidwalkerBoots extends ItemVoidBoots implements IComet {
 
     public ItemCometVoidwalkerBoots(final ArmorMaterial material, final int j, final int k) {
         super(material, j, k);
@@ -10,8 +11,7 @@ public class ItemCometVoidwalkerBoots extends ItemVoidBoots {
 
     protected void setBootsData() {
         visDiscount = 5;
-        damageAbsorptionRatio = 1.5D;
-        jumpBonus = 0.450D;
+        jumpBonus = 0.450D; // 4.5 blocks
         tier = 3;
         runBonus = 0.215F * 3;
         iconResPath = "thaumicboots:voidComet_16x";

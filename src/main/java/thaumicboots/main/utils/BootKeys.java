@@ -14,44 +14,42 @@ import thaumicboots.api.serverfiles.PacketHandler;
 import thaumicboots.api.serverfiles.PacketJumpToggle;
 import thaumicboots.api.serverfiles.PacketSpeedToggle;
 
-public class BootKeys {
+import java.security.Key;
 
+public class BootKeys {
     private static final KeyBinding keyJumpToggle = new KeyBinding(
             "keybinding.jumptoggle",
-            Keyboard.KEY_MINUS,
+            Keyboard.KEY_NONE,
             "Thaumic Boots");
     private final KeyBinding keySpeedToggle = new KeyBinding(
             "keybinding.speedtoggle",
-            Keyboard.KEY_ADD,
+            Keyboard.KEY_NONE,
             "Thaumic Boots");
 
     public BootKeys() {
         FMLCommonHandler.instance().bus().register(this);
-        ClientRegistry.registerKeyBinding(this.keyJumpToggle);
-        ClientRegistry.registerKeyBinding(this.keySpeedToggle);
+        ClientRegistry.registerKeyBinding(keyJumpToggle);
+        ClientRegistry.registerKeyBinding(keySpeedToggle);
     }
 
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
-    public void keyPressed(TickEvent.ClientTickEvent event) throws InterruptedException {
+    public void keyPressed(TickEvent.ClientTickEvent event) {
         checkKeys();
     }
 
-    @SideOnly(Side.CLIENT)
-    private void checkKeys() throws InterruptedException {
-        if (keyJumpToggle.getIsKeyPressed()) {
+    private void checkKeys() {
+        if (keyJumpToggle.isPressed()) {
             toggleJump();
-        } else if (keySpeedToggle.getIsKeyPressed()) {
+        } else if (keySpeedToggle.isPressed()) {
             toggleSpeed();
         }
     }
 
-    @SideOnly(Side.CLIENT)
     private static void toggleJump() {
         PacketHandler.INSTANCE.sendToServer(new PacketJumpToggle());
     }
 
-    @SideOnly(Side.CLIENT)
     private static void toggleSpeed() {
         PacketHandler.INSTANCE.sendToServer(new PacketSpeedToggle());
     }
