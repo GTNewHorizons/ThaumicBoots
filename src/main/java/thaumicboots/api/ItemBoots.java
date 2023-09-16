@@ -32,7 +32,6 @@ public class ItemBoots extends ItemArmor
         implements ITBootJumpable, ITBootSpeed, IVisDiscountGear, IRunicArmor, IRepairable {
 
     public IIcon icon;
-    public static final String GTNHLIB = "gtnhlib";
 
     public float runBonus;
     public float longrunningbonus;
@@ -234,7 +233,7 @@ public class ItemBoots extends ItemArmor
         return stack != null && (stack.getItem() instanceof ItemBoots);
     }
 
-    @Optional.Method(modid = GTNHLIB)
+    @Optional.Method(modid = "gtnhlib")
     public static void renderHUDJumpNotification() {
         Minecraft mc = Minecraft.getMinecraft();
         String text = getModeText(
@@ -243,7 +242,7 @@ public class ItemBoots extends ItemArmor
         GTNHLib.proxy.printMessageAboveHotbar(text, 60, true, true);
     }
 
-    @Optional.Method(modid = GTNHLIB)
+    @Optional.Method(modid = "gtnhlib")
     public static void renderHUDSpeedNotification() {
         Minecraft mc = Minecraft.getMinecraft();
         String text = getModeText(
@@ -252,7 +251,7 @@ public class ItemBoots extends ItemArmor
         GTNHLib.proxy.printMessageAboveHotbar(text, 60, true, true);
     }
 
-    @Optional.Method(modid = GTNHLIB)
+    @Optional.Method(modid = "gtnhlib")
     public static String getModeText(String effect, double val) {
         String endResult = (int) val + "%";
         String result = switch ((int) val) {
