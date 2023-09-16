@@ -237,6 +237,7 @@ public class ItemBoots extends ItemArmor
     }
 
     @Optional.Method(modid = "gtnhlib")
+    @SideOnly(Side.CLIENT)
     public static void renderHUDJumpNotification() {
         Minecraft mc = Minecraft.getMinecraft();
         String text = getModeText(
@@ -246,6 +247,7 @@ public class ItemBoots extends ItemArmor
     }
 
     @Optional.Method(modid = "gtnhlib")
+    @SideOnly(Side.CLIENT)
     public static void renderHUDSpeedNotification() {
         Minecraft mc = Minecraft.getMinecraft();
         String text = getModeText(
