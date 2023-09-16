@@ -156,7 +156,6 @@ public class ItemBoots extends ItemArmor
         return visDiscount;
     }
 
-
     public int getTier(ItemStack itemStack) {
         return tier;
     }
@@ -242,7 +241,9 @@ public class ItemBoots extends ItemArmor
     @SideOnly(Side.CLIENT)
     public static void renderHUDJumpNotification() {
         Minecraft mc = Minecraft.getMinecraft();
-        String text = getModeText("thaumicboots.jumpEffect", getBoots(mc.thePlayer).stackTagCompound.getDouble(TAG_MODE_JUMP) * 100);
+        String text = getModeText(
+                "thaumicboots.jumpEffect",
+                getBoots(mc.thePlayer).stackTagCompound.getDouble(TAG_MODE_JUMP) * 100);
         GTNHLib.proxy.printMessageAboveHotbar(text, 60, true, true);
     }
 
@@ -250,7 +251,9 @@ public class ItemBoots extends ItemArmor
     @SideOnly(Side.CLIENT)
     public static void renderHUDSpeedNotification() {
         Minecraft mc = Minecraft.getMinecraft();
-        String text = getModeText("thaumicboots.speedEffect", getBoots(mc.thePlayer).stackTagCompound.getDouble(TAG_MODE_SPEED) * 100);
+        String text = getModeText(
+                "thaumicboots.speedEffect",
+                getBoots(mc.thePlayer).stackTagCompound.getDouble(TAG_MODE_SPEED) * 100);
         GTNHLib.proxy.printMessageAboveHotbar(text, 60, true, true);
     }
 
@@ -266,10 +269,7 @@ public class ItemBoots extends ItemArmor
             default -> EnumChatFormatting.DARK_GRAY + StatCollector.translateToLocal(endResult);
         };
 
-        return EnumChatFormatting.GOLD + StatCollector.translateToLocal(effect)
-                + " "
-                + result;
-
+        return EnumChatFormatting.GOLD + StatCollector.translateToLocal(effect) + " " + result;
 
     }
 }

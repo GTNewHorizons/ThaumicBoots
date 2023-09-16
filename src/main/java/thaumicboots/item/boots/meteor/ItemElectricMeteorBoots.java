@@ -1,7 +1,5 @@
 package thaumicboots.item.boots.meteor;
 
-import ic2.api.item.IElectricItem;
-import net.minecraftforge.common.ISpecialArmor;
 import thaumicboots.api.IMeteor;
 import thaumicboots.api.ItemElectricBoots;
 
