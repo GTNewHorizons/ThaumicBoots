@@ -1,4 +1,4 @@
-package thaumicboots.api.network;
+package thaumicboots.api.serverfiles;
 
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
