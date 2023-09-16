@@ -26,7 +26,6 @@ public class PacketJumpToggleAck implements IMessage, IMessageHandler<PacketJump
         byteBuf.writeDouble(state);
     }
 
-    @SideOnly(Side.CLIENT)
     @Override
     @SideOnly(Side.CLIENT)
     public IMessage onMessage(PacketJumpToggleAck message, MessageContext ctx) {
