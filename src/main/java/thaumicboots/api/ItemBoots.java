@@ -33,6 +33,8 @@ public class ItemBoots extends ItemArmor
 
     public IIcon icon;
 
+    public static final String GTNHLIB = "gtnhlib";
+
     public float runBonus;
     public float longrunningbonus;
     public int visDiscount;
@@ -122,7 +124,6 @@ public class ItemBoots extends ItemArmor
     }
 
     @SideOnly(Side.CLIENT)
-
     public void registerIcons(IIconRegister ir) {
         this.icon = ir.registerIcon(iconResPath);
     }
@@ -167,7 +168,7 @@ public class ItemBoots extends ItemArmor
 
     protected float computeBonus(ItemStack itemStack, EntityPlayer player) {
         int ticks = player.inventory.armorItemInSlot(0).stackTagCompound.getInteger("runTicks");
-        float bonus = runBonus + ((ticks / 5) * longrunningbonus);
+        float bonus = runBonus + ((ticks * 0.2F) * longrunningbonus);
         return bonus;
     }
 
@@ -215,7 +216,7 @@ public class ItemBoots extends ItemArmor
     public void applyBonus(EntityPlayer player, float bonus) {
         if (waterEffects) {
             if (player.isInWater()) {
-                bonus /= 4.0F;
+                bonus *= 0.25F;
             }
         }
         if (player.onGround || player.isOnLadder() || player.capabilities.isFlying) {
@@ -237,8 +238,7 @@ public class ItemBoots extends ItemArmor
         return stack != null && (stack.getItem() instanceof ItemBoots);
     }
 
-    @Optional.Method(modid = "gtnhlib")
-    @SideOnly(Side.CLIENT)
+    @Optional.Method(modid = GTNHLIB)
     public static void renderHUDJumpNotification() {
         Minecraft mc = Minecraft.getMinecraft();
         String text = getModeText(
@@ -247,8 +247,7 @@ public class ItemBoots extends ItemArmor
         GTNHLib.proxy.printMessageAboveHotbar(text, 60, true, true);
     }
 
-    @Optional.Method(modid = "gtnhlib")
-    @SideOnly(Side.CLIENT)
+    @Optional.Method(modid = GTNHLIB)
     public static void renderHUDSpeedNotification() {
         Minecraft mc = Minecraft.getMinecraft();
         String text = getModeText(
@@ -257,7 +256,7 @@ public class ItemBoots extends ItemArmor
         GTNHLib.proxy.printMessageAboveHotbar(text, 60, true, true);
     }
 
-    @Optional.Method(modid = "gtnhlib")
+    @Optional.Method(modid = GTNHLIB)
     public static String getModeText(String effect, double val) {
         String endResult = (int) val + "%";
         String result = switch ((int) val) {
