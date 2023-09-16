@@ -83,3 +83,9 @@ tc.aspect.caelum=Celestial Space
 tc.aspect.tabernus=Boots, Traversal
 
 itemGroup.Thaumic Boots=Thaumic Boots
+
+keybinding.speedtoggle=Modulate Speed Boost
+keybinding.jumptoggle=Modulate Jump Boost
+
+thaumicboots.jumpEffect=Jump Boost:
+thaumicboots.speedEffect=Speed Boost:

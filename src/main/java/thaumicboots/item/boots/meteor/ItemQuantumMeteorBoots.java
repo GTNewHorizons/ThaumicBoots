@@ -11,12 +11,12 @@ public class ItemQuantumMeteorBoots extends ItemElectricMeteorBoots implements I
 
     protected void setBootsData() {
         maxCharge = 10_000_000;
-        energyPerDamage = 20000;
+        energyPerDamage = 2_500; // 4k hits, 2x prev
         visDiscount = 5;
         damageAbsorptionRatio = 2D;
         transferLimit = 12000;
-        jumpBonus = 0.275D * 4;
-        baseBonus = getEMTQuantumSpeed();
+        jumpBonus = 1.1D; // 12 Blocks
+        runBonus = getEMTQuantumSpeed();
         tier = 4;
         iconResPath = "thaumicboots:quantumMeteor_16x";
         armorResPath = "thaumicboots:model/quantumbootsMeteor.png";

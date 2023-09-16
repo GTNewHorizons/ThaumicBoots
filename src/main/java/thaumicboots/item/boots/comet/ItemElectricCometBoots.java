@@ -1,12 +1,20 @@
 package thaumicboots.item.boots.comet;
 
-import net.minecraftforge.common.ISpecialArmor;
-
-import ic2.api.item.IElectricItem;
+import emt.item.armor.boots.ItemElectricBootsTraveller;
+import emt.util.EMTTextHelper;
+import ic2.api.item.ElectricItem;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.StatCollector;
+import thaumicboots.api.IComet;
 import thaumicboots.api.ItemElectricBoots;
 import thaumicboots.main.utils.TabThaumicBoots;
 
-public class ItemElectricCometBoots extends ItemElectricBoots implements IElectricItem, ISpecialArmor {
+import java.util.List;
+
+public class ItemElectricCometBoots extends ItemElectricBoots implements IComet {
 
     public float minimumHeight;
     public double minimumDistance;
@@ -19,15 +27,16 @@ public class ItemElectricCometBoots extends ItemElectricBoots implements IElectr
 
     protected void setBootsData() {
         maxCharge = 100_000;
-        energyPerDamage = 1_000;
+        energyPerDamage = 100; // 1k hits
         visDiscount = 2;
         transferLimit = 100;
-        baseBonus = 0.165F;
-        jumpBonus = 0.275D;
-        runningbonus = 0.003F;
+        runBonus = 0.165F; // electric + comet
+        jumpBonus = 0.275D; // 3 blocks
+        longrunningbonus = 0.003F;
         minimumHeight = 4F;
         minimumDistance = 20d;
         tier = 2;
+        damageAbsorptionRatio = 0.5D;
         iconResPath = "thaumicboots:electricComet_16x";
         armorResPath = "thaumicboots:model/electricbootsComet.png";
         unlocalisedName = "ItemElectricComet";
@@ -44,4 +53,6 @@ public class ItemElectricCometBoots extends ItemElectricBoots implements IElectr
     public float getMinimumHeight() {
         return minimumHeight;
     }
+
 }
+

@@ -29,6 +29,10 @@ public class ModHelperManager {
 
     private static void setupHelpers() {
         helpers = new ArrayList<>();
+        helpers.add(new EMTHelper());
+        helpers.add(new TaintedHelper());
+        helpers.add(new ExplorationsHelper());
+        helpers.add(new GTNHLibHelper());
         helpers.add(new ThaumcraftHelper());
     }
 }

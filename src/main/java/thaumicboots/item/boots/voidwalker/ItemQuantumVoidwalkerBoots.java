@@ -1,5 +1,8 @@
 package thaumicboots.item.boots.voidwalker;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class ItemQuantumVoidwalkerBoots extends ItemElectricVoidwalkerBoots {
 
     public ItemQuantumVoidwalkerBoots(final ArmorMaterial material, final int j, final int k) {
@@ -8,12 +11,12 @@ public class ItemQuantumVoidwalkerBoots extends ItemElectricVoidwalkerBoots {
 
     protected void setBootsData() {
         maxCharge = 100_000_000;
-        energyPerDamage = 10_000;
+        energyPerDamage = 12_500; // allows for 8k hits 2x more than base quantum, 2x more than prev (for this mod)
         visDiscount = 5 + 5; // voidwalker + quantum discount
         damageAbsorptionRatio = 3.0D;
         transferLimit = 24_000;
-        jumpBonus = 0.275D * 3.7;
-        baseBonus = 1.250F;
+        jumpBonus = 1.0175D; // 11 blocks
+        runBonus = 1.250F;
         iconResPath = "thaumicboots:quantumVoid_16x";
         armorResPath = "thaumicboots:model/quantumbootsVoidwalker.png";
         unlocalisedName = "ItemQuantumVoid";

@@ -2,6 +2,7 @@ package thaumicboots.api;
 
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,6 +16,9 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
+import com.gtnewhorizon.gtnhlib.GTNHLib;
+
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import thaumcraft.api.IRepairable;
@@ -29,13 +33,11 @@ public class ItemBoots extends ItemArmor
 
     public IIcon icon;
 
-    public float baseBonus;
-    public float runningbonus;
+    public float runBonus;
+    public float longrunningbonus;
     public int visDiscount;
     public int runicCharge;
     public int tier;
-    public double damageAbsorptionRatio;
-    public double baseAbsorptionRatio;
     public boolean steadyBonus;
     public boolean negateFall;
     public boolean waterEffects;
@@ -46,6 +48,9 @@ public class ItemBoots extends ItemArmor
 
     public double jumpBonus;
 
+    public static final String TAG_MODE_JUMP = "jump";
+    public static final String TAG_MODE_SPEED = "speed";
+
     public ItemBoots(ArmorMaterial par2EnumArmorMaterial, int par3, int par4) {
         super(par2EnumArmorMaterial, par3, par4);
         setBootsData();
@@ -54,39 +59,59 @@ public class ItemBoots extends ItemArmor
     protected void setBootsData() {
         runicCharge = 0;
         visDiscount = 0;
-        baseAbsorptionRatio = 0.15D;
-        damageAbsorptionRatio = 0.0D;
-        baseBonus = 0.165F;
+        runBonus = 0.165F;
+        jumpBonus = 0.0D;
         tier = 0;
-        steadyBonus = false;
-        negateFall = false;
-        waterEffects = false;
-        runningbonus = 0.0F;
+        steadyBonus = false; // this is the toggle for the longrunningbonus.
+        negateFall = false; // certain boots don't have fall damage in base.
+        waterEffects = false; // certain boots aren't hindered by being in the water.
+        longrunningbonus = 0.0F; // this is only for the comet boots, though it could be used for other boots.
         iconResPath = "thaumicboots:electricVoid_16x";
         armorResPath = "thaumicboots:model/electricbootsVoidwalker.png";
         unlocalisedName = "ItemElectricVoid";
-        rarity = EnumRarity.rare;
-        jumpBonus = 0.0D;
+        rarity = EnumRarity.rare; // this is less a variable, and more an indicator
     }
 
     public double getJumpModifier() {
         return jumpBonus;
     }
 
-    public void toggleJump() {}
+    @SideOnly(Side.CLIENT)
+    public static double changeJump(double prevJump) {
+        double newJump = prevJump + 0.25;
+        if (newJump > 1) {
+            newJump = 0;
+        }
+        return newJump;
+    }
 
-    public boolean getJumpToggle() {
-        return false;
+    public static double isJumpEnabled(final ItemStack stack) {
+        return stack.stackTagCompound.getDouble(TAG_MODE_JUMP);
+    }
+
+    public static void setModeJump(ItemStack stack, double state) {
+        stack.stackTagCompound.setDouble(TAG_MODE_JUMP, state);
     }
 
     public float getSpeedModifier() {
-        return 0F;
+        return runBonus;
     }
 
-    public void toggleSpeed() {}
+    @SideOnly(Side.CLIENT)
+    public static double changeSpeed(double prevSpeed) {
+        double newSpeed = prevSpeed + 0.25;
+        if (newSpeed > 1) {
+            newSpeed = 0;
+        }
+        return newSpeed;
+    }
 
-    public boolean getSpeedToggle() {
-        return false;
+    public static double isSpeedEnabled(final ItemStack stack) {
+        return stack.stackTagCompound.getDouble(TAG_MODE_SPEED);
+    }
+
+    public static void setModeSpeed(ItemStack stack, double state) {
+        stack.stackTagCompound.setDouble(TAG_MODE_SPEED, state);
     }
 
     // TODO: the part not from interfaces
@@ -131,13 +156,6 @@ public class ItemBoots extends ItemArmor
         return visDiscount;
     }
 
-    public double getDamageAbsorptionRatio() {
-        return damageAbsorptionRatio;
-    }
-
-    protected double getBaseAbsorptionRatio() {
-        return baseAbsorptionRatio;
-    }
 
     public int getTier(ItemStack itemStack) {
         return tier;
@@ -150,7 +168,7 @@ public class ItemBoots extends ItemArmor
 
     protected float computeBonus(ItemStack itemStack, EntityPlayer player) {
         int ticks = player.inventory.armorItemInSlot(0).stackTagCompound.getInteger("runTicks");
-        float bonus = baseBonus + ((ticks / 5) * runningbonus);
+        float bonus = runBonus + ((ticks / 5) * longrunningbonus);
         return bonus;
     }
 
@@ -160,13 +178,14 @@ public class ItemBoots extends ItemArmor
             return;
         }
 
-        float bonus = baseBonus;
+        float bonus = getSpeedModifier();
         stepHeight(player);
         if (steadyBonus) {
             runningTicks(player);
             bonus = computeBonus(itemStack, player);
         }
 
+        bonus *= itemStack.stackTagCompound.getDouble(TAG_MODE_SPEED);
         applyBonus(player, bonus);
 
         if (negateFall) {
@@ -209,8 +228,48 @@ public class ItemBoots extends ItemArmor
         }
     }
 
-    public void enviromentalEffects() {
-
+    // taken from Vazkii
+    public static ItemStack getBoots(EntityPlayer player) {
+        ItemStack stack1 = player.getCurrentArmor(0);
+        return isBoot(stack1) ? stack1 : null;
     }
 
+    private static boolean isBoot(ItemStack stack) {
+        return stack != null && (stack.getItem() instanceof ItemBoots);
+    }
+
+    @Optional.Method(modid = "gtnhlib")
+    @SideOnly(Side.CLIENT)
+    public static void renderHUDJumpNotification() {
+        Minecraft mc = Minecraft.getMinecraft();
+        String text = getModeText("thaumicboots.jumpEffect", getBoots(mc.thePlayer).stackTagCompound.getDouble(TAG_MODE_JUMP) * 100);
+        GTNHLib.proxy.printMessageAboveHotbar(text, 60, true, true);
+    }
+
+    @Optional.Method(modid = "gtnhlib")
+    @SideOnly(Side.CLIENT)
+    public static void renderHUDSpeedNotification() {
+        Minecraft mc = Minecraft.getMinecraft();
+        String text = getModeText("thaumicboots.speedEffect", getBoots(mc.thePlayer).stackTagCompound.getDouble(TAG_MODE_SPEED) * 100);
+        GTNHLib.proxy.printMessageAboveHotbar(text, 60, true, true);
+    }
+
+    @Optional.Method(modid = "gtnhlib")
+    public static String getModeText(String effect, double val) {
+        String endResult = (int) val + "%";
+        String result = switch ((int) val) {
+            case 0 -> EnumChatFormatting.DARK_RED + StatCollector.translateToLocal(endResult);
+            case 25 -> EnumChatFormatting.RED + StatCollector.translateToLocal(endResult);
+            case 50 -> EnumChatFormatting.DARK_GREEN + StatCollector.translateToLocal(endResult);
+            case 75 -> EnumChatFormatting.GREEN + StatCollector.translateToLocal(endResult);
+            case 100 -> EnumChatFormatting.AQUA + StatCollector.translateToLocal(endResult);
+            default -> EnumChatFormatting.DARK_GRAY + StatCollector.translateToLocal(endResult);
+        };
+
+        return EnumChatFormatting.GOLD + StatCollector.translateToLocal(effect)
+                + " "
+                + result;
+
+
+    }
 }

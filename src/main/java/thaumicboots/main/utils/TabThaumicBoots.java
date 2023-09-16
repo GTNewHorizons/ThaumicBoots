@@ -4,6 +4,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 
 import thaumicboots.main.Config;
+import thaumicboots.main.utils.compat.ExplorationsHelper;
 
 public class TabThaumicBoots extends CreativeTabs {
 
@@ -14,6 +15,9 @@ public class TabThaumicBoots extends CreativeTabs {
     }
 
     public Item getTabIconItem() {
-        return Config.bootsCometMeteor;
+        if (ExplorationsHelper.isActive()) {
+            return ExplorationsHelper.bootsCometMeteor;
+        }
+        return Config.arcaniumLens;
     }
 }

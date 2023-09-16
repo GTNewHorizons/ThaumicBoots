@@ -2,12 +2,12 @@ package thaumicboots.item.boots.unique;
 
 import net.minecraft.util.IIcon;
 
-import thaumcraft.api.IRepairable;
-import thaumcraft.api.IRunicArmor;
+import thaumicboots.api.IComet;
+import thaumicboots.api.IMeteor;
 import thaumicboots.api.ItemBoots;
 import thaumicboots.main.utils.TabThaumicBoots;
 
-public class ItemCometMeteorBoots extends ItemBoots implements IRepairable, IRunicArmor {
+public class ItemCometMeteorBoots extends ItemBoots implements IMeteor, IComet {
 
     public IIcon icon;
 
@@ -18,11 +18,10 @@ public class ItemCometMeteorBoots extends ItemBoots implements IRepairable, IRun
     }
 
     protected void setBootsData() {
-        damageAbsorptionRatio = 1.5D;
-        jumpBonus = 0.35D;
+        jumpBonus = 0.35D; // 3.5 blocks
         tier = 2;
-        baseBonus = 0.165F;
-        runningbonus = 0.003F;
+        runBonus = 0.165F;
+        longrunningbonus = 0.003F;
         steadyBonus = true;
         negateFall = true;
         waterEffects = true;

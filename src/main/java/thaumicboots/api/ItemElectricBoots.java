@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
@@ -18,12 +19,14 @@ import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
 import thaumicboots.main.utils.TabThaumicBoots;
 
-public class ItemElectricBoots extends ItemBoots implements IElectricItem {
+public class ItemElectricBoots extends ItemBoots implements IElectricItem, ISpecialArmor {
 
     public int maxCharge;
     public int energyPerDamage;
     public double transferLimit;
     public boolean provideEnergy;
+
+    public double damageAbsorptionRatio;
 
     public ItemElectricBoots(ArmorMaterial par2EnumArmorMaterial, int par3, int par4) {
         super(par2EnumArmorMaterial, par3, par4);
@@ -34,22 +37,26 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem {
     protected void setBootsData() {
         maxCharge = 0;
         energyPerDamage = 0;
-        provideEnergy = false;
+        provideEnergy = false; // doesn't need to exist, but someone could make boots that function like a battery
         transferLimit = 0;
+        damageAbsorptionRatio = 0.5D;
     }
 
     public int getEnergyPerDamage() {
         return energyPerDamage;
     }
 
+    @Override
     public boolean canProvideEnergy(ItemStack itemStack) {
         return provideEnergy;
     }
 
+    @Override
     public double getMaxCharge(ItemStack itemStack) {
         return maxCharge;
     }
 
+    @Override
     public double getTransferLimit(ItemStack itemStack) {
         return transferLimit;
     }
@@ -71,13 +78,21 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem {
         return (float) EMTConfigHandler.quantumBootsSpeed;
     }
 
+    public double getDamageAbsorptionRatio() {
+        return damageAbsorptionRatio;
+    }
+
+    public double getBaseAbsorptionRatio() {
+        return 0.15D;
+    }
+
     // TODO: non-variable related methods
 
     @Override
     protected float computeBonus(ItemStack itemStack, EntityPlayer player) {
         int ticks = player.inventory.armorItemInSlot(0).stackTagCompound.getInteger("runTicks");
 
-        float bonus = baseBonus + ((ticks / 5) * 0.003F);
+        float bonus = runBonus + ((ticks / 5) * 0.003F);
         if (ElectricItem.manager.getCharge(itemStack) == 0) {
             bonus = 0;
         } else if (player.isInWater()) {
@@ -100,6 +115,7 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem {
         }
     }
 
+    @Override
     public ISpecialArmor.ArmorProperties getProperties(EntityLivingBase player, ItemStack armor, DamageSource source,
             double damage, int slot) {
         if (source.isUnblockable()) {
@@ -113,6 +129,7 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem {
         }
     }
 
+    @Override
     public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot) {
         if (ElectricItem.manager.getCharge(armor) >= getEnergyPerDamage()) {
             return (int) Math.round(20D * getBaseAbsorptionRatio() * getDamageAbsorptionRatio());
@@ -121,6 +138,7 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem {
         }
     }
 
+    @Override
     public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot) {
         ElectricItem.manager.discharge(stack, damage * getEnergyPerDamage(), 0x7fffffff, true, false, false);
     }
@@ -133,13 +151,14 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem {
         return this;
     }
 
+    // necessary for the elctric functionality
     @Override
     public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
         if (player.moveForward <= 0F) {
             return;
         }
 
-        float bonus = baseBonus;
+        float bonus = getSpeedModifier();
         stepHeight(player);
         if (steadyBonus) {
             runningTicks(player);
@@ -148,6 +167,7 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem {
         if (ElectricItem.manager.getCharge(itemStack) == 0) {
             bonus *= 0;
         }
+        bonus *= itemStack.stackTagCompound.getDouble(TAG_MODE_SPEED);
         applyBonus(player, bonus);
 
         if (negateFall) {

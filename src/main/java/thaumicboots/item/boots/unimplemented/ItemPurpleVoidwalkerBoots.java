@@ -10,7 +10,6 @@ public class ItemPurpleVoidwalkerBoots extends ItemVoidBoots {
 
     protected void setBootsData() {
         visDiscount = 5;
-        damageAbsorptionRatio = 1.5D;
         jumpBonus = 0.450D;
         tier = 3;
         iconResPath = "thaumicboots:purpleHaze_16x";
