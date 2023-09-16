@@ -1,4 +1,4 @@
-package thaumicboots.api.serverfiles;
+package thaumicboots.api.network;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
@@ -6,13 +6,11 @@ import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import thaumicboots.api.ItemBoots;
 import thaumicboots.main.utils.compat.GTNHLibHelper;
 
-public class PacketJumpToggleAck implements IMessage, IMessageHandler<PacketJumpToggleAck, IMessage> {
+public class PacketSpeedToggleAck implements IMessage, IMessageHandler<PacketSpeedToggleAck, IMessage> {
 
     public double state;
 
@@ -26,15 +24,14 @@ public class PacketJumpToggleAck implements IMessage, IMessageHandler<PacketJump
         byteBuf.writeDouble(state);
     }
 
-    @SideOnly(Side.CLIENT)
     @Override
-    public IMessage onMessage(PacketJumpToggleAck message, MessageContext ctx) {
+    public IMessage onMessage(PacketSpeedToggleAck message, MessageContext ctx) {
         Minecraft mc = Minecraft.getMinecraft();
         final ItemStack boots = ItemBoots.getBoots(mc.thePlayer);
         if (boots != null) {
-            ItemBoots.setModeJump(boots, message.state);
+            ItemBoots.setModeSpeed(boots, message.state);
             if (GTNHLibHelper.isActive()) {
-                ItemBoots.renderHUDJumpNotification();
+                ItemBoots.renderHUDSpeedNotification();
             }
         }
 

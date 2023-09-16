@@ -8,8 +8,6 @@ import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.MinecraftForge;
 
 import baubles.common.lib.PlayerHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import ic2.api.item.ElectricItem;
 import taintedmagic.common.registry.ItemRegistry;
 import thaumcraft.api.IWarpingGear;
@@ -25,7 +23,7 @@ public class ItemElectricVoidwalkerBoots extends ItemElectricBoots implements IW
     public ItemElectricVoidwalkerBoots(final ArmorMaterial material, final int j, final int k) {
         super(material, j, k);
         setCreativeTab(TabThaumicBoots.tabThaumicBoots);
-        setUnlocalizedName(unlocalisedName);
+        setUnlocalizedName(unlocalisedName); // Not dead code, displays as "item.thaumicboots.null" without this
         setBootsData();
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -45,7 +43,6 @@ public class ItemElectricVoidwalkerBoots extends ItemElectricBoots implements IW
         iconResPath = "thaumicboots:electricVoid_16x";
         armorResPath = "thaumicboots:model/electricbootsVoidwalker.png";
         unlocalisedName = "ItemElectricVoid";
-        rarity = EnumRarity.epic;
     }
 
     @Override
@@ -53,7 +50,6 @@ public class ItemElectricVoidwalkerBoots extends ItemElectricBoots implements IW
         return 5;
     }
 
-    @SideOnly(Side.CLIENT)
     protected void particles(final World world, final EntityPlayer player) {
         final FXWispEG fx = new FXWispEG(
                 world,
@@ -112,6 +108,6 @@ public class ItemElectricVoidwalkerBoots extends ItemElectricBoots implements IW
 
     @Override
     public EnumRarity getRarity(final ItemStack stack) {
-        return rarity = EnumRarity.epic;
+        return EnumRarity.epic;
     }
 }
