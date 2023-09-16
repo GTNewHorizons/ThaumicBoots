@@ -17,20 +17,16 @@ import net.minecraftforge.event.entity.living.LivingFallEvent;
 
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import emt.EMT;
 import flaxbeard.thaumicexploration.ThaumicExploration;
 import flaxbeard.thaumicexploration.common.ConfigTX;
 import flaxbeard.thaumicexploration.integration.TTIntegration;
 import ic2.api.item.ElectricItem;
+import thaumicboots.api.*;
 import thaumicboots.item.boots.comet.ItemElectricCometBoots;
-import thaumicboots.item.boots.comet.ItemNanoCometBoots;
-import thaumicboots.item.boots.comet.ItemQuantumCometBoots;
 import thaumicboots.item.boots.meteor.ItemElectricMeteorBoots;
-import thaumicboots.item.boots.meteor.ItemNanoMeteorBoots;
-import thaumicboots.item.boots.meteor.ItemQuantumMeteorBoots;
-import thaumicboots.item.boots.unique.ItemCometMeteorBoots;
-import thaumicboots.item.boots.unique.ItemMeteoricCometBoots;
 import thaumicboots.item.boots.voidwalker.*;
+import thaumicboots.main.utils.compat.EMTHelper;
+import thaumicboots.main.utils.compat.ExplorationsHelper;
 
 public class BootsEventHandler {
 
@@ -85,72 +81,42 @@ public class BootsEventHandler {
 
         Item item = player.inventory.armorItemInSlot(0).getItem();
 
-        if ((item instanceof ItemElectricMeteorBoots) || (item instanceof ItemCometMeteorBoots)
-                || (item instanceof ItemMeteoricCometBoots)
-                || (item instanceof ItemMeteorVoidwalkerBoots)) {
-
-            if (player.isSneaking()) {
-                Vec3 vector = event.entityLiving.getLook(0.5F);
-                double total = Math.abs(vector.zCoord + vector.xCoord);
-                double jump = 0;
-                if (Loader.isModLoaded("ThaumicTinkerer")) {
-                    jump = TTIntegration.getAscentLevel((EntityPlayer) event.entity);
-                }
-                if (jump >= 1) {
-                    jump = (jump + 2D) / 4D;
-                }
-
-                if (vector.yCoord < total) vector.yCoord = total;
-
-                event.entityLiving.motionY += ((jump + 1) * vector.yCoord) / 1.5F;
-                event.entityLiving.motionZ += (jump + 1) * vector.zCoord * 4;
-                event.entityLiving.motionX += (jump + 1) * vector.xCoord * 4;
-
-            } else {
-                // 0.275D is approx 3 blocks, 0.265D will get you to just 3 blocks,
-                if (item instanceof ItemQuantumMeteorBoots) {
-                    event.entityLiving.motionY += 0.275D * 4; // 12 blocks
-                } else if (item instanceof ItemNanoMeteorBoots) {
-                    event.entityLiving.motionY += 0.275D * 2.9; // 8 blocks
-                } else if (item instanceof ItemMeteorVoidwalkerBoots) {
-                    event.entityLiving.motionY += 0.275D * 3.2; // 3 blocks
-                } else {
-                    event.entityLiving.motionY += 0.275D * 1.9; // 5 blocks
-                }
+        // Is there some way I could make this better?
+        if (EMTHelper.isActive() && item instanceof ItemElectricBoots) {
+            if (ElectricItem.manager.getCharge(player.inventory.armorItemInSlot(0)) == 0) {
+                return;
             }
         }
 
-        else if ((item instanceof ItemElectricCometBoots) || (item instanceof ItemCometVoidwalkerBoots)) {
-            // 0.55D is approx 5.5 blocks, so 0.275 is around 2.25 additional blocks
-            if (item instanceof ItemNanoCometBoots) {
-                event.entityLiving.motionY += 0.275D * 2.3; // 5.5 blocks
-            } else if (item instanceof ItemQuantumCometBoots) {
-                event.entityLiving.motionY += 0.275D * 3.3; // 12 blocks
-            } else if (item instanceof ItemCometVoidwalkerBoots) {
-                event.entityLiving.motionY += 0.450D; // 3.5 blocks
-            } else {
-                event.entityLiving.motionY += 0.275D; // 3 blocks
+        if (item instanceof IMeteor && (player.isSneaking())) {
+            Vec3 vector = event.entityLiving.getLook(0.5F);
+            double total = Math.abs(vector.zCoord + vector.xCoord);
+            double jump = 0;
+            if (Loader.isModLoaded("ThaumicTinkerer")) {
+                jump = TTIntegration.getAscentLevel((EntityPlayer) event.entity);
             }
+            if (jump >= 1) {
+                jump = (jump + 2D) / 4D;
+            }
+
+            if (vector.yCoord < total) vector.yCoord = total;
+
+            event.entityLiving.motionY += ((jump + 1) * vector.yCoord) / 1.5F;
+            event.entityLiving.motionZ += (jump + 1) * vector.zCoord * 4;
+            event.entityLiving.motionX += (jump + 1) * vector.xCoord * 4;
+        } else if (item instanceof ItemBoots boots) {
+            event.entityLiving.motionY += (boots.getJumpModifier()
+                    * ItemBoots.isJumpEnabled(player.inventory.armorItemInSlot(0)));
         }
-
-        else if ((item instanceof ItemElectricVoidwalkerBoots) || (item instanceof ItemNanoVoidwalkerBoots)
-                || (item instanceof ItemQuantumVoidwalkerBoots)) {
-
-                    if (item instanceof ItemElectricVoidwalkerBoots) {
-                        event.entityLiving.motionY += 0.275D * 1.7;
-                    } else if (item instanceof ItemNanoVoidwalkerBoots) {
-                        event.entityLiving.motionY += 0.275D * 2.7;
-                    } else { // ItemQuantumVoidwalkerBoots
-                        event.entityLiving.motionY += 0.275D * 3.7;
-                    }
-                }
+        // 0.275D is approx 3 blocks, 0.265D will get you to just 3 blocks,
+        // 0.55D is approx 5.5 blocks, so 0.275 is around 2.25 additional blocks
     }
 
     @SubscribeEvent
     public void onLivingFall(LivingFallEvent event) {
-        if (!EMT.instance.isSimulating()) {
-            return;
-        }
+        /*
+         * if (!EMT.instance.isSimulating()) { return; }
+         */
 
         // if entity isn't a player
         if (!(event.entity instanceof EntityPlayer)) {
@@ -179,53 +145,57 @@ public class BootsEventHandler {
             return;
         }
 
-        double energyDemand = bootItem.getPowerConsumption(event.distance);
+        if (EMTHelper.isActive()) {
+            double energyDemand = bootItem.getPowerConsumption(event.distance);
 
-        // if boots can be discharged nullifying the fall damages
-        if (energyDemand <= ElectricItem.manager.getCharge(itemStack)) {
-            ElectricItem.manager.discharge(itemStack, energyDemand, Integer.MAX_VALUE, true, false, false);
-            event.setCanceled(true);
+            // if boots can be discharged nullifying the fall damages
+            if (energyDemand <= ElectricItem.manager.getCharge(itemStack)) {
+                ElectricItem.manager.discharge(itemStack, energyDemand, Integer.MAX_VALUE, true, false, false);
+                event.setCanceled(true);
+            }
         }
     }
 
     public void grief(EntityPlayer player) {
         // anti-griefing config
-        if (!ConfigTX.allowBootsIce) {
-            return;
-        }
-        for (int x = -5; x < 6; x++) {
-            for (int z = -5; z < 6; z++) {
-                int X = (int) (player.posX + x);
-                int Y = (int) (player.posY - 1);
-                int Z = (int) (player.posZ + z);
+        if (ExplorationsHelper.isActive()) {
+            if (!ConfigTX.allowBootsIce) {
+                return;
+            }
+            for (int x = -5; x < 6; x++) {
+                for (int z = -5; z < 6; z++) {
+                    int X = (int) (player.posX + x);
+                    int Y = (int) (player.posY - 1);
+                    int Z = (int) (player.posZ + z);
 
-                // if the block isn't water
-                if (player.worldObj.getBlock(X, Y, Z) != Blocks.water) {
-                    continue;
+                    // if the block isn't water
+                    if (player.worldObj.getBlock(X, Y, Z) != Blocks.water) {
+                        continue;
+                    }
+
+                    // if the block hasn't some water properties
+                    if (player.worldObj.getBlock(X, Y, Z).getMaterial() != Material.water) {
+                        continue;
+                    }
+
+                    // if the metadata of the block isn't 0
+                    if (player.worldObj.getBlockMetadata(X, Y, Z) != 0) {
+                        continue;
+                    }
+
+                    // if the player is in water
+                    if (player.isInWater()) {
+                        continue;
+                    }
+
+                    // ???, someone needs to figure out what this does.
+                    if ((Math.abs(x) + Math.abs(z) >= 8)) {
+                        continue;
+                    }
+
+                    player.worldObj.setBlock(X, Y, Z, ThaumicExploration.meltyIce);
+                    player.worldObj.spawnParticle("snowballpoof", X, Y + 1, Z, 0.0D, 0.025D, 0.0D);
                 }
-
-                // if the block hasn't some water properties
-                if (player.worldObj.getBlock(X, Y, Z).getMaterial() != Material.water) {
-                    continue;
-                }
-
-                // if the metadata of the block isn't 0
-                if (player.worldObj.getBlockMetadata(X, Y, Z) != 0) {
-                    continue;
-                }
-
-                // if the player is in water
-                if (player.isInWater()) {
-                    continue;
-                }
-
-                // ???
-                if ((Math.abs(x) + Math.abs(z) >= 8)) {
-                    continue;
-                }
-
-                player.worldObj.setBlock(X, Y, Z, ThaumicExploration.meltyIce);
-                player.worldObj.spawnParticle("snowballpoof", X, Y + 1, Z, 0.0D, 0.025D, 0.0D);
             }
         }
     }
@@ -241,7 +211,7 @@ public class BootsEventHandler {
         Item item = player.inventory.armorItemInSlot(0).getItem();
 
         // meteor boots
-        if ((item instanceof ItemElectricMeteorBoots) || (item instanceof ItemMeteorVoidwalkerBoots)) {
+        if (item instanceof IMeteor && !(item instanceof IComet)) {
             ItemStack itemStack = player.inventory.armorItemInSlot(0);
             if (!itemStack.hasTagCompound()) {
                 NBTTagCompound par1NBTTagCompound = new NBTTagCompound();
@@ -315,9 +285,8 @@ public class BootsEventHandler {
             itemStack.stackTagCompound.setInteger("smashTicks", ticks);
             itemStack.stackTagCompound.setInteger("airTicks", ticksAir);
         }
-
         // comet boots
-        else if ((item instanceof ItemElectricCometBoots) || (item instanceof ItemCometVoidwalkerBoots)) {
+        else if (item instanceof IComet && !(item instanceof IMeteor)) {
             ItemStack itemStack = player.inventory.armorItemInSlot(0);
             if (!itemStack.hasTagCompound()) {
                 NBTTagCompound par1NBTTagCompound = new NBTTagCompound();
@@ -349,8 +318,8 @@ public class BootsEventHandler {
 
             itemStack.stackTagCompound.setInteger("runTicks", ticks);
         }
-
-        else if ((item instanceof ItemMeteoricCometBoots || (item instanceof ItemCometMeteorBoots))) {
+        // mixed boots
+        else if (item instanceof IMeteor) {
             ItemStack itemStack = player.inventory.armorItemInSlot(0);
             if (!itemStack.hasTagCompound()) {
                 NBTTagCompound par1NBTTagCompound = new NBTTagCompound();
@@ -436,5 +405,6 @@ public class BootsEventHandler {
             itemStack.stackTagCompound.setInteger("smashTicksMix", ticksSmash);
             itemStack.stackTagCompound.setInteger("airTicksMix", ticksAir);
         }
+
     }
 }
