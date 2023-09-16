@@ -80,15 +80,6 @@ public class ItemVoidBoots extends ItemBoots implements IWarpingGear, ISpecialAr
     }
 
     @Override
-    public void addInformation(final ItemStack stack, final EntityPlayer player, final List list, final boolean b) {
-        list.add(
-                EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("tc.visdiscount")
-                        + ": "
-                        + getVisDiscount(stack, player, null)
-                        + "%");
-    }
-
-    @Override
     public void onUpdate(final ItemStack stack, final World world, final Entity entity, final int j, final boolean k) {
         super.onUpdate(stack, world, entity, j, k);
         if (!world.isRemote && stack.isItemDamaged()
@@ -98,6 +89,7 @@ public class ItemVoidBoots extends ItemBoots implements IWarpingGear, ISpecialAr
         }
     }
 
+    // necessary for void functionality
     @Override
     public void onArmorTick(final World world, final EntityPlayer player, final ItemStack stack) {
         super.onArmorTick(world, player, stack);
@@ -140,8 +132,9 @@ public class ItemVoidBoots extends ItemBoots implements IWarpingGear, ISpecialAr
         return 1.0F;
     }
 
+    // particle effect from Tainted Magic
     @SideOnly(Side.CLIENT)
-    protected void particles(final World world, final EntityPlayer player) {
+    public void particles(final World world, final EntityPlayer player) {
         final FXWispEG fx = new FXWispEG(
                 world,
                 player.posX + (Math.random() - Math.random()) * 0.5D,

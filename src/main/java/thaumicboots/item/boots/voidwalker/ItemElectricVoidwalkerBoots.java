@@ -65,6 +65,7 @@ public class ItemElectricVoidwalkerBoots extends ItemElectricBoots implements IW
         ParticleEngine.instance.addEffect(world, fx);
     }
 
+    // necessary for void + electric function
     @Override
     public void onArmorTick(final World world, final EntityPlayer player, final ItemStack stack) {
         super.onArmorTick(world, player, stack);
@@ -110,4 +111,8 @@ public class ItemElectricVoidwalkerBoots extends ItemElectricBoots implements IW
         }
     }
 
+    @Override
+    public EnumRarity getRarity(final ItemStack stack) {
+        return rarity = EnumRarity.epic;
+    }
 }

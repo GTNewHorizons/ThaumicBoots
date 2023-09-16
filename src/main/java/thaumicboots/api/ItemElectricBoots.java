@@ -37,7 +37,7 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem, ISpec
     protected void setBootsData() {
         maxCharge = 0;
         energyPerDamage = 0;
-        provideEnergy = false;
+        provideEnergy = false; // doesn't need to exist, but someone could make boots that function like a battery
         transferLimit = 0;
         damageAbsorptionRatio = 0.5D;
     }
@@ -76,6 +76,14 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem, ISpec
             return 0.51F;
         }
         return (float) EMTConfigHandler.quantumBootsSpeed;
+    }
+
+    public double getDamageAbsorptionRatio() {
+        return damageAbsorptionRatio;
+    }
+
+    public double getBaseAbsorptionRatio() {
+        return 0.15D;
     }
 
     // TODO: non-variable related methods
@@ -143,6 +151,7 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem, ISpec
         return this;
     }
 
+    // necessary for the elctric functionality
     @Override
     public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
         if (player.moveForward <= 0F) {
@@ -166,13 +175,5 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem, ISpec
                 player.fallDistance = 0.0F;
             }
         }
-    }
-
-    public double getDamageAbsorptionRatio() {
-        return damageAbsorptionRatio;
-    }
-
-    public double getBaseAbsorptionRatio() {
-        return 0.15D;
     }
 }

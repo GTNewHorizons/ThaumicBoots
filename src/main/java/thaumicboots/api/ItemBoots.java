@@ -47,8 +47,6 @@ public class ItemBoots extends ItemArmor
     public EnumRarity rarity;
 
     public double jumpBonus;
-    public double jumpToggle;
-    public double speedToggle;
 
     public static final String TAG_MODE_JUMP = "jump";
     public static final String TAG_MODE_SPEED = "speed";
@@ -64,16 +62,14 @@ public class ItemBoots extends ItemArmor
         runBonus = 0.165F;
         jumpBonus = 0.0D;
         tier = 0;
-        steadyBonus = false;
-        negateFall = false;
-        waterEffects = false;
-        longrunningbonus = 0.0F;
+        steadyBonus = false; // this is the toggle for the longrunningbonus.
+        negateFall = false; // certain boots don't have fall damage in base.
+        waterEffects = false; // certain boots aren't hindered by being in the water.
+        longrunningbonus = 0.0F; // this is only for the comet boots, though it could be used for other boots.
         iconResPath = "thaumicboots:electricVoid_16x";
         armorResPath = "thaumicboots:model/electricbootsVoidwalker.png";
         unlocalisedName = "ItemElectricVoid";
-        rarity = EnumRarity.rare;
-        jumpToggle = 0;
-        speedToggle = 0;
+        rarity = EnumRarity.rare; // this is less a variable, and more an indicator
     }
 
     public double getJumpModifier() {
