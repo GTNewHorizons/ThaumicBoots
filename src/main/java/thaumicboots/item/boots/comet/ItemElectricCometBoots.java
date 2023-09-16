@@ -1,18 +1,8 @@
 package thaumicboots.item.boots.comet;
 
-import emt.item.armor.boots.ItemElectricBootsTraveller;
-import emt.util.EMTTextHelper;
-import ic2.api.item.ElectricItem;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.StatCollector;
 import thaumicboots.api.IComet;
 import thaumicboots.api.ItemElectricBoots;
 import thaumicboots.main.utils.TabThaumicBoots;
-
-import java.util.List;
 
 public class ItemElectricCometBoots extends ItemElectricBoots implements IComet {
 
@@ -55,4 +45,3 @@ public class ItemElectricCometBoots extends ItemElectricBoots implements IComet 
     }
 
 }
-

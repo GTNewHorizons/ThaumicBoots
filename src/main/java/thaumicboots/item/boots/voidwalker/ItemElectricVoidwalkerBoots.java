@@ -1,6 +1,5 @@
 package thaumicboots.item.boots.voidwalker;
 
-import ic2.api.item.IElectricItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;

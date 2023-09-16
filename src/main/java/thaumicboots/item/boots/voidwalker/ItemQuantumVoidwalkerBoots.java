@@ -1,8 +1,5 @@
 package thaumicboots.item.boots.voidwalker;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 public class ItemQuantumVoidwalkerBoots extends ItemElectricVoidwalkerBoots {
 
     public ItemQuantumVoidwalkerBoots(final ArmorMaterial material, final int j, final int k) {

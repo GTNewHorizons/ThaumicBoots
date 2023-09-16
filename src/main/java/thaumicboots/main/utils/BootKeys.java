@@ -14,9 +14,8 @@ import thaumicboots.api.serverfiles.PacketHandler;
 import thaumicboots.api.serverfiles.PacketJumpToggle;
 import thaumicboots.api.serverfiles.PacketSpeedToggle;
 
-import java.security.Key;
-
 public class BootKeys {
+
     private static final KeyBinding keyJumpToggle = new KeyBinding(
             "keybinding.jumptoggle",
             Keyboard.KEY_NONE,
