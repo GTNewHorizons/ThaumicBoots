@@ -236,8 +236,9 @@ public class ItemBoots extends ItemArmor
         return stack != null && (stack.getItem() instanceof ItemBoots);
     }
 
-    @Optional.Method(modid = "gtnhlib")
-    @SideOnly(Side.CLIENT)
+
+    @Optional.Method(modid = GTNHLIB)
+    @SideOnly(Side.CLIENT) // this has to exist or it'll cause crashes
     public static void renderHUDJumpNotification() {
         Minecraft mc = Minecraft.getMinecraft();
         String text = getModeText(
@@ -246,8 +247,8 @@ public class ItemBoots extends ItemArmor
         GTNHLib.proxy.printMessageAboveHotbar(text, 60, true, true);
     }
 
-    @Optional.Method(modid = "gtnhlib")
-    @SideOnly(Side.CLIENT)
+    @Optional.Method(modid = GTNHLIB)
+    @SideOnly(Side.CLIENT) // this has to exist or it'll cause crashes
     public static void renderHUDSpeedNotification() {
         Minecraft mc = Minecraft.getMinecraft();
         String text = getModeText(
