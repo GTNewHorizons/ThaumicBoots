@@ -235,7 +235,6 @@ public class ItemBoots extends ItemArmor
     }
 
     @Optional.Method(modid = GTNHLIB)
-    @SideOnly(Side.CLIENT) // this has to exist or it'll cause crashes
     public static void renderHUDJumpNotification() {
         Minecraft mc = Minecraft.getMinecraft();
         String text = getModeText(
@@ -245,7 +244,6 @@ public class ItemBoots extends ItemArmor
     }
 
     @Optional.Method(modid = GTNHLIB)
-    @SideOnly(Side.CLIENT) // this has to exist or it'll cause crashes
     public static void renderHUDSpeedNotification() {
         Minecraft mc = Minecraft.getMinecraft();
         String text = getModeText(
