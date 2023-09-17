@@ -2,12 +2,10 @@ package thaumicboots.item.boots.unique;
 
 import net.minecraft.util.IIcon;
 
-import thaumicboots.api.IComet;
-import thaumicboots.api.IMeteor;
-import thaumicboots.api.ItemBoots;
+import thaumicboots.api.*;
 import thaumicboots.main.utils.TabThaumicBoots;
 
-public class ItemCometMeteorBoots extends ItemBoots implements IMeteor, IComet {
+public class ItemCometMeteorBoots extends ItemBoots implements ICometMeteorMix {
 
     public IIcon icon;
 

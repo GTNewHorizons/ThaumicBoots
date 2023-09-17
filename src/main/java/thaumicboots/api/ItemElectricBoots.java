@@ -150,7 +150,7 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem, ISpec
         return this;
     }
 
-    // necessary for the elctric functionality
+    // necessary for the electric functionality
     @Override
     public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
         if (player.moveForward <= 0F) {
