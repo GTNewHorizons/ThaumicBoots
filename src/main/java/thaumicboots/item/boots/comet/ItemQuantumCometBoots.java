@@ -10,6 +10,7 @@ public class ItemQuantumCometBoots extends ItemElectricCometBoots {
 
     @Override
     protected void setBootsData() {
+        super.setBootsData();
         maxCharge = 10_000_000;
         energyPerDamage = 2_500; // 4k hits, 2x prev
         visDiscount = 5;

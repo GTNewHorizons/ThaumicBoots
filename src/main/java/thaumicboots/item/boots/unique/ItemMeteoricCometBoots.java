@@ -11,8 +11,7 @@ public class ItemMeteoricCometBoots extends ItemCometMeteorBoots {
     }
 
     protected void setBootsData() {
-        jumpBonus = 0.35D; // needs to be executed, or it'll stay at 0 // 3.5 blocks
-        tier = 2;
+        super.setBootsData();
         iconResPath = "thaumicboots:bootsMeteorComet";
         armorResPath = "thaumicboots:model/VoidwalkerBootsMeteor.png";
         unlocalisedName = "ItemMeteoricComet";

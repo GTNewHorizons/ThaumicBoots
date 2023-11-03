@@ -31,6 +31,7 @@ public class ItemElectricVoidwalkerBoots extends ItemElectricBoots implements IW
     }
 
     protected void setBootsData() {
+        super.setBootsData();
         maxCharge = 1_000_000;
         energyPerDamage = 500; // allows for 2k hits 2x more than base electric (for this mod)
         runicCharge = 0;

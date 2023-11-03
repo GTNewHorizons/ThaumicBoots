@@ -94,6 +94,11 @@ public class ItemVoidBoots extends ItemBoots implements IWarpingGear, ISpecialAr
             stack.damageItem(-1, player);
         }
 
+        // negate fall damage
+        if (player.fallDistance > 3.0F) {
+            player.fallDistance = 1.0F;
+        }
+
         // particles
         final double motion = Math.abs(player.motionX) + Math.abs(player.motionZ) + Math.abs(0.5 * player.motionY);
         if (world.isRemote && (motion > 0.1D || !player.onGround) && world.rand.nextInt(3) == 0) {
@@ -112,11 +117,6 @@ public class ItemVoidBoots extends ItemBoots implements IWarpingGear, ISpecialAr
         float bonus = getSpeedModifier() * sashEquiped(player);
         bonus *= stack.stackTagCompound.getDouble(TAG_MODE_SPEED);
         applyBonus(player, bonus);
-
-        // negate fall damage
-        if (player.fallDistance > 3.0F) {
-            player.fallDistance = 1.0F;
-        }
     }
 
     // TODO: Extract this into it's own method

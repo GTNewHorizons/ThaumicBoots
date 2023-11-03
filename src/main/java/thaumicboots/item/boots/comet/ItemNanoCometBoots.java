@@ -8,6 +8,7 @@ public class ItemNanoCometBoots extends ItemElectricCometBoots {
 
     @Override
     protected void setBootsData() {
+        super.setBootsData();
         maxCharge = 1_000_000;
         energyPerDamage = 500; // 2k hits, 2x prev
         visDiscount = 4;

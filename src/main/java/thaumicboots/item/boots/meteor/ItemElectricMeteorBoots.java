@@ -10,6 +10,7 @@ public class ItemElectricMeteorBoots extends ItemElectricBoots implements IMeteo
     }
 
     protected void setBootsData() {
+        super.setBootsData();
         maxCharge = 100_000;
         energyPerDamage = 100; // 1k hits
         visDiscount = 2;

@@ -63,7 +63,7 @@ public class ItemBoots extends ItemArmor
         jumpBonus = 0.0D;
         tier = 0;
         steadyBonus = false; // this is the toggle for the longrunningbonus.
-        negateFall = false; // certain boots don't have fall damage in base.
+        negateFall = true; // certain boots don't have fall damage in base.
         waterEffects = false; // certain boots aren't hindered by being in the water.
         longrunningbonus = 0.0F; // this is only for the comet boots, though it could be used for other boots.
         iconResPath = "thaumicboots:electricVoid_16x";
@@ -76,7 +76,6 @@ public class ItemBoots extends ItemArmor
         return jumpBonus;
     }
 
-    @SideOnly(Side.CLIENT)
     public static double changeJump(double prevJump) {
         double newJump = prevJump + 0.25;
         if (newJump > 1) {
@@ -97,7 +96,6 @@ public class ItemBoots extends ItemArmor
         return runBonus;
     }
 
-    @SideOnly(Side.CLIENT)
     public static double changeSpeed(double prevSpeed) {
         double newSpeed = prevSpeed + 0.25;
         if (newSpeed > 1) {
@@ -172,6 +170,12 @@ public class ItemBoots extends ItemArmor
 
     @Override
     public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
+        if (negateFall) {
+            if (player.fallDistance > 0.0F) {
+                player.fallDistance = 0.0F;
+            }
+        }
+
         if (player.moveForward <= 0F) {
             return;
         }
@@ -185,12 +189,6 @@ public class ItemBoots extends ItemArmor
 
         bonus *= itemStack.stackTagCompound.getDouble(TAG_MODE_SPEED);
         applyBonus(player, bonus);
-
-        if (negateFall) {
-            if (player.fallDistance > 0.0F) {
-                player.fallDistance = 0.0F;
-            }
-        }
     }
 
     public void stepHeight(EntityPlayer player) {
@@ -236,9 +234,8 @@ public class ItemBoots extends ItemArmor
         return stack != null && (stack.getItem() instanceof ItemBoots);
     }
 
-
-    @Optional.Method(modid = GTNHLIB)
-    @SideOnly(Side.CLIENT) // this has to exist or it'll cause crashes
+    @Optional.Method(modid = "gtnhlib")
+    @SideOnly(Side.CLIENT)
     public static void renderHUDJumpNotification() {
         Minecraft mc = Minecraft.getMinecraft();
         String text = getModeText(
@@ -247,8 +244,8 @@ public class ItemBoots extends ItemArmor
         GTNHLib.proxy.printMessageAboveHotbar(text, 60, true, true);
     }
 
-    @Optional.Method(modid = GTNHLIB)
-    @SideOnly(Side.CLIENT) // this has to exist or it'll cause crashes
+    @Optional.Method(modid = "gtnhlib")
+    @SideOnly(Side.CLIENT)
     public static void renderHUDSpeedNotification() {
         Minecraft mc = Minecraft.getMinecraft();
         String text = getModeText(
