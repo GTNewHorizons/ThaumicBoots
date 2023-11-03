@@ -1,5 +1,8 @@
 package thaumicboots.main.utils.compat;
 
+import static thaumicboots.main.utils.compat.ExplorationsHelper.EXPLORATIONS;
+import static thaumicboots.main.utils.compat.TaintedHelper.TAINTED_MAGIC;
+
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -57,22 +60,19 @@ public class EMTHelper implements IModHelper {
     public void preInit() {
         if (Loader.isModLoaded(EMT) && Config.emtActive) {
             isEMTActive = true;
+            getItems();
         }
     }
 
     @Override
-    public void init() {
-        if (isActive()) {
-            getItems();
-        }
-    }
+    public void init() {}
 
     @Override
     public void postInit() {}
 
     @Optional.Method(modid = "EMT")
     public void getItems() {
-        if (TaintedHelper.isActive()) {
+        if (Loader.isModLoaded(TAINTED_MAGIC) && Config.taintedMagicActive) {
             bootsElectricVoid = new ItemElectricVoidwalkerBoots(ThaumcraftApi.armorMatSpecial, 4, 3);
             GameRegistry.registerItem(bootsElectricVoid, bootsElectricVoid.getUnlocalizedName());
 
@@ -83,7 +83,7 @@ public class EMTHelper implements IModHelper {
             GameRegistry.registerItem(bootsQuantumVoid, bootsQuantumVoid.getUnlocalizedName());
         }
 
-        if (ExplorationsHelper.isActive()) {
+        if (Loader.isModLoaded(EXPLORATIONS) && Config.explorationsActive) {
             bootsElectricMeteor = new ItemElectricMeteorBoots(ThaumcraftApi.armorMatSpecial, 4, 3);
             GameRegistry.registerItem(bootsElectricMeteor, bootsElectricMeteor.getUnlocalizedName());
 
