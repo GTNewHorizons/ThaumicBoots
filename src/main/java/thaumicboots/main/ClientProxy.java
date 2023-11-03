@@ -18,7 +18,9 @@ import thaumicboots.main.utils.BootKeys;
 @SideOnly(Side.CLIENT)
 public class ClientProxy extends CommonProxy {
 
-    public void load() {}
+    public void load() {
+
+    }
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {

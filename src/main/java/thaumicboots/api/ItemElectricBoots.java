@@ -122,7 +122,7 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem, ISpec
             int energyPerDamage = getEnergyPerDamage();
             double damageLimit = energyPerDamage <= 0 ? 0
                     : (25 * ElectricItem.manager.getCharge(armor)) / energyPerDamage;
-            return new ArmorProperties(0, absorptionRatio, (int) damageLimit);
+            return new net.minecraftforge.common.ISpecialArmor.ArmorProperties(0, absorptionRatio, (int) damageLimit);
         }
     }
 
@@ -169,7 +169,7 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem, ISpec
             bonus = computeBonus(itemStack, player);
         }
         if (ElectricItem.manager.getCharge(itemStack) == 0) {
-            bonus = 0;
+            bonus *= 0;
         }
         bonus *= itemStack.stackTagCompound.getDouble(TAG_MODE_SPEED);
         applyBonus(player, bonus);

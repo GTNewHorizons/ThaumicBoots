@@ -164,7 +164,7 @@ public class ItemBoots extends ItemArmor
 
     protected float computeBonus(ItemStack itemStack, EntityPlayer player) {
         int ticks = player.inventory.armorItemInSlot(0).stackTagCompound.getInteger("runTicks");
-        float bonus = runBonus + ((ticks / 5) * longrunningbonus);
+        float bonus = runBonus + ((ticks * 0.2F) * longrunningbonus);
         return bonus;
     }
 
