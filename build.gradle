@@ -168,6 +168,7 @@ if (!disableCheckstyle) {
     }
 }
 
+
 String javaSourceDir = "src/main/java/"
 String scalaSourceDir = "src/main/scala/"
 String kotlinSourceDir = "src/main/kotlin/"
