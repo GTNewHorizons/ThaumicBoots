@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import thaumicboots.IGrief;
 
 public interface ICometMeteorMix extends IMeteor, IComet {
 
