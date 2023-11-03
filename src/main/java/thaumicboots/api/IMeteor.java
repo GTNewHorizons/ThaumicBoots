@@ -6,7 +6,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.event.entity.living.LivingEvent;
-
 import cpw.mods.fml.common.Loader;
 import flaxbeard.thaumicexploration.integration.TTIntegration;
 
@@ -87,7 +86,9 @@ public interface IMeteor extends ISpecialEffect {
         itemStack.stackTagCompound.setInteger("airTicks", ticksAir);
     }
 
+
     public default void specialEffect2(LivingEvent.LivingJumpEvent event) {
+
         Vec3 vector = event.entityLiving.getLook(0.5F);
         double total = Math.abs(vector.zCoord + vector.xCoord);
         double jump = 0;

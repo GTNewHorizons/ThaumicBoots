@@ -35,4 +35,5 @@ public interface IComet extends ISpecialEffect, IGrief {
         itemStack.stackTagCompound.setInteger("runTicks", ticks);
         return;
     }
+
 }
