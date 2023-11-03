@@ -34,6 +34,7 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem, ISpec
     }
 
     protected void setBootsData() {
+        super.setBootsData();
         maxCharge = 0;
         energyPerDamage = 0;
         provideEnergy = false; // doesn't need to exist, but someone could make boots that function like a battery
@@ -64,17 +65,15 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem, ISpec
     // but only when it's called outside of EMT,
     // this ensures this never happens internally.
     public float getEMTNanoSpeed() {
-        if ((float) EMTConfigHandler.nanoBootsSpeed == 0.0F) {
-            return 0.275F;
-        }
-        return (float) EMTConfigHandler.nanoBootsSpeed;
+        return 0.275F;
+        // return (float) EMTConfigHandler.nanoBootsSpeed;
+        // I commented the ConfigHandler because it's not compatible with the non GTNH version of EMT
+        // I may reimplement it eventually once I remove GT from EMT as a hard dep.
     }
 
     public float getEMTQuantumSpeed() {
-        if ((float) EMTConfigHandler.quantumBootsSpeed == 0.0F) {
-            return 0.51F;
-        }
-        return (float) EMTConfigHandler.quantumBootsSpeed;
+        return 0.51F;
+        // return (float) EMTConfigHandler.quantumBootsSpeed;
     }
 
     public double getDamageAbsorptionRatio() {
@@ -153,6 +152,13 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem, ISpec
     // necessary for the elctric functionality
     @Override
     public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
+        // negate fall damage
+        if (negateFall) {
+            if (player.fallDistance > 0.0F) {
+                player.fallDistance = 0.0F;
+            }
+        }
+
         if (player.moveForward <= 0F) {
             return;
         }
@@ -168,11 +174,5 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem, ISpec
         }
         bonus *= itemStack.stackTagCompound.getDouble(TAG_MODE_SPEED);
         applyBonus(player, bonus);
-
-        if (negateFall) {
-            if (player.fallDistance > 0.0F) {
-                player.fallDistance = 0.0F;
-            }
-        }
     }
 }

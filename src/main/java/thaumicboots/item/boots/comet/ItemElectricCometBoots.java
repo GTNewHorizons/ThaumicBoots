@@ -27,6 +27,7 @@ public class ItemElectricCometBoots extends ItemElectricBoots implements IComet 
         minimumDistance = 20d;
         tier = 2;
         damageAbsorptionRatio = 0.5D;
+        negateFall = false;
         iconResPath = "thaumicboots:electricComet_16x";
         armorResPath = "thaumicboots:model/electricbootsComet.png";
         unlocalisedName = "ItemElectricComet";

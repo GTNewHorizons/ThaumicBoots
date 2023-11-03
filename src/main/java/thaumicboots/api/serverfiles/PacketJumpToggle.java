@@ -24,7 +24,6 @@ public class PacketJumpToggle implements IMessage, IMessageHandler<PacketJumpTog
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
     public IMessage onMessage(PacketJumpToggle message, MessageContext ctx) {
         EntityPlayerMP player = ctx.getServerHandler().playerEntity;
         final ItemStack boots = ItemBoots.getBoots(player);

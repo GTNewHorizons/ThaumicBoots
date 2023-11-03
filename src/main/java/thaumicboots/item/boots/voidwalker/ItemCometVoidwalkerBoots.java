@@ -10,6 +10,7 @@ public class ItemCometVoidwalkerBoots extends ItemVoidBoots implements IComet {
     }
 
     protected void setBootsData() {
+        super.setBootsData();
         visDiscount = 5;
         jumpBonus = 0.450D; // 4.5 blocks
         tier = 3;

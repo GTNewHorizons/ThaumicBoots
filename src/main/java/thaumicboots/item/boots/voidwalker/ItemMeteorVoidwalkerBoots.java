@@ -10,6 +10,7 @@ public class ItemMeteorVoidwalkerBoots extends ItemVoidBoots implements IMeteor 
     }
 
     protected void setBootsData() {
+        super.setBootsData();
         visDiscount = 5;
         jumpBonus = 0.88D; // 9 blocks
         tier = 3;

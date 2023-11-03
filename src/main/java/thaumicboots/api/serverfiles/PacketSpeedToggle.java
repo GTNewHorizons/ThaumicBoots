@@ -24,7 +24,6 @@ public class PacketSpeedToggle implements IMessage, IMessageHandler<PacketSpeedT
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
     public IMessage onMessage(PacketSpeedToggle message, MessageContext ctx) {
         EntityPlayerMP player = ctx.getServerHandler().playerEntity;
         final ItemStack boots = ItemBoots.getBoots(player);

@@ -27,7 +27,6 @@ public class PacketJumpToggleAck implements IMessage, IMessageHandler<PacketJump
     }
 
     @SideOnly(Side.CLIENT)
-    @Override
     public IMessage onMessage(PacketJumpToggleAck message, MessageContext ctx) {
         Minecraft mc = Minecraft.getMinecraft();
         final ItemStack boots = ItemBoots.getBoots(mc.thePlayer);

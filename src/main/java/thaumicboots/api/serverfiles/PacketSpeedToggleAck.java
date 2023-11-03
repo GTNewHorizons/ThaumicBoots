@@ -27,7 +27,6 @@ public class PacketSpeedToggleAck implements IMessage, IMessageHandler<PacketSpe
     }
 
     @SideOnly(Side.CLIENT)
-    @Override
     public IMessage onMessage(PacketSpeedToggleAck message, MessageContext ctx) {
         Minecraft mc = Minecraft.getMinecraft();
         final ItemStack boots = ItemBoots.getBoots(mc.thePlayer);

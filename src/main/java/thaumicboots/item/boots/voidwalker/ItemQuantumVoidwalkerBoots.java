@@ -7,6 +7,7 @@ public class ItemQuantumVoidwalkerBoots extends ItemElectricVoidwalkerBoots {
     }
 
     protected void setBootsData() {
+        super.setBootsData();
         maxCharge = 100_000_000;
         energyPerDamage = 12_500; // allows for 8k hits 2x more than base quantum, 2x more than prev (for this mod)
         visDiscount = 5 + 5; // voidwalker + quantum discount
