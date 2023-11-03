@@ -1,5 +1,7 @@
 package thaumicboots.main.utils.compat;
 
+import static thaumicboots.main.utils.compat.TaintedHelper.TAINTED_MAGIC;
+
 import net.minecraft.item.Item;
 
 import cpw.mods.fml.common.Loader;
@@ -32,15 +34,12 @@ public class ExplorationsHelper implements IModHelper {
     public void preInit() {
         if (Loader.isModLoaded(EXPLORATIONS) && Config.explorationsActive) {
             isExplorationsActive = true;
+            getItems();
         }
     }
 
     @Override
-    public void init() {
-        if (isActive()) {
-            getItems();
-        }
-    }
+    public void init() {}
 
     @Override
     public void postInit() {}
@@ -52,7 +51,7 @@ public class ExplorationsHelper implements IModHelper {
         bootsCometMeteor = new ItemCometMeteorBoots(ThaumcraftApi.armorMatSpecial, 4, 3);
         GameRegistry.registerItem(bootsCometMeteor, bootsCometMeteor.getUnlocalizedName());
 
-        if (TaintedHelper.isActive()) {
+        if (Loader.isModLoaded(TAINTED_MAGIC) && Config.taintedMagicActive) {
             bootsCometVoid = new ItemCometVoidwalkerBoots(ThaumcraftApi.armorMatSpecial, 4, 3);
             GameRegistry.registerItem(bootsCometVoid, bootsCometVoid.getUnlocalizedName());
 
