@@ -120,7 +120,6 @@ public class ItemBoots extends ItemArmor
     }
 
     @SideOnly(Side.CLIENT)
-
     public void registerIcons(IIconRegister ir) {
         this.icon = ir.registerIcon(iconResPath);
     }
@@ -213,7 +212,7 @@ public class ItemBoots extends ItemArmor
     public void applyBonus(EntityPlayer player, float bonus) {
         if (waterEffects) {
             if (player.isInWater()) {
-                bonus /= 4.0F;
+                bonus *= 0.25F;
             }
         }
         if (player.onGround || player.isOnLadder() || player.capabilities.isFlying) {
