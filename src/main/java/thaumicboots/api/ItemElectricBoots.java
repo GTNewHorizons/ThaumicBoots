@@ -13,7 +13,6 @@ import net.minecraftforge.common.ISpecialArmor;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import emt.util.EMTConfigHandler;
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
 import thaumicboots.main.utils.TabThaumicBoots;
