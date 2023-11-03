@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.event.entity.living.LivingEvent;
+
 import cpw.mods.fml.common.Loader;
 import flaxbeard.thaumicexploration.integration.TTIntegration;
 
@@ -85,7 +86,6 @@ public interface IMeteor extends ISpecialEffect {
         itemStack.stackTagCompound.setInteger("smashTicks", ticks);
         itemStack.stackTagCompound.setInteger("airTicks", ticksAir);
     }
-
 
     public default void specialEffect2(LivingEvent.LivingJumpEvent event) {
 

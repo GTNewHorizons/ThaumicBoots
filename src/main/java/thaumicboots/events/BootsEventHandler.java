@@ -2,11 +2,8 @@ package thaumicboots.events;
 
 import java.util.HashMap;
 
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.PlayerCapabilities;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -15,8 +12,6 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import flaxbeard.thaumicexploration.ThaumicExploration;
-import flaxbeard.thaumicexploration.common.ConfigTX;
 import ic2.api.item.ElectricItem;
 import thaumicboots.api.IMeteor;
 import thaumicboots.api.ISpecialEffect;
@@ -25,7 +20,6 @@ import thaumicboots.api.ItemElectricBoots;
 import thaumicboots.item.boots.comet.ItemElectricCometBoots;
 import thaumicboots.item.boots.meteor.ItemElectricMeteorBoots;
 import thaumicboots.main.utils.compat.EMTHelper;
-import thaumicboots.main.utils.compat.ExplorationsHelper;
 
 public class BootsEventHandler {
 
