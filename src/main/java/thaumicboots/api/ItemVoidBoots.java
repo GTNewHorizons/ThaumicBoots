@@ -33,7 +33,6 @@ public class ItemVoidBoots extends ItemBoots implements IWarpingGear, ISpecialAr
         iconResPath = "thaumicboots:voidComet_16x";
         armorResPath = "thaumicboots:model/VoidwalkerBootsComet_-_Purple.png";
         unlocalisedName = "ItemVoidComet";
-        rarity = EnumRarity.epic;
     }
 
     @Override
@@ -119,7 +118,6 @@ public class ItemVoidBoots extends ItemBoots implements IWarpingGear, ISpecialAr
         applyBonus(player, bonus);
     }
 
-    // TODO: Extract this into it's own method
     public float sashEquiped(final EntityPlayer player) {
         final ItemStack sash = PlayerHandler.getPlayerBaubles(player).getStackInSlot(3);
         if (sash != null && sash.getItem() == ItemRegistry.ItemVoidwalkerSash) {

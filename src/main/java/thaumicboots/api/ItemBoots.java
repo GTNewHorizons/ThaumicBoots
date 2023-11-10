@@ -44,7 +44,6 @@ public class ItemBoots extends ItemArmor
     public String iconResPath;
     public String armorResPath;
     public String unlocalisedName;
-    public EnumRarity rarity;
 
     public double jumpBonus;
 
@@ -69,7 +68,6 @@ public class ItemBoots extends ItemArmor
         iconResPath = "thaumicboots:electricVoid_16x";
         armorResPath = "thaumicboots:model/electricbootsVoidwalker.png";
         unlocalisedName = "ItemElectricVoid";
-        rarity = EnumRarity.rare; // this is less a variable, and more an indicator
     }
 
     public double getJumpModifier() {
@@ -142,7 +140,7 @@ public class ItemBoots extends ItemArmor
 
     @Override
     public EnumRarity getRarity(final ItemStack stack) {
-        return rarity = EnumRarity.rare;
+        return EnumRarity.rare;
     }
 
     public int getRunicCharge(ItemStack arg0) {
@@ -170,10 +168,8 @@ public class ItemBoots extends ItemArmor
 
     @Override
     public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
-        if (negateFall) {
-            if (player.fallDistance > 0.0F) {
-                player.fallDistance = 0.0F;
-            }
+        if (negateFall && player.fallDistance > 0.0F) {
+            player.fallDistance = 0.0F;
         }
 
         if (player.moveForward <= 0F) {
@@ -187,18 +183,23 @@ public class ItemBoots extends ItemArmor
             bonus = computeBonus(itemStack, player);
         }
 
+        applyFinalBonus(bonus, player, itemStack);
+    }
+
+    public void applyFinalBonus(float bonus, EntityPlayer player, ItemStack itemStack) {
         bonus *= itemStack.stackTagCompound.getDouble(TAG_MODE_SPEED);
         applyBonus(player, bonus);
     }
 
     public void stepHeight(EntityPlayer player) {
-        if (player.worldObj.isRemote) {
-            if (!Thaumcraft.instance.entityEventHandler.prevStep.containsKey(Integer.valueOf(player.getEntityId()))) {
-                Thaumcraft.instance.entityEventHandler.prevStep
-                        .put(Integer.valueOf(player.getEntityId()), Float.valueOf(player.stepHeight));
-            }
-            player.stepHeight = 1.0F;
+        if (!player.worldObj.isRemote) {
+            return;
         }
+        if (!Thaumcraft.instance.entityEventHandler.prevStep.containsKey(Integer.valueOf(player.getEntityId()))) {
+            Thaumcraft.instance.entityEventHandler.prevStep
+                    .put(Integer.valueOf(player.getEntityId()), Float.valueOf(player.stepHeight));
+        }
+        player.stepHeight = 1.0F;
     }
 
     public void runningTicks(EntityPlayer player) {
@@ -210,10 +211,8 @@ public class ItemBoots extends ItemArmor
     }
 
     public void applyBonus(EntityPlayer player, float bonus) {
-        if (waterEffects) {
-            if (player.isInWater()) {
-                bonus *= 0.25F;
-            }
+        if (waterEffects && player.isInWater()) {
+            bonus *= 0.25F;
         }
         if (player.onGround || player.isOnLadder() || player.capabilities.isFlying) {
             player.moveFlying(0.0F, 1.0F, bonus);

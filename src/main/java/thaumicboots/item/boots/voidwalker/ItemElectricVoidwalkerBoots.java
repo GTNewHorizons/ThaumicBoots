@@ -46,7 +46,6 @@ public class ItemElectricVoidwalkerBoots extends ItemElectricBoots implements IW
         iconResPath = "thaumicboots:electricVoid_16x";
         armorResPath = "thaumicboots:model/electricbootsVoidwalker.png";
         unlocalisedName = "ItemElectricVoid";
-        rarity = EnumRarity.epic;
     }
 
     @Override
@@ -113,6 +112,6 @@ public class ItemElectricVoidwalkerBoots extends ItemElectricBoots implements IW
 
     @Override
     public EnumRarity getRarity(final ItemStack stack) {
-        return rarity = EnumRarity.epic;
+        return EnumRarity.epic;
     }
 }

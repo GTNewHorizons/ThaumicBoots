@@ -42,7 +42,7 @@ public interface IGrief {
                         continue;
                     }
 
-                    // ???, someone needs to figure out what this does.
+                    // Just the radius of the effect.
                     if ((Math.abs(x) + Math.abs(z) >= 8)) {
                         continue;
                     }
