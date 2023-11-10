@@ -11,12 +11,10 @@ import thaumicboots.api.ItemBoots;
 
 public class PacketSpeedToggle implements IMessage, IMessageHandler<PacketSpeedToggle, IMessage> {
 
-    @Override
     public void fromBytes(ByteBuf byteBuf) {
         // not needed
     }
 
-    @Override
     public void toBytes(ByteBuf byteBuf) {
         // not needed
     }

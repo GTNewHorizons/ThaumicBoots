@@ -16,15 +16,4 @@ public class ItemPurpleVoidwalkerBoots extends ItemVoidBoots {
         armorResPath = "thaumicboots:model/VoidwalkerBootsMeteor_-_Purple.png";
         unlocalisedName = "ItemPurpleVoidwalkerBoots";
     }
-
-    // ignore this, it'll only ever matter if this is implemented, leave it be just in case it is
-    /*
-     * @SubscribeEvent public void playerJumps(final LivingEvent.LivingJumpEvent event) { if (event.entity instanceof
-     * EntityPlayer) { final EntityPlayer player = (EntityPlayer) event.entity; final ItemStack boots =
-     * player.inventory.armorItemInSlot(0); final ItemStack sash =
-     * PlayerHandler.getPlayerBaubles(player).getStackInSlot(3); if (boots != null && boots.getItem() ==
-     * ItemRegistry.ItemVoidwalkerBoots) { player.motionY *= 1.25D; } if (sash != null && sash.getItem() ==
-     * ItemRegistry.ItemVoidwalkerSash) { player.motionY *= 1.05D; } } }
-     */
-
 }

@@ -11,12 +11,10 @@ import thaumicboots.api.ItemBoots;
 
 public class PacketJumpToggle implements IMessage, IMessageHandler<PacketJumpToggle, IMessage> {
 
-    @Override
     public void fromBytes(ByteBuf byteBuf) {
         // not needed
     }
 
-    @Override
     public void toBytes(ByteBuf byteBuf) {
         // not needed
     }

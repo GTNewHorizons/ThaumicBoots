@@ -8,7 +8,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 
 import cpw.mods.fml.relauncher.Side;
@@ -150,24 +149,7 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem, ISpec
 
     // necessary for the electric functionality
     @Override
-    public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
-        // negate fall damage
-        if (negateFall) {
-            if (player.fallDistance > 0.0F) {
-                player.fallDistance = 0.0F;
-            }
-        }
-
-        if (player.moveForward <= 0F) {
-            return;
-        }
-
-        float bonus = getSpeedModifier();
-        stepHeight(player);
-        if (steadyBonus) {
-            runningTicks(player);
-            bonus = computeBonus(itemStack, player);
-        }
+    public void applyFinalBonus(float bonus, EntityPlayer player, ItemStack itemStack) {
         if (ElectricItem.manager.getCharge(itemStack) == 0) {
             bonus *= 0;
         }
