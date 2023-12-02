@@ -10,8 +10,11 @@ import cpw.mods.fml.common.event.FMLMissingMappingsEvent.MissingMapping;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import thaumicboots.events.BootsEventHandler;
+import thaumicboots.main.utils.CalendarHelper;
 import thaumicboots.main.utils.LogHelper;
 import thaumicboots.main.utils.VersionInfo;
+
+import java.util.Calendar;
 
 @SuppressWarnings("unused")
 @Mod(
@@ -29,6 +32,7 @@ public class ThaumicBoots {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        CalendarHelper.calendar();
         proxy.preInit(event);
     }
 

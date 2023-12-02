@@ -47,6 +47,9 @@ item.ItemCometMeteor.name=Icy Boots of the Frozen Meteor
 
 item.ItemPurpleVoidwalkerBoots.name=Altered Boots of the Purple Haze
 
+item.ItemSeasonBoots.name=Boots of the Seasons
+
+
 #Research things
 tc.research_category.THAUMICBOOTS=Thaumic Boots
 tc.research_name.TB_Core_Research=Thaumaturgic Shoemaking

@@ -1,5 +1,7 @@
 package thaumicboots.main.utils.compat;
 
+import cpw.mods.fml.common.registry.GameRegistry;
+import mods.railcraft.common.util.misc.Game;
 import net.minecraft.block.Block;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -18,6 +20,7 @@ import thaumcraft.api.research.ResearchItem;
 import thaumcraft.api.research.ResearchPage;
 import thaumcraft.common.config.ConfigItems;
 import thaumicboots.api.TB_Aspect;
+import thaumicboots.item.boots.unique.ItemSeasonBoots;
 import thaumicboots.main.Config;
 import thaumicboots.main.utils.BlockInterface;
 import thaumicboots.main.utils.ItemInterface;
@@ -201,8 +204,18 @@ public class ThaumcraftHelper implements IModHelper {
 
     public static final String THAUMCRAFT = "Thaumcraft";
 
+    public static Item seasonBoots;
+
     public void preInit() {
+        getBoots();
         TB_Aspect.addTB_Aspects();
+    }
+
+    public void getBoots(){
+        seasonBoots = new ItemSeasonBoots(ThaumcraftApi.armorMatSpecial, 4, 3);
+        GameRegistry.registerItem(seasonBoots, seasonBoots.getUnlocalizedName());
+
+
     }
 
     public void init() {
