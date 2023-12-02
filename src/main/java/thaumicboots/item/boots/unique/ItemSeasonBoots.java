@@ -3,6 +3,7 @@ package thaumicboots.item.boots.unique;
 import net.minecraft.util.IIcon;
 import thaumicboots.api.ICometMeteorMix;
 import thaumicboots.api.ItemBoots;
+import thaumicboots.main.utils.CalendarHelper;
 import thaumicboots.main.utils.TabThaumicBoots;
 
 public class ItemSeasonBoots extends ItemBoots {
@@ -24,8 +25,13 @@ public class ItemSeasonBoots extends ItemBoots {
         steadyBonus = true;
         negateFall = true;
         waterEffects = true;
-        iconResPath = "thaumicboots:bootsChristmas";
-        armorResPath = "thaumicboots:model/boots_arcanium.png";
         unlocalisedName = "ItemSeasonBoots";
+        if (CalendarHelper.isChristmas() && false){
+            iconResPath = "thaumicboots:bootsChristmas";
+            armorResPath = "thaumicboots:model/boots_christmas.png";
+        } else {
+            iconResPath = "thaumicboots:bootsArcanium";
+            armorResPath = "thaumicboots:model/boots_arcanium.png";
+        }
     }
 }
