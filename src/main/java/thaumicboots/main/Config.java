@@ -30,7 +30,6 @@ public class Config {
     public static Item arcaniumLens;
     public static Item seasonBoots;
     public static Item christmasBoots;
-
     // ----- Config State info ----------------------------------
     public static Configuration configuration;
     private static Config instance = null;
