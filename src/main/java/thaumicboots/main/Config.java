@@ -10,6 +10,9 @@ import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
+import thaumcraft.api.ThaumcraftApi;
+import thaumicboots.item.boots.unique.ItemChristmasBoots;
+import thaumicboots.item.boots.unique.ItemSeasonBoots;
 import thaumicboots.item.tools.ItemThaumicInterfacer;
 import thaumicboots.main.utils.VersionInfo;
 
@@ -23,15 +26,10 @@ public class Config {
     public static final String CATEGORY_MODULES = "modules";
 
     public static boolean thaumcraftActive;
-    public static int blockStoneDeviceRI;
-    public static int blockStoneDeviceTwoRI;
-    public static int blockStoneDeviceThreeRI;
 
     public static Item arcaniumLens;
-
-    // Tainted Magic Compat
-    public static Item comaLasDrogas;
-
+    public static Item seasonBoots;
+    public static Item christmasBoots;
     // ----- Config State info ----------------------------------
     public static Configuration configuration;
     private static Config instance = null;
@@ -71,6 +69,12 @@ public class Config {
     public static void setupItems() {
         arcaniumLens = new ItemThaumicInterfacer();
         GameRegistry.registerItem(arcaniumLens, arcaniumLens.getUnlocalizedName());
+
+        seasonBoots = new ItemSeasonBoots(ThaumcraftApi.armorMatSpecial, 4, 3);
+        GameRegistry.registerItem(seasonBoots, seasonBoots.getUnlocalizedName());
+
+        christmasBoots = new ItemChristmasBoots(ThaumcraftApi.armorMatSpecial, 4, 3);
+        GameRegistry.registerItem(christmasBoots, christmasBoots.getUnlocalizedName());
     }
 
     private static void processConfigFile() {
