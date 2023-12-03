@@ -20,6 +20,7 @@ import thaumcraft.api.research.ResearchItem;
 import thaumcraft.api.research.ResearchPage;
 import thaumcraft.common.config.ConfigItems;
 import thaumicboots.api.TB_Aspect;
+import thaumicboots.item.boots.unique.ItemChristmasBoots;
 import thaumicboots.item.boots.unique.ItemSeasonBoots;
 import thaumicboots.main.Config;
 import thaumicboots.main.utils.BlockInterface;
@@ -205,6 +206,7 @@ public class ThaumcraftHelper implements IModHelper {
     public static final String THAUMCRAFT = "Thaumcraft";
 
     public static Item seasonBoots;
+    public static Item christmasBoots;
 
     public void preInit() {
         getBoots();
@@ -215,7 +217,8 @@ public class ThaumcraftHelper implements IModHelper {
         seasonBoots = new ItemSeasonBoots(ThaumcraftApi.armorMatSpecial, 4, 3);
         GameRegistry.registerItem(seasonBoots, seasonBoots.getUnlocalizedName());
 
-
+        christmasBoots = new ItemChristmasBoots(ThaumcraftApi.armorMatSpecial, 4, 3);
+        GameRegistry.registerItem(christmasBoots, christmasBoots.getUnlocalizedName());
     }
 
     public void init() {
