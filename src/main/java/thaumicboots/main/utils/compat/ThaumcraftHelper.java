@@ -6,9 +6,9 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.oredict.OreDictionary;
 
 import flaxbeard.thaumicexploration.ThaumicExploration;
-import net.minecraftforge.oredict.OreDictionary;
 import taintedmagic.common.registry.ItemRegistry;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
