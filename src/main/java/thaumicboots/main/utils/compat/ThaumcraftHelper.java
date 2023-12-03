@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import flaxbeard.thaumicexploration.ThaumicExploration;
+import net.minecraftforge.oredict.OreDictionary;
 import taintedmagic.common.registry.ItemRegistry;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
@@ -477,7 +478,7 @@ public class ThaumcraftHelper implements IModHelper {
             taintedCore.setConcealed().setParents("VOIDWALKERBOOTS");
             ResearchCategories.addResearch(taintedCore);
         }
-      
+
         if (ExplorationsHelper.isActive() && TaintedHelper.isActive()) {
             explorationsTaintedCompat = new ResearchItem(
                     "TB_Explorations_Tainted_Compat",
