@@ -478,7 +478,7 @@ public class ThaumcraftHelper implements IModHelper {
             taintedCore.setConcealed().setParents("VOIDWALKERBOOTS");
             ResearchCategories.addResearch(taintedCore);
         }
-      
+
         if (ExplorationsHelper.isActive() && TaintedHelper.isActive()) {
             explorationsTaintedCompat = new ResearchItem(
                     "TB_Explorations_Tainted_Compat",
