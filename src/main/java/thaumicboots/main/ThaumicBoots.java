@@ -14,8 +14,6 @@ import thaumicboots.main.utils.CalendarHelper;
 import thaumicboots.main.utils.LogHelper;
 import thaumicboots.main.utils.VersionInfo;
 
-import java.util.Calendar;
-
 @SuppressWarnings("unused")
 @Mod(
         modid = VersionInfo.ModID,

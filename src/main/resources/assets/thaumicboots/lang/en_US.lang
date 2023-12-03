@@ -69,6 +69,10 @@ tc.research_name.TB_Explorations_Tainted_Compat=Eldritch Celestial Bodies
 tc.research_text.TB_Explorations_Tainted_Compat=Discovering Celestial Bodies of the Void
 tc.research_name.TB_Explorations_EMT_Compat=Artificial Celestial Magicks
 tc.research_text.TB_Explorations_EMT_Compat=The Application of Artificial Energy in Celestial Magicks
+tc.research_name.TB_Seasonal_Boots=Seasonal Magicks
+tc.research_text.TB_Seasonal_Boots=Christmas Spirits and Other Magickal Phenomena
+tc.research_name.TB_Seasonal_Stabilized=Stabilized Seasonal Magicks
+tc.research_text.TB_Seasonal_Stabilized=Stabilization of Seasonal Magicks
 
 #Actual Researches
 Core.1=In your studies, you have discovered something rather... peculiar. In this, you found that you were somehow able to equally combine different forms of magick energy to create something... <BR><BR>Unique.<BR><BR>A new form of energy, somehow greater than the sum of its original parts.<BR><BR>You wonder where else this could be applied.
@@ -80,6 +84,9 @@ ExplorationsTainted.1=Studying the void, you have made a unique discovery: the v
 ExplorationsCompat.1=In your studies of the stars, you had discovered two distinct forms of celestial energies, those being the energy of comets as well as the energy of meteors. However, after your discovery of the thaumic combinator, you began to wonder if there were a way to combine these two energy signals...<BR><BR>Lo and behold, there was! Two distinct methods actually, though the results are currently shockingly similar.<BR><BR>Perhaps there might be a way to enhance these further...
 EMTTainted.1=As you continued your studies of electricity, you noticed something interesting, like the traditional magical energies, electricity was likewise able to be combined into other energies. However, at one caveat: it doesn't exactly mix into the energy but rather, converts the natural into the artificial.<BR><BR>In your applications of this to void energy, you found that not only can they run on electricity, but likewise, they can both be overcharged by electricity AND boosted by enhanced void.<BR><BR>A rather interesting revelation...
 ExplorationsEMT.1=As you continued your studies of electricity, you noticed something interesting, like the traditional magical energies, electricity was likewise able to be combined into other energies. However, at one caveat: it doesn't exactly mix into the energy but rather, converts the natural into the artificial.<BR><BR>In your applications of this to the celestial energies, you found that they were able run on electricity, even being able to be overcharged, enhancing their natural tendencies.<BR><BR>A rather interesting revelation...
+SeasonalCore.1=In your studies of magickal phenomena, you discovered something peculiar: there are spikes of magickal energies around specific parts of the solar calendar. <BR><BR>These spikes have been known to cause various tranformations, such as transforming chests to presents, and vice versa as they pass. Interestingly, you've managed to capture this chaotic energy. <BR><BR>Yet you wonder if there is some way you may be able to stabilize these energies...
+SeasonalStabilized.1=As you continued your studies of the seasonal magick phenomena, you noticed something interesting, it actually is possible to attune these energies into a specific phenomena, resulting in a drastically boosted seasonal effect... with one caveat: these effects become incredibly diminished after the season has passed. <BR><BR>The first of these effects you've noticed is a drastic increase in the steady running speed over time, while freezing water similar to that of comet attuned magicks <BR><BR>Though, you almost swear you can hear sleigh bells...
+SeasonalStabilized.2=You believe you should come back to this in December...
 
 #Aspects
 tc.aspect.caelum=Celestial Space

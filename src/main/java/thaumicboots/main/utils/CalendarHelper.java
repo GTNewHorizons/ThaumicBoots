@@ -3,14 +3,15 @@ package thaumicboots.main.utils;
 import java.util.Calendar;
 
 public class CalendarHelper {
+
     private static final int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
     private static boolean isIrish = false;
     private static boolean isEaster = false;
     private static boolean isFree = false;
     private static boolean isChristmas = false;
 
-    public static void calendar(){
-        switch(month){
+    public static void calendar() {
+        switch (month) {
             case 3:
                 isIrish = true;
             case 4:
@@ -25,19 +26,19 @@ public class CalendarHelper {
         }
     }
 
-    public static boolean isIrish(){
+    public static boolean isIrish() {
         return isIrish;
     }
 
-    public static boolean isEaster(){
+    public static boolean isEaster() {
         return isEaster;
     }
 
-    public static boolean isFree(){
+    public static boolean isFree() {
         return isFree;
     }
 
-    public static boolean isChristmas(){
+    public static boolean isChristmas() {
         return isChristmas;
     }
 }

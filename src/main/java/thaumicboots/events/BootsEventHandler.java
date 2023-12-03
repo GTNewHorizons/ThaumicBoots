@@ -19,6 +19,7 @@ import thaumicboots.api.ItemBoots;
 import thaumicboots.api.ItemElectricBoots;
 import thaumicboots.item.boots.comet.ItemElectricCometBoots;
 import thaumicboots.item.boots.meteor.ItemElectricMeteorBoots;
+import thaumicboots.main.Config;
 import thaumicboots.main.utils.compat.EMTHelper;
 
 public class BootsEventHandler {
@@ -108,7 +109,7 @@ public class BootsEventHandler {
         Item item = itemStack.getItem();
 
         // if the boots aren't Comet boots or its derivative
-        if (!(item instanceof ItemElectricCometBoots)) {
+        if (!Config.emtActive || !(item instanceof ItemElectricCometBoots)) {
             return;
         }
 

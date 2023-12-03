@@ -1,12 +1,12 @@
 package thaumicboots.main.utils.compat;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import mods.railcraft.common.util.misc.Game;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.oredict.OreDictionary;
 
 import flaxbeard.thaumicexploration.ThaumicExploration;
 import taintedmagic.common.registry.ItemRegistry;
@@ -20,10 +20,9 @@ import thaumcraft.api.research.ResearchItem;
 import thaumcraft.api.research.ResearchPage;
 import thaumcraft.common.config.ConfigItems;
 import thaumicboots.api.TB_Aspect;
-import thaumicboots.item.boots.unique.ItemChristmasBoots;
-import thaumicboots.item.boots.unique.ItemSeasonBoots;
 import thaumicboots.main.Config;
 import thaumicboots.main.utils.BlockInterface;
+import thaumicboots.main.utils.CalendarHelper;
 import thaumicboots.main.utils.ItemInterface;
 import thaumicboots.main.utils.LocalizationManager;
 import thaumicboots.main.utils.VersionInfo;
@@ -205,20 +204,8 @@ public class ThaumcraftHelper implements IModHelper {
 
     public static final String THAUMCRAFT = "Thaumcraft";
 
-    public static Item seasonBoots;
-    public static Item christmasBoots;
-
     public void preInit() {
-        getBoots();
         TB_Aspect.addTB_Aspects();
-    }
-
-    public void getBoots(){
-        seasonBoots = new ItemSeasonBoots(ThaumcraftApi.armorMatSpecial, 4, 3);
-        GameRegistry.registerItem(seasonBoots, seasonBoots.getUnlocalizedName());
-
-        christmasBoots = new ItemChristmasBoots(ThaumcraftApi.armorMatSpecial, 4, 3);
-        GameRegistry.registerItem(christmasBoots, christmasBoots.getUnlocalizedName());
     }
 
     public void init() {
@@ -274,12 +261,36 @@ public class ThaumcraftHelper implements IModHelper {
     public static InfusionRecipe cometMeteor;
     public static InfusionRecipe meteorComet;
 
+    public static InfusionRecipe seasonalBoot;
+    public static CrucibleRecipe seasonalToChristmas;
+
     public static void setupCrafting() {
         thaumaturgicCombinator = ThaumcraftApi.addCrucibleRecipe(
                 "TB_Core_Research",
                 new ItemStack(Config.arcaniumLens),
                 new ItemStack(miscResource, 1, MiscResource.THAUMIUM.ordinal()),
                 new AspectList().add(TB_Aspect.BOOTS, 25).add(Aspect.EXCHANGE, 25).add(TB_Aspect.SPACE, 25));
+
+        seasonalBoot = ThaumcraftApi.addInfusionCraftingRecipe(
+                "TB_Seasonal_Boots",
+                new ItemStack(Config.seasonBoots),
+                10,
+                new AspectList().add(TB_Aspect.BOOTS, 75).add(Aspect.LIGHT, 50).add(Aspect.MAGIC, 50)
+                        .add(Aspect.MOTION, 50).add(Aspect.AURA, 25),
+                new ItemStack(ConfigItems.itemBootsTraveller),
+                new ItemStack[] { new ItemStack(Items.fireworks, 1, OreDictionary.WILDCARD_VALUE),
+                        new ItemStack(Items.dye, 1, 10), new ItemStack(Items.book),
+                        new ItemStack(Items.fireworks, 1, OreDictionary.WILDCARD_VALUE),
+                        new ItemStack(Items.iron_sword), new ItemStack(Blocks.lit_pumpkin),
+                        new ItemStack(ConfigItems.itemFocusFrost), new ItemStack(Blocks.sapling, 1, 1) });
+
+        if (CalendarHelper.isChristmas()) {
+            seasonalToChristmas = ThaumcraftApi.addCrucibleRecipe(
+                    "TB_Seasonal_Boots",
+                    new ItemStack(Config.christmasBoots),
+                    new ItemStack(Config.seasonBoots),
+                    new AspectList().add(Aspect.TRAP, 50).add(Aspect.EXCHANGE, 25).add(Aspect.COLD, 25));
+        }
 
         if (!EMTHelper.isActive() && !ExplorationsHelper.isActive() && !TaintedHelper.isActive()) {
             return;
@@ -363,9 +374,9 @@ public class ThaumcraftHelper implements IModHelper {
                 new ResourceLocation(VersionInfo.ModID, "textures/gui/research_bg1_b.png"));
 
         ResearchItem coreResearch;
-        ResearchItem explorationsCore, taintedCore, uniqueCore;
-        ResearchPage core1, core2, explorationsCore1, explorationsCore2, taintedCore1, taintedCore2, uniqueCore1,
-                uniqueCore2;
+        ResearchItem explorationsCore, taintedCore, seasonalCore, seasonalStabilized;
+        ResearchPage core1, core2, explorationsCore1, explorationsCore2, taintedCore1, taintedCore2, seasonalCore1,
+                seasonalCore2, seasonalStabilized1, seasonalStabilized2;
         ResearchPage explorationsTainted1, explorationsTainted2, explorationsTainted3, explorationsCompat1,
                 explorationsCompat2, explorationsCompat3;
 
@@ -384,6 +395,40 @@ public class ThaumcraftHelper implements IModHelper {
         coreResearch.setPages(core1, core2);
         coreResearch.setParents("THAUMIUM");
         ResearchCategories.addResearch(coreResearch);
+
+        seasonalCore = new ResearchItem(
+                "TB_Seasonal_Boots",
+                category,
+                new AspectList().add(TB_Aspect.BOOTS, 25).add(Aspect.EXCHANGE, 25).add(Aspect.COLD, 25)
+                        .add(Aspect.MAGIC, 25).add(Aspect.ENERGY, 25),
+                2,
+                0,
+                0,
+                new ItemStack(Config.seasonBoots));
+        seasonalCore1 = new ResearchPage("SeasonalCore.1");
+        seasonalCore2 = new ResearchPage(seasonalBoot);
+        seasonalCore.setPages(seasonalCore1, seasonalCore2);
+        seasonalCore.setParents("TB_Core_Research");
+        ResearchCategories.addResearch(seasonalCore);
+
+        seasonalStabilized = new ResearchItem(
+                "TB_Seasonal_Stabilized",
+                category,
+                new AspectList().add(Aspect.TRAP, 50).add(Aspect.CRYSTAL, 25).add(Aspect.EXCHANGE, 25)
+                        .add(Aspect.COLD, 25).add(Aspect.LIGHT, 25),
+                4,
+                0,
+                0,
+                new ItemStack(Config.christmasBoots));
+        seasonalStabilized1 = new ResearchPage("SeasonalStabilized.1");
+        if (CalendarHelper.isChristmas()) {
+            seasonalStabilized2 = new ResearchPage(seasonalToChristmas);
+        } else {
+            seasonalStabilized2 = new ResearchPage("seasonalStabilized2");
+        }
+        seasonalStabilized.setPages(seasonalStabilized1, seasonalStabilized2);
+        seasonalStabilized.setParents("TB_Seasonal_Boots");
+        ResearchCategories.addResearch(seasonalStabilized);
 
         if (!EMTHelper.isActive() && !ExplorationsHelper.isActive() && !TaintedHelper.isActive()) {
             return;
