@@ -85,8 +85,13 @@ public class BootsEventHandler {
         if (item instanceof IMeteor meteor && (player.isSneaking())) {
             meteor.specialEffect2(event);
         } else if (item instanceof ItemBoots boots) {
-            event.entityLiving.motionY += (boots.getJumpModifier()
-                    * ItemBoots.isJumpEnabled(player.inventory.armorItemInSlot(0)));
+            double modifier;
+            try {
+                modifier = ItemBoots.isJumpEnabled(player.inventory.armorItemInSlot(0));
+            } catch (NullPointerException e) {
+                modifier = 1;
+            }
+            event.entityLiving.motionY += (boots.getJumpModifier() * modifier);
         }
         // 0.275D is approx 3 blocks, 0.265D will get you to just 3 blocks,
         // 0.55D is approx 5.5 blocks, so 0.275 is around 2.25 additional blocks
