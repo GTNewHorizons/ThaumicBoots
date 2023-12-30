@@ -83,10 +83,16 @@ public class ItemBoots extends ItemArmor
     }
 
     public static double isJumpEnabled(final ItemStack stack) {
+        if (stack.stackTagCompound == null) {
+            return 0;
+        }
         return stack.stackTagCompound.getDouble(TAG_MODE_JUMP);
     }
 
     public static void setModeJump(ItemStack stack, double state) {
+        if (stack.stackTagCompound == null) {
+            stack.setTagCompound(new NBTTagCompound());
+        }
         stack.stackTagCompound.setDouble(TAG_MODE_JUMP, state);
     }
 
@@ -103,10 +109,16 @@ public class ItemBoots extends ItemArmor
     }
 
     public static double isSpeedEnabled(final ItemStack stack) {
+        if (stack.stackTagCompound == null) {
+            return 0;
+        }
         return stack.stackTagCompound.getDouble(TAG_MODE_SPEED);
     }
 
     public static void setModeSpeed(ItemStack stack, double state) {
+        if (stack.stackTagCompound == null) {
+            stack.setTagCompound(new NBTTagCompound());
+        }
         stack.stackTagCompound.setDouble(TAG_MODE_SPEED, state);
     }
 
