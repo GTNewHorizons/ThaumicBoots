@@ -184,7 +184,7 @@ public class ItemBoots extends ItemArmor
             player.fallDistance = 0.0F;
         }
 
-        if (player.moveForward <= 0F) {
+        if (player.moveForward == 0F && player.moveStrafing == 0F) {
             return;
         }
 
@@ -227,7 +227,12 @@ public class ItemBoots extends ItemArmor
             bonus *= 0.25F;
         }
         if (player.onGround || player.isOnLadder() || player.capabilities.isFlying) {
-            player.moveFlying(0.0F, 1.0F, bonus);
+            if (player.moveForward != 0.0) {
+                player.moveFlying(0.0F, player.moveForward, bonus);
+            }
+            if (player.moveStrafing != 0.0) {
+                player.moveFlying(player.moveStrafing, 0.0F, bonus);
+            }
         } else if (Hover.getHover(player.getEntityId())) {
             player.jumpMovementFactor = 0.03F;
         } else {
