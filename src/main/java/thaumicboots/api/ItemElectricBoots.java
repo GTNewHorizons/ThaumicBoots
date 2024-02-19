@@ -154,6 +154,6 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem, ISpec
             bonus *= 0;
         }
         bonus *= itemStack.stackTagCompound.getDouble(TAG_MODE_SPEED);
-        applyBonus(player, bonus);
+        applyBonus(player, bonus, itemStack);
     }
 }

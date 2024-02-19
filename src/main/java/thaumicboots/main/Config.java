@@ -13,6 +13,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import thaumcraft.api.ThaumcraftApi;
 import thaumicboots.item.boots.unique.ItemChristmasBoots;
 import thaumicboots.item.boots.unique.ItemSeasonBoots;
+import thaumicboots.item.boots.unique.ItemSlowBoots;
 import thaumicboots.item.tools.ItemThaumicInterfacer;
 import thaumicboots.main.utils.VersionInfo;
 
@@ -30,6 +31,7 @@ public class Config {
     public static Item arcaniumLens;
     public static Item seasonBoots;
     public static Item christmasBoots;
+    public static Item slowBoots;
     // ----- Config State info ----------------------------------
     public static Configuration configuration;
     private static Config instance = null;
@@ -75,6 +77,9 @@ public class Config {
 
         christmasBoots = new ItemChristmasBoots(ThaumcraftApi.armorMatSpecial, 4, 3);
         GameRegistry.registerItem(christmasBoots, christmasBoots.getUnlocalizedName());
+
+        slowBoots = new ItemSlowBoots(ThaumcraftApi.armorMatSpecial, 4, 3);
+        GameRegistry.registerItem(slowBoots, slowBoots.getUnlocalizedName());
     }
 
     private static void processConfigFile() {

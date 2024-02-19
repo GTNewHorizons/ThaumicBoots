@@ -263,6 +263,7 @@ public class ThaumcraftHelper implements IModHelper {
 
     public static InfusionRecipe seasonalBoot;
     public static CrucibleRecipe seasonalToChristmas;
+    public static CrucibleRecipe slowBoot;
 
     public static void setupCrafting() {
         thaumaturgicCombinator = ThaumcraftApi.addCrucibleRecipe(
@@ -283,6 +284,12 @@ public class ThaumcraftHelper implements IModHelper {
                         new ItemStack(Items.fireworks, 1, OreDictionary.WILDCARD_VALUE),
                         new ItemStack(Items.iron_sword), new ItemStack(Blocks.lit_pumpkin),
                         new ItemStack(ConfigItems.itemFocusFrost), new ItemStack(Blocks.sapling, 1, 1) });
+
+        slowBoot = ThaumcraftApi.addCrucibleRecipe(
+                "TB_Unique_Boots",
+                new ItemStack(Config.slowBoots),
+                new ItemStack(ConfigItems.itemBootsTraveller),
+                new AspectList().add(Aspect.TRAP, 25).add(TB_Aspect.BOOTS, 25).add(Aspect.EXCHANGE, 10));
 
         if (CalendarHelper.isChristmas()) {
             seasonalToChristmas = ThaumcraftApi.addCrucibleRecipe(
@@ -374,9 +381,9 @@ public class ThaumcraftHelper implements IModHelper {
                 new ResourceLocation(VersionInfo.ModID, "textures/gui/research_bg1_b.png"));
 
         ResearchItem coreResearch;
-        ResearchItem explorationsCore, taintedCore, seasonalCore, seasonalStabilized;
+        ResearchItem explorationsCore, taintedCore, seasonalCore, seasonalStabilized, uniqueCore;
         ResearchPage core1, core2, explorationsCore1, explorationsCore2, taintedCore1, taintedCore2, seasonalCore1,
-                seasonalCore2, seasonalStabilized1, seasonalStabilized2;
+                seasonalCore2, seasonalStabilized1, seasonalStabilized2, uniqueCore1, uniqueCore2;
         ResearchPage explorationsTainted1, explorationsTainted2, explorationsTainted3, explorationsCompat1,
                 explorationsCompat2, explorationsCompat3;
 
@@ -424,11 +431,26 @@ public class ThaumcraftHelper implements IModHelper {
         if (CalendarHelper.isChristmas()) {
             seasonalStabilized2 = new ResearchPage(seasonalToChristmas);
         } else {
-            seasonalStabilized2 = new ResearchPage("seasonalStabilized2");
+            seasonalStabilized2 = new ResearchPage("seasonalStabilized.2");
         }
         seasonalStabilized.setPages(seasonalStabilized1, seasonalStabilized2);
         seasonalStabilized.setParents("TB_Seasonal_Boots");
         ResearchCategories.addResearch(seasonalStabilized);
+
+        uniqueCore = new ResearchItem(
+                "TB_Unique_Boots",
+                category,
+                new AspectList().add(TB_Aspect.BOOTS, 25).add(Aspect.EXCHANGE, 25).add(Aspect.TOOL, 25)
+                        .add(Aspect.MAGIC, 25).add(Aspect.ENERGY, 25),
+                -2,
+                0,
+                0,
+                new ItemStack(Config.slowBoots));
+        uniqueCore1 = new ResearchPage("UniqueCore.1");
+        uniqueCore2 = new ResearchPage(slowBoot);
+        uniqueCore.setPages(uniqueCore1, uniqueCore2);
+        uniqueCore.setParents("TB_Core_Research");
+        ResearchCategories.addResearch(uniqueCore);
 
         if (!EMTHelper.isActive() && !ExplorationsHelper.isActive() && !TaintedHelper.isActive()) {
             return;

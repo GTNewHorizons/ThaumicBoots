@@ -115,7 +115,7 @@ public class ItemVoidBoots extends ItemBoots implements IWarpingGear, ISpecialAr
         // speed boost
         float bonus = getSpeedModifier() * sashEquiped(player);
         bonus *= stack.stackTagCompound.getDouble(TAG_MODE_SPEED);
-        applyBonus(player, bonus);
+        applyBonus(player, bonus, stack);
     }
 
     public float sashEquiped(final EntityPlayer player) {
