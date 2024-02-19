@@ -12,6 +12,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import thaumicboots.api.serverfiles.PacketHandler;
 import thaumicboots.api.serverfiles.PacketJumpToggle;
+import thaumicboots.api.serverfiles.PacketOmniToggle;
 import thaumicboots.api.serverfiles.PacketSpeedToggle;
 
 public class BootKeys {
@@ -24,11 +25,16 @@ public class BootKeys {
             "keybinding.speedtoggle",
             Keyboard.KEY_NONE,
             "Thaumic Boots");
+    private final KeyBinding keyOmniToggle = new KeyBinding(
+            "keybinding.omniToggle",
+            Keyboard.KEY_NONE,
+            "Thaumic Boots");
 
     public BootKeys() {
         FMLCommonHandler.instance().bus().register(this);
         ClientRegistry.registerKeyBinding(keyJumpToggle);
         ClientRegistry.registerKeyBinding(keySpeedToggle);
+        ClientRegistry.registerKeyBinding(keyOmniToggle);
     }
 
     @SideOnly(Side.CLIENT)
@@ -42,6 +48,8 @@ public class BootKeys {
             toggleJump();
         } else if (keySpeedToggle.isPressed()) {
             toggleSpeed();
+        } else if (keyOmniToggle.isPressed()) {
+            toggleOmni();
         }
     }
 
@@ -51,5 +59,9 @@ public class BootKeys {
 
     private static void toggleSpeed() {
         PacketHandler.INSTANCE.sendToServer(new PacketSpeedToggle());
+    }
+
+    private static void toggleOmni() {
+        PacketHandler.INSTANCE.sendToServer(new PacketOmniToggle());
     }
 }

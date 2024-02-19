@@ -49,6 +49,7 @@ item.ItemPurpleVoidwalkerBoots.name=Altered Boots of the Purple Haze
 
 item.ItemSeasonBoots.name=Boots of the Seasons
 item.ItemChristmasBoots.name=Boots of Christmas Spirit
+item.ItemSlowBoots.name=Boots of the Sloth
 
 #Research things
 tc.research_category.THAUMICBOOTS=Thaumic Boots
@@ -74,6 +75,9 @@ tc.research_text.TB_Seasonal_Boots=Christmas Spirits and Other Magickal Phenomen
 tc.research_name.TB_Seasonal_Stabilized=Stabilized Seasonal Magicks
 tc.research_text.TB_Seasonal_Stabilized=Stabilization of Seasonal Magicks
 
+tc.research_name.TB_Unique_Boots=Unique Magicks
+tc.research_text.TB_Unique_Boots=The Study of Unreplicable Magicks
+
 #Actual Researches
 Core.1=In your studies, you have discovered something rather... peculiar. In this, you found that you were somehow able to equally combine different forms of magick energy to create something... <BR><BR>Unique.<BR><BR>A new form of energy, somehow greater than the sum of its original parts.<BR><BR>You wonder where else this could be applied.
 ExplorationsCore.1=Your study of the sky and stars yielded, after intense research of these celestial bodies, you discovered what you call "comets" and "meteors." <BR><BR>In this, you discovered some magicks innate to the heavens, able to be infused into your boots. <BR><BR>And yet, you feel as if there were still more to discover...
@@ -87,6 +91,7 @@ ExplorationsEMT.1=As you continued your studies of electricity, you noticed some
 SeasonalCore.1=In your studies of magickal phenomena, you discovered something peculiar: there are spikes of magickal energies around specific parts of the solar calendar. <BR><BR>These spikes have been known to cause various tranformations, such as transforming chests to presents, and vice versa as they pass. Interestingly, you've managed to capture this chaotic energy. <BR><BR>Yet you wonder if there is some way you may be able to stabilize these energies...
 SeasonalStabilized.1=As you continued your studies of the seasonal magick phenomena, you noticed something interesting, it actually is possible to attune these energies into a specific phenomena, resulting in a drastically boosted seasonal effect... with one caveat: these effects become incredibly diminished after the season has passed. <BR><BR>The first of these effects you've noticed is a drastic increase in the steady running speed over time, while freezing water similar to that of comet attuned magicks <BR><BR>Though, you almost swear you can hear sleigh bells...
 SeasonalStabilized.2=You believe you should come back to this in December...
+UniqueCore.1=In your studies of magickal phenomena, you've run upon something peculiar: there are certain magicks that can only be recreated in exact scenarios. The first of these you've stumbled upon, being a seemingly simple slowness curse. <BR><BR>However, while you were able to reproduce the boots themselves, you cannot for the life of you understand how the magick energy works, nor how to recreate it directly. <BR><BR>You begin to wonder if you'll stumble upon energies in similar situations...
 
 #Aspects
 tc.aspect.caelum=Celestial Space
@@ -96,6 +101,11 @@ itemGroup.Thaumic Boots=Thaumic Boots
 
 keybinding.speedtoggle=Modulate Speed Boost
 keybinding.jumptoggle=Modulate Jump Boost
+keybinding.omnitoggle=Modulate Jump Boost
 
 thaumicboots.jumpEffect=Jump Boost:
 thaumicboots.speedEffect=Speed Boost:
+thaumicboots.omniEffect=Omni Mode:
+
+thaumicboots.omniStatetrue=Activated
+thaumicboots.omniStatefalse=Deactivated

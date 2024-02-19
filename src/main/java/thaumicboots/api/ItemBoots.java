@@ -46,9 +46,11 @@ public class ItemBoots extends ItemArmor
     public String unlocalisedName;
 
     public double jumpBonus;
+    public boolean omniMovement;
 
     public static final String TAG_MODE_JUMP = "jump";
     public static final String TAG_MODE_SPEED = "speed";
+    public static final String TAG_MOD_OMNI = "omni";
 
     public ItemBoots(ArmorMaterial par2EnumArmorMaterial, int par3, int par4) {
         super(par2EnumArmorMaterial, par3, par4);
@@ -60,6 +62,7 @@ public class ItemBoots extends ItemArmor
         visDiscount = 0;
         runBonus = 0.165F;
         jumpBonus = 0.0D;
+        omniMovement = false;
         tier = 0;
         steadyBonus = false; // this is the toggle for the longrunningbonus.
         negateFall = true; // certain boots don't have fall damage in base.
@@ -72,6 +75,7 @@ public class ItemBoots extends ItemArmor
 
     public double getJumpModifier() {
         return jumpBonus;
+
     }
 
     public static double changeJump(double prevJump) {
@@ -120,6 +124,28 @@ public class ItemBoots extends ItemArmor
             stack.setTagCompound(new NBTTagCompound());
         }
         stack.stackTagCompound.setDouble(TAG_MODE_SPEED, state);
+    }
+
+    public boolean getOmniState() {
+        return omniMovement;
+    }
+
+    public static boolean changeOmniState(boolean prevState) {
+        return !prevState;
+    }
+
+    public static boolean isOmniEnabled(final ItemStack stack) {
+        if (stack.stackTagCompound == null) {
+            return false;
+        }
+        return stack.stackTagCompound.getBoolean(TAG_MOD_OMNI);
+    }
+
+    public static void setModeOmni(ItemStack stack, boolean state) {
+        if (stack.stackTagCompound == null) {
+            stack.setTagCompound(new NBTTagCompound());
+        }
+        stack.stackTagCompound.setBoolean(TAG_MOD_OMNI, state);
     }
 
     // TODO: the part not from interfaces
@@ -174,8 +200,7 @@ public class ItemBoots extends ItemArmor
 
     protected float computeBonus(ItemStack itemStack, EntityPlayer player) {
         int ticks = player.inventory.armorItemInSlot(0).stackTagCompound.getInteger("runTicks");
-        float bonus = runBonus + ((ticks * 0.2F) * longrunningbonus);
-        return bonus;
+        return runBonus + ((ticks * 0.2F) * longrunningbonus);
     }
 
     @Override
@@ -183,8 +208,9 @@ public class ItemBoots extends ItemArmor
         if (negateFall && player.fallDistance > 0.0F) {
             player.fallDistance = 0.0F;
         }
-
-        if (player.moveForward == 0F && player.moveStrafing == 0F) {
+        boolean omniMode = isOmniEnabled(itemStack);
+        if ((player.moveForward == 0F && player.moveStrafing == 0F && omniMode)
+                || (player.moveForward <= 0F && !omniMode)) {
             return;
         }
 
@@ -199,8 +225,8 @@ public class ItemBoots extends ItemArmor
     }
 
     public void applyFinalBonus(float bonus, EntityPlayer player, ItemStack itemStack) {
-        bonus *= itemStack.stackTagCompound.getDouble(TAG_MODE_SPEED);
-        applyBonus(player, bonus);
+        bonus *= isSpeedEnabled(itemStack);
+        applyBonus(player, bonus, itemStack);
     }
 
     public void stepHeight(EntityPlayer player) {
@@ -222,7 +248,7 @@ public class ItemBoots extends ItemArmor
         }
     }
 
-    public void applyBonus(EntityPlayer player, float bonus) {
+    public void applyBonus(EntityPlayer player, float bonus, ItemStack itemStack) {
         if (waterEffects && player.isInWater()) {
             bonus *= 0.25F;
         }
@@ -230,7 +256,7 @@ public class ItemBoots extends ItemArmor
             if (player.moveForward != 0.0) {
                 player.moveFlying(0.0F, player.moveForward, bonus);
             }
-            if (player.moveStrafing != 0.0) {
+            if (player.moveStrafing != 0.0 && itemStack.stackTagCompound.getBoolean(TAG_MOD_OMNI)) {
                 player.moveFlying(player.moveStrafing, 0.0F, bonus);
             }
         } else if (Hover.getHover(player.getEntityId())) {
@@ -271,6 +297,23 @@ public class ItemBoots extends ItemArmor
     }
 
     @Optional.Method(modid = "gtnhlib")
+    @SideOnly(Side.CLIENT)
+    public static void renderHUDOmniNotification() {
+        Minecraft mc = Minecraft.getMinecraft();
+        String result = "thaumicboots.omniState" + getBoots(mc.thePlayer).stackTagCompound.getBoolean(TAG_MOD_OMNI);
+        String midResult, finalResult;
+        if (getBoots(mc.thePlayer).stackTagCompound.getBoolean(TAG_MOD_OMNI)) {
+            midResult = EnumChatFormatting.DARK_GREEN + StatCollector.translateToLocal(result);
+        } else {
+            midResult = EnumChatFormatting.DARK_RED + StatCollector.translateToLocal(result);
+        }
+        finalResult = EnumChatFormatting.GOLD + StatCollector.translateToLocal("thaumicboots.omniEffect")
+                + " "
+                + midResult;
+        GTNHLib.proxy.printMessageAboveHotbar(finalResult, 60, true, true);
+    }
+
+    @Optional.Method(modid = "gtnhlib")
     public static String getModeText(String effect, double val) {
         String endResult = (int) val + "%";
         String result = switch ((int) val) {
@@ -281,8 +324,6 @@ public class ItemBoots extends ItemArmor
             case 100 -> EnumChatFormatting.AQUA + StatCollector.translateToLocal(endResult);
             default -> EnumChatFormatting.DARK_GRAY + StatCollector.translateToLocal(endResult);
         };
-
         return EnumChatFormatting.GOLD + StatCollector.translateToLocal(effect) + " " + result;
-
     }
 }
