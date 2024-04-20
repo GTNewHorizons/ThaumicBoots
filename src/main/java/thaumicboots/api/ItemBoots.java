@@ -29,7 +29,7 @@ import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.items.armor.Hover;
 
 public class ItemBoots extends ItemArmor
-        implements ITBootJumpable, ITBootSpeed, IVisDiscountGear, IRunicArmor, IRepairable {
+        implements ITBootJumpable, ITBootSpeed, IVisDiscountGear, IRunicArmor, IRepairable, IBoots {
 
     public IIcon icon;
 
@@ -79,7 +79,7 @@ public class ItemBoots extends ItemArmor
     }
 
     public static double changeJump(double prevJump) {
-        double newJump = prevJump + 0.25;
+        double newJump = prevJump + 0.1;
         if (newJump > 1) {
             newJump = 0;
         }
@@ -105,7 +105,7 @@ public class ItemBoots extends ItemArmor
     }
 
     public static double changeSpeed(double prevSpeed) {
-        double newSpeed = prevSpeed + 0.25;
+        double newSpeed = prevSpeed + 0.1;
         if (newSpeed > 1) {
             newSpeed = 0;
         }
@@ -282,7 +282,7 @@ public class ItemBoots extends ItemArmor
         Minecraft mc = Minecraft.getMinecraft();
         String text = getModeText(
                 "thaumicboots.jumpEffect",
-                getBoots(mc.thePlayer).stackTagCompound.getDouble(TAG_MODE_JUMP) * 100);
+                IBoots.getBoots(mc.thePlayer).stackTagCompound.getDouble(TAG_MODE_JUMP) * 100);
         GTNHLib.proxy.printMessageAboveHotbar(text, 60, true, true);
     }
 
@@ -292,7 +292,7 @@ public class ItemBoots extends ItemArmor
         Minecraft mc = Minecraft.getMinecraft();
         String text = getModeText(
                 "thaumicboots.speedEffect",
-                getBoots(mc.thePlayer).stackTagCompound.getDouble(TAG_MODE_SPEED) * 100);
+                IBoots.getBoots(mc.thePlayer).stackTagCompound.getDouble(TAG_MODE_SPEED) * 100);
         GTNHLib.proxy.printMessageAboveHotbar(text, 60, true, true);
     }
 
@@ -300,9 +300,10 @@ public class ItemBoots extends ItemArmor
     @SideOnly(Side.CLIENT)
     public static void renderHUDOmniNotification() {
         Minecraft mc = Minecraft.getMinecraft();
-        String result = "thaumicboots.omniState" + getBoots(mc.thePlayer).stackTagCompound.getBoolean(TAG_MOD_OMNI);
+        String result = "thaumicboots.omniState"
+                + IBoots.getBoots(mc.thePlayer).stackTagCompound.getBoolean(TAG_MOD_OMNI);
         String midResult, finalResult;
-        if (getBoots(mc.thePlayer).stackTagCompound.getBoolean(TAG_MOD_OMNI)) {
+        if (IBoots.getBoots(mc.thePlayer).stackTagCompound.getBoolean(TAG_MOD_OMNI)) {
             midResult = EnumChatFormatting.DARK_GREEN + StatCollector.translateToLocal(result);
         } else {
             midResult = EnumChatFormatting.DARK_RED + StatCollector.translateToLocal(result);
