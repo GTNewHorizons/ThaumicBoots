@@ -27,6 +27,7 @@ import thaumcraft.api.IVisDiscountGear;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.items.armor.Hover;
+import thaumicboots.main.Config;
 
 public class ItemBoots extends ItemArmor
         implements ITBootJumpable, ITBootSpeed, IVisDiscountGear, IRunicArmor, IRepairable, IBoots {
@@ -79,7 +80,7 @@ public class ItemBoots extends ItemArmor
     }
 
     public static double changeJump(double prevJump) {
-        double newJump = prevJump + 0.1;
+        double newJump = prevJump + Config.bootsJumpChangeRate;
         if (newJump > 1) {
             newJump = 0;
         }
@@ -105,7 +106,7 @@ public class ItemBoots extends ItemArmor
     }
 
     public static double changeSpeed(double prevSpeed) {
-        double newSpeed = prevSpeed + 0.1;
+        double newSpeed = prevSpeed + Config.bootsSpeedChangeRate;
         if (newSpeed > 1) {
             newSpeed = 0;
         }
