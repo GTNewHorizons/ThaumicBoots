@@ -4,6 +4,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
+import thaumicboots.main.Config;
+
 public interface IBoots {
 
     String TAG_MODE_JUMP = "jump";
@@ -37,7 +39,7 @@ public interface IBoots {
         }
         // Internally MC returns 0 by default if the tag is not present, we do not need a presence check.
         double oldSpeed = stack.stackTagCompound.getDouble(TAG_MODE_SPEED);
-        double newSpeed = oldSpeed + 0.1;
+        double newSpeed = oldSpeed + Config.bootsSpeedChangeRate;
         if (newSpeed > 1) {
             newSpeed = 0;
         }
@@ -51,7 +53,7 @@ public interface IBoots {
         }
         // Internally MC returns 0 by default if the tag is not present, we do not need a presence check.
         double oldJump = stack.stackTagCompound.getDouble(TAG_MODE_JUMP);
-        double newJump = oldJump + 0.1;
+        double newJump = oldJump + Config.bootsSpeedChangeRate;
         if (newJump > 1) {
             newJump = 0;
         }
