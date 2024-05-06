@@ -13,6 +13,7 @@ import net.minecraftforge.event.entity.living.LivingFallEvent;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import ic2.api.item.ElectricItem;
+import thaumicboots.api.IBoots;
 import thaumicboots.api.IMeteor;
 import thaumicboots.api.ISpecialEffect;
 import thaumicboots.api.ItemBoots;
@@ -86,7 +87,7 @@ public class BootsEventHandler {
             meteor.specialEffect2(event);
         } else if (item instanceof ItemBoots boots) {
             event.entityLiving.motionY += (boots.getJumpModifier()
-                    * ItemBoots.isJumpEnabled(player.inventory.armorItemInSlot(0)));
+                    * IBoots.isJumpEnabled(player.inventory.armorItemInSlot(0)));
         }
         // 0.275D is approx 3 blocks, 0.265D will get you to just 3 blocks,
         // 0.55D is approx 5.5 blocks, so 0.275 is around 2.25 additional blocks
