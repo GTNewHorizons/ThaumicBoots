@@ -25,6 +25,7 @@ import thaumicboots.main.utils.VersionInfo;
 public class Config {
 
     public static final String CATEGORY_MODULES = "modules";
+    public static final String BOOTS = "boots";
 
     public static boolean thaumcraftActive;
 
@@ -40,6 +41,8 @@ public class Config {
     public static boolean taintedMagicActive;
     public static boolean emtActive;
     public static boolean explorationsActive;
+    public static double bootsJumpChangeRate;
+    public static double bootsSpeedChangeRate;
 
     public static void Init(File configFile) {
         if (instance != null) return;
@@ -107,5 +110,24 @@ public class Config {
 
         p = configuration.get(CATEGORY_MODULES, "Thaumic_Exploration", true);
         explorationsActive = p.getBoolean();
+
+        p = configuration.get(
+                BOOTS,
+                "Jump-Change-Rate",
+                0.25,
+                "The rate that boot jump modifier changes when the Jump Modulation key is pressed. 'I will not provide support to those who change this -Alastor'",
+                0.01,
+                1.0);
+        bootsJumpChangeRate = p.getDouble();
+
+        p = configuration.get(
+                BOOTS,
+                "Speed-Change-Rate",
+                0.25,
+                "The rate that boot speed modifier changes when the Speed Modulation key is pressed. 'I will not provide support to those who change this -Alastor'",
+                0.01,
+                1.0);
+        bootsSpeedChangeRate = p.getDouble();
+
     }
 }
