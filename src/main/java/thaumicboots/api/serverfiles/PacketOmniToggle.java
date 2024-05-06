@@ -23,8 +23,8 @@ public class PacketOmniToggle implements IMessage, IMessageHandler<PacketOmniTog
     public IMessage onMessage(PacketOmniToggle message, MessageContext ctx) {
         EntityPlayerMP player = ctx.getServerHandler().playerEntity;
         final ItemStack boots = IBoots.getBoots(player);
-        if (boots.getItem() instanceof IBoots item) {
-            boolean omniState = item.toggleOmni(boots);
+        if (boots != null && boots.getItem() instanceof IBoots item) {
+            boolean omniState = item.changeOmniState(boots);
             PacketOmniToggleAck ackMessage = new PacketOmniToggleAck();
             ackMessage.state = omniState;
             PacketHandler.INSTANCE.sendTo(ackMessage, player);

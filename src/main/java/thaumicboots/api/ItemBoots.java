@@ -2,7 +2,6 @@ package thaumicboots.api;
 
 import java.util.List;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,9 +15,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
-import com.gtnewhorizon.gtnhlib.GTNHLib;
-
-import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import thaumcraft.api.IRepairable;
@@ -27,7 +23,6 @@ import thaumcraft.api.IVisDiscountGear;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.items.armor.Hover;
-import thaumicboots.main.Config;
 
 public class ItemBoots extends ItemArmor
         implements ITBootJumpable, ITBootSpeed, IVisDiscountGear, IRunicArmor, IRepairable, IBoots {
@@ -48,10 +43,6 @@ public class ItemBoots extends ItemArmor
 
     public double jumpBonus;
     public boolean omniMovement;
-
-    public static final String TAG_MODE_JUMP = "jump";
-    public static final String TAG_MODE_SPEED = "speed";
-    public static final String TAG_MOD_OMNI = "omni";
 
     public ItemBoots(ArmorMaterial par2EnumArmorMaterial, int par3, int par4) {
         super(par2EnumArmorMaterial, par3, par4);
@@ -79,74 +70,8 @@ public class ItemBoots extends ItemArmor
 
     }
 
-    public static double changeJump(double prevJump) {
-        double newJump = prevJump + Config.bootsJumpChangeRate;
-        if (newJump > 1) {
-            newJump = 0;
-        }
-        return newJump;
-    }
-
-    public static double isJumpEnabled(final ItemStack stack) {
-        if (stack.stackTagCompound == null) {
-            return 0;
-        }
-        return stack.stackTagCompound.getDouble(TAG_MODE_JUMP);
-    }
-
-    public static void setModeJump(ItemStack stack, double state) {
-        if (stack.stackTagCompound == null) {
-            stack.setTagCompound(new NBTTagCompound());
-        }
-        stack.stackTagCompound.setDouble(TAG_MODE_JUMP, state);
-    }
-
     public float getSpeedModifier() {
         return runBonus;
-    }
-
-    public static double changeSpeed(double prevSpeed) {
-        double newSpeed = prevSpeed + Config.bootsSpeedChangeRate;
-        if (newSpeed > 1) {
-            newSpeed = 0;
-        }
-        return newSpeed;
-    }
-
-    public static double isSpeedEnabled(final ItemStack stack) {
-        if (stack.stackTagCompound == null) {
-            return 0;
-        }
-        return stack.stackTagCompound.getDouble(TAG_MODE_SPEED);
-    }
-
-    public static void setModeSpeed(ItemStack stack, double state) {
-        if (stack.stackTagCompound == null) {
-            stack.setTagCompound(new NBTTagCompound());
-        }
-        stack.stackTagCompound.setDouble(TAG_MODE_SPEED, state);
-    }
-
-    public boolean getOmniState() {
-        return omniMovement;
-    }
-
-    public static boolean changeOmniState(boolean prevState) {
-        return !prevState;
-    }
-
-    public static boolean isOmniEnabled(final ItemStack stack) {
-        if (stack.stackTagCompound == null) {
-            return false;
-        }
-        return stack.stackTagCompound.getBoolean(TAG_MOD_OMNI);
-    }
-
-    public static void setModeOmni(ItemStack stack, boolean state) {
-        if (stack.stackTagCompound == null) {
-            stack.setTagCompound(new NBTTagCompound());
-        }
-        stack.stackTagCompound.setBoolean(TAG_MOD_OMNI, state);
     }
 
     // TODO: the part not from interfaces
@@ -254,78 +179,15 @@ public class ItemBoots extends ItemArmor
             bonus *= 0.25F;
         }
         if (player.onGround || player.isOnLadder() || player.capabilities.isFlying) {
-            if (player.moveForward != 0.0) {
-                player.moveFlying(0.0F, player.moveForward, bonus);
-            }
-            if (player.moveStrafing != 0.0 && itemStack.stackTagCompound.getBoolean(TAG_MOD_OMNI)) {
+            if (player.moveStrafing != 0.0 && itemStack.stackTagCompound.getBoolean(TAG_MODE_OMNI)) {
                 player.moveFlying(player.moveStrafing, 0.0F, bonus);
+            } else if (player.moveForward != 0.0) {
+                player.moveFlying(0.0F, player.moveForward, bonus);
             }
         } else if (Hover.getHover(player.getEntityId())) {
             player.jumpMovementFactor = 0.03F;
         } else {
             player.jumpMovementFactor = 0.05F;
         }
-    }
-
-    // taken from Vazkii
-    public static ItemStack getBoots(EntityPlayer player) {
-        ItemStack stack1 = player.getCurrentArmor(0);
-        return isBoot(stack1) ? stack1 : null;
-    }
-
-    private static boolean isBoot(ItemStack stack) {
-        return stack != null && (stack.getItem() instanceof ItemBoots);
-    }
-
-    @Optional.Method(modid = "gtnhlib")
-    @SideOnly(Side.CLIENT)
-    public static void renderHUDJumpNotification() {
-        Minecraft mc = Minecraft.getMinecraft();
-        String text = getModeText(
-                "thaumicboots.jumpEffect",
-                IBoots.getBoots(mc.thePlayer).stackTagCompound.getDouble(TAG_MODE_JUMP) * 100);
-        GTNHLib.proxy.printMessageAboveHotbar(text, 60, true, true);
-    }
-
-    @Optional.Method(modid = "gtnhlib")
-    @SideOnly(Side.CLIENT)
-    public static void renderHUDSpeedNotification() {
-        Minecraft mc = Minecraft.getMinecraft();
-        String text = getModeText(
-                "thaumicboots.speedEffect",
-                IBoots.getBoots(mc.thePlayer).stackTagCompound.getDouble(TAG_MODE_SPEED) * 100);
-        GTNHLib.proxy.printMessageAboveHotbar(text, 60, true, true);
-    }
-
-    @Optional.Method(modid = "gtnhlib")
-    @SideOnly(Side.CLIENT)
-    public static void renderHUDOmniNotification() {
-        Minecraft mc = Minecraft.getMinecraft();
-        String result = "thaumicboots.omniState"
-                + IBoots.getBoots(mc.thePlayer).stackTagCompound.getBoolean(TAG_MOD_OMNI);
-        String midResult, finalResult;
-        if (IBoots.getBoots(mc.thePlayer).stackTagCompound.getBoolean(TAG_MOD_OMNI)) {
-            midResult = EnumChatFormatting.DARK_GREEN + StatCollector.translateToLocal(result);
-        } else {
-            midResult = EnumChatFormatting.DARK_RED + StatCollector.translateToLocal(result);
-        }
-        finalResult = EnumChatFormatting.GOLD + StatCollector.translateToLocal("thaumicboots.omniEffect")
-                + " "
-                + midResult;
-        GTNHLib.proxy.printMessageAboveHotbar(finalResult, 60, true, true);
-    }
-
-    @Optional.Method(modid = "gtnhlib")
-    public static String getModeText(String effect, double val) {
-        String endResult = (int) val + "%";
-        String result = switch ((int) val) {
-            case 0 -> EnumChatFormatting.DARK_RED + StatCollector.translateToLocal(endResult);
-            case 25 -> EnumChatFormatting.RED + StatCollector.translateToLocal(endResult);
-            case 50 -> EnumChatFormatting.DARK_GREEN + StatCollector.translateToLocal(endResult);
-            case 75 -> EnumChatFormatting.GREEN + StatCollector.translateToLocal(endResult);
-            case 100 -> EnumChatFormatting.AQUA + StatCollector.translateToLocal(endResult);
-            default -> EnumChatFormatting.DARK_GRAY + StatCollector.translateToLocal(endResult);
-        };
-        return EnumChatFormatting.GOLD + StatCollector.translateToLocal(effect) + " " + result;
     }
 }

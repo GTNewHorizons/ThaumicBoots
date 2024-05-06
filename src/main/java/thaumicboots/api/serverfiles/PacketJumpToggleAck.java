@@ -10,7 +10,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import thaumicboots.api.IBoots;
-import thaumicboots.api.ItemBoots;
 import thaumicboots.main.utils.compat.GTNHLibHelper;
 
 public class PacketJumpToggleAck implements IMessage, IMessageHandler<PacketJumpToggleAck, IMessage> {
@@ -32,9 +31,9 @@ public class PacketJumpToggleAck implements IMessage, IMessageHandler<PacketJump
         Minecraft mc = Minecraft.getMinecraft();
         final ItemStack boots = IBoots.getBoots(mc.thePlayer);
         if (boots.getItem() instanceof IBoots item) {
-            item.setJumpModifier(boots, message.state);
+            item.setModeJump(boots, message.state);
             if (GTNHLibHelper.isActive()) {
-                ItemBoots.renderHUDJumpNotification();
+                IBoots.renderHUDJumpNotification();
             }
         }
 

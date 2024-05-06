@@ -23,7 +23,7 @@ public class PacketJumpToggle implements IMessage, IMessageHandler<PacketJumpTog
     public IMessage onMessage(PacketJumpToggle message, MessageContext ctx) {
         EntityPlayerMP player = ctx.getServerHandler().playerEntity;
         final ItemStack boots = IBoots.getBoots(player);
-        if (boots.getItem() instanceof IBoots item) {
+        if (boots != null && boots.getItem() instanceof IBoots item) {
             double jumpState = item.changeJump(boots);
             PacketJumpToggleAck ackMessage = new PacketJumpToggleAck();
             ackMessage.state = jumpState;
