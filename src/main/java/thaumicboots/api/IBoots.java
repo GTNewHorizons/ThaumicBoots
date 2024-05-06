@@ -1,38 +1,44 @@
 package thaumicboots.api;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.StatCollector;
 
+import com.gtnewhorizon.gtnhlib.GTNHLib;
+
+import cpw.mods.fml.common.Optional;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import thaumicboots.main.Config;
 
 public interface IBoots {
 
     String TAG_MODE_JUMP = "jump";
     String TAG_MODE_SPEED = "speed";
-    String TAG_MOD_OMNI = "omni";
+    String TAG_MODE_OMNI = "omni";
 
-    default void setSpeedModifier(ItemStack stack, double modifier) {
+    default void setModeSpeed(ItemStack stack, double modifier) {
         if (stack.stackTagCompound == null) {
             stack.setTagCompound(new NBTTagCompound());
         }
         stack.stackTagCompound.setDouble(TAG_MODE_SPEED, modifier);
     }
 
-    default void setJumpModifier(ItemStack stack, double modifier) {
+    default void setModeJump(ItemStack stack, double modifier) {
         if (stack.stackTagCompound == null) {
             stack.setTagCompound(new NBTTagCompound());
         }
         stack.stackTagCompound.setDouble(TAG_MODE_JUMP, modifier);
     }
 
-    default void setOmniEnabled(ItemStack stack, boolean enabled) {
+    default void setModeOmni(ItemStack stack, boolean enabled) {
         if (stack.stackTagCompound == null) {
             stack.setTagCompound(new NBTTagCompound());
         }
-        stack.stackTagCompound.setBoolean(TAG_MOD_OMNI, enabled);
+        stack.stackTagCompound.setBoolean(TAG_MODE_OMNI, enabled);
     }
 
     default double changeSpeed(ItemStack stack) {
@@ -63,40 +69,95 @@ public interface IBoots {
         return newJump;
     }
 
-    default boolean toggleOmni(ItemStack stack) {
+    default boolean changeOmniState(ItemStack stack) {
         if (stack.stackTagCompound == null) {
             stack.setTagCompound(new NBTTagCompound());
         }
         // Internally MC returns false by default if the tag is not present, we do not need a presence check.
-        boolean omni = stack.stackTagCompound.getBoolean(TAG_MOD_OMNI);
+        boolean omni = stack.stackTagCompound.getBoolean(TAG_MODE_OMNI);
         omni = !omni;
-        stack.stackTagCompound.setBoolean(TAG_MOD_OMNI, omni);
+        stack.stackTagCompound.setBoolean(TAG_MODE_OMNI, omni);
         return omni;
     }
 
-    default double getSpeedModifier(ItemStack stack) {
+    default double isSpeedEnabled(ItemStack stack) {
         if (stack.stackTagCompound != null) {
             return stack.stackTagCompound.getDouble(TAG_MODE_SPEED);
         }
         return 0;
     }
 
-    default double getJumpModifier(ItemStack stack) {
+    static double isJumpEnabled(ItemStack stack) {
         if (stack.stackTagCompound != null) {
             return stack.stackTagCompound.getDouble(TAG_MODE_JUMP);
         }
         return 0;
     }
 
-    default boolean getOmniEnabled(ItemStack stack) {
+    default boolean isOmniEnabled(ItemStack stack) {
         if (stack.stackTagCompound != null) {
-            return stack.stackTagCompound.getBoolean(TAG_MOD_OMNI);
+            return stack.stackTagCompound.getBoolean(TAG_MODE_OMNI);
         }
         return false;
     }
 
     static ItemStack getBoots(EntityPlayer player) {
-        ItemStack current = player.getCurrentArmor(0);
-        return current != null ? current : new ItemStack(Blocks.air);
+        ItemStack stack1 = player.getCurrentArmor(0);
+        return isBoot(stack1) ? stack1 : null;
+    }
+
+    static boolean isBoot(ItemStack stack) {
+        return stack != null && (stack.getItem() instanceof IBoots);
+    }
+
+    @Optional.Method(modid = "gtnhlib")
+    @SideOnly(Side.CLIENT)
+    public static void renderHUDJumpNotification() {
+        Minecraft mc = Minecraft.getMinecraft();
+        String text = getModeText(
+                "thaumicboots.jumpEffect",
+                getBoots(mc.thePlayer).stackTagCompound.getDouble(TAG_MODE_JUMP) * 100);
+        GTNHLib.proxy.printMessageAboveHotbar(text, 60, true, true);
+    }
+
+    @Optional.Method(modid = "gtnhlib")
+    @SideOnly(Side.CLIENT)
+    public static void renderHUDSpeedNotification() {
+        Minecraft mc = Minecraft.getMinecraft();
+        String text = getModeText(
+                "thaumicboots.speedEffect",
+                getBoots(mc.thePlayer).stackTagCompound.getDouble(TAG_MODE_SPEED) * 100);
+        GTNHLib.proxy.printMessageAboveHotbar(text, 60, true, true);
+    }
+
+    @Optional.Method(modid = "gtnhlib")
+    @SideOnly(Side.CLIENT)
+    public static void renderHUDOmniNotification() {
+        Minecraft mc = Minecraft.getMinecraft();
+        String result = "thaumicboots.omniState" + getBoots(mc.thePlayer).stackTagCompound.getBoolean(TAG_MODE_OMNI);
+        String midResult, finalResult;
+        if (getBoots(mc.thePlayer).stackTagCompound.getBoolean(TAG_MODE_OMNI)) {
+            midResult = EnumChatFormatting.DARK_GREEN + StatCollector.translateToLocal(result);
+        } else {
+            midResult = EnumChatFormatting.DARK_RED + StatCollector.translateToLocal(result);
+        }
+        finalResult = EnumChatFormatting.GOLD + StatCollector.translateToLocal("thaumicboots.omniEffect")
+                + " "
+                + midResult;
+        GTNHLib.proxy.printMessageAboveHotbar(finalResult, 60, true, true);
+    }
+
+    @Optional.Method(modid = "gtnhlib")
+    public static String getModeText(String effect, double val) {
+        String endResult = (int) val + "%";
+        String result = switch ((int) val) {
+            case 0 -> EnumChatFormatting.DARK_RED + StatCollector.translateToLocal(endResult);
+            case 25 -> EnumChatFormatting.RED + StatCollector.translateToLocal(endResult);
+            case 50 -> EnumChatFormatting.DARK_GREEN + StatCollector.translateToLocal(endResult);
+            case 75 -> EnumChatFormatting.GREEN + StatCollector.translateToLocal(endResult);
+            case 100 -> EnumChatFormatting.AQUA + StatCollector.translateToLocal(endResult);
+            default -> EnumChatFormatting.DARK_GRAY + StatCollector.translateToLocal(endResult);
+        };
+        return EnumChatFormatting.GOLD + StatCollector.translateToLocal(effect) + " " + result;
     }
 }

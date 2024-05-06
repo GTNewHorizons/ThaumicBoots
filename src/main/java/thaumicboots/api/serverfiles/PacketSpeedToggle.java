@@ -23,7 +23,7 @@ public class PacketSpeedToggle implements IMessage, IMessageHandler<PacketSpeedT
     public IMessage onMessage(PacketSpeedToggle message, MessageContext ctx) {
         EntityPlayerMP player = ctx.getServerHandler().playerEntity;
         final ItemStack boots = IBoots.getBoots(player);
-        if (boots.getItem() instanceof IBoots item) {
+        if (boots != null && boots.getItem() instanceof IBoots item) {
             double speedState = item.changeSpeed(boots);
             PacketSpeedToggleAck ackMessage = new PacketSpeedToggleAck();
             ackMessage.state = speedState;
