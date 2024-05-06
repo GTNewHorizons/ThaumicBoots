@@ -13,7 +13,11 @@ import net.minecraftforge.event.entity.living.LivingFallEvent;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import ic2.api.item.ElectricItem;
-import thaumicboots.api.*;
+import thaumicboots.api.IBoots;
+import thaumicboots.api.IMeteor;
+import thaumicboots.api.ISpecialEffect;
+import thaumicboots.api.ItemBoots;
+import thaumicboots.api.ItemElectricBoots;
 import thaumicboots.item.boots.comet.ItemElectricCometBoots;
 import thaumicboots.item.boots.meteor.ItemElectricMeteorBoots;
 import thaumicboots.main.Config;
