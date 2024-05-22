@@ -26,7 +26,7 @@ public class BootKeys {
             Keyboard.KEY_NONE,
             "Thaumic Boots");
     private final KeyBinding keyOmniToggle = new KeyBinding(
-            "keybinding.omniToggle",
+            "keybinding.omnitoggle",
             Keyboard.KEY_NONE,
             "Thaumic Boots");
 
