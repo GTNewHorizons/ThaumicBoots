@@ -176,23 +176,25 @@ public interface IBoots {
     @Optional.Method(modid = "gtnhlib")
     @SideOnly(Side.CLIENT)
     public static void renderHUDInertiaCancellingNotification(boolean serverConfigValue) {
-    	String finalResult;
-    	if(serverConfigValue) {
-	        Minecraft mc = Minecraft.getMinecraft();
-	        String result = "thaumicboots.inertiaCancellingState"
-	                + getBoots(mc.thePlayer).stackTagCompound.getBoolean(TAG_MODE_INERTIA_CANCELLING);
-	        String midResult;
-	        if (getBoots(mc.thePlayer).stackTagCompound.getBoolean(TAG_MODE_INERTIA_CANCELLING)) {
-	            midResult = EnumChatFormatting.DARK_GREEN + StatCollector.translateToLocal(result);
-	        } else {
-	            midResult = EnumChatFormatting.DARK_RED + StatCollector.translateToLocal(result);
-	        }
-	        finalResult = EnumChatFormatting.GOLD + StatCollector.translateToLocal("thaumicboots.inertiaCancellingEffect")
-	                + " "
-	                + midResult;
-    	}else {
-    		finalResult = EnumChatFormatting.DARK_RED + StatCollector.translateToLocal("thaumicboots.inertiaCancellingConfigDisabledMessage");
-    	}
+        String finalResult;
+        if (serverConfigValue) {
+            Minecraft mc = Minecraft.getMinecraft();
+            String result = "thaumicboots.inertiaCancellingState"
+                    + getBoots(mc.thePlayer).stackTagCompound.getBoolean(TAG_MODE_INERTIA_CANCELLING);
+            String midResult;
+            if (getBoots(mc.thePlayer).stackTagCompound.getBoolean(TAG_MODE_INERTIA_CANCELLING)) {
+                midResult = EnumChatFormatting.DARK_GREEN + StatCollector.translateToLocal(result);
+            } else {
+                midResult = EnumChatFormatting.DARK_RED + StatCollector.translateToLocal(result);
+            }
+            finalResult = EnumChatFormatting.GOLD
+                    + StatCollector.translateToLocal("thaumicboots.inertiaCancellingEffect")
+                    + " "
+                    + midResult;
+        } else {
+            finalResult = EnumChatFormatting.DARK_RED
+                    + StatCollector.translateToLocal("thaumicboots.inertiaCancellingConfigDisabledMessage");
+        }
         GTNHLib.proxy.printMessageAboveHotbar(finalResult, 60, true, true);
     }
 

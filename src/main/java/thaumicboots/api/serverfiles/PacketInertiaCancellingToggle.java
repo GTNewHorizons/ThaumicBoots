@@ -27,11 +27,11 @@ public class PacketInertiaCancellingToggle
         final ItemStack boots = IBoots.getBoots(player);
         if (boots != null && boots.getItem() instanceof IBoots item) {
             boolean newInertiaCancellingState;
-            if(Config.allowInertiaCancellingFeature) {
-            	newInertiaCancellingState = item.changeInertiaCancellingState(boots);
-            }else {
-            	item.setModeInertiaCancelling(boots, false);
-            	newInertiaCancellingState = false;
+            if (Config.allowInertiaCancellingFeature) {
+                newInertiaCancellingState = item.changeInertiaCancellingState(boots);
+            } else {
+                item.setModeInertiaCancelling(boots, false);
+                newInertiaCancellingState = false;
             }
             PacketInertiaCancellingToggleAck ackMessage = new PacketInertiaCancellingToggleAck();
             ackMessage.state = newInertiaCancellingState;
