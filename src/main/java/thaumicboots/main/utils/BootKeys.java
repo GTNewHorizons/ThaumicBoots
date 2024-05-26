@@ -11,7 +11,7 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import thaumicboots.api.serverfiles.PacketHandler;
-import thaumicboots.api.serverfiles.PacketInertiaCancellingToggle;
+import thaumicboots.api.serverfiles.PacketInertiaToggle;
 import thaumicboots.api.serverfiles.PacketJumpToggle;
 import thaumicboots.api.serverfiles.PacketOmniToggle;
 import thaumicboots.api.serverfiles.PacketSpeedToggle;
@@ -30,8 +30,8 @@ public class BootKeys {
             "keybinding.omnitoggle",
             Keyboard.KEY_NONE,
             "Thaumic Boots");
-    private final KeyBinding keyInertiaCancellingToggle = new KeyBinding(
-            "keybinding.inertiacancellingtoggle",
+    private final KeyBinding keyInertiaToggle = new KeyBinding(
+            "keybinding.inertiatoggle",
             Keyboard.KEY_NONE,
             "Thaumic Boots");
 
@@ -40,7 +40,7 @@ public class BootKeys {
         ClientRegistry.registerKeyBinding(keyJumpToggle);
         ClientRegistry.registerKeyBinding(keySpeedToggle);
         ClientRegistry.registerKeyBinding(keyOmniToggle);
-        ClientRegistry.registerKeyBinding(keyInertiaCancellingToggle);
+        ClientRegistry.registerKeyBinding(keyInertiaToggle);
     }
 
     @SideOnly(Side.CLIENT)
@@ -56,8 +56,8 @@ public class BootKeys {
             toggleSpeed();
         } else if (keyOmniToggle.isPressed()) {
             toggleOmni();
-        } else if (keyInertiaCancellingToggle.isPressed()) {
-            toggleInertiaCancelling();
+        } else if (keyInertiaToggle.isPressed()) {
+            toggleInertia();
         }
     }
 
@@ -73,7 +73,7 @@ public class BootKeys {
         PacketHandler.INSTANCE.sendToServer(new PacketOmniToggle());
     }
 
-    private static void toggleInertiaCancelling() {
-        PacketHandler.INSTANCE.sendToServer(new PacketInertiaCancellingToggle());
+    private static void toggleInertia() {
+        PacketHandler.INSTANCE.sendToServer(new PacketInertiaToggle());
     }
 }

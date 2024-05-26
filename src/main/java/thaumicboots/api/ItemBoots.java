@@ -136,7 +136,7 @@ public class ItemBoots extends ItemArmor
             player.fallDistance = 0.0F;
         }
 
-        if (Config.allowInertiaCancellingFeature && isInertiaCancellingEnabled(itemStack)) {
+        if (Config.allowInertiaCancelingFeature && isInertiaCanceled(itemStack)) {
             if (player.moveForward == 0 && player.moveStrafing == 0 && player.capabilities.isFlying) {
                 player.motionX *= 0.5;
                 player.motionZ *= 0.5;

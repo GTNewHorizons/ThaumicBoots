@@ -12,8 +12,7 @@ import io.netty.buffer.ByteBuf;
 import thaumicboots.api.IBoots;
 import thaumicboots.main.utils.compat.GTNHLibHelper;
 
-public class PacketInertiaCancellingToggleAck
-        implements IMessage, IMessageHandler<PacketInertiaCancellingToggleAck, IMessage> {
+public class PacketInertiaToggleAck implements IMessage, IMessageHandler<PacketInertiaToggleAck, IMessage> {
 
     public boolean state;
     public boolean serverConfigValue;
@@ -31,13 +30,13 @@ public class PacketInertiaCancellingToggleAck
     }
 
     @SideOnly(Side.CLIENT)
-    public IMessage onMessage(PacketInertiaCancellingToggleAck message, MessageContext ctx) {
+    public IMessage onMessage(PacketInertiaToggleAck message, MessageContext ctx) {
         Minecraft mc = Minecraft.getMinecraft();
         final ItemStack boots = IBoots.getBoots(mc.thePlayer);
         if (boots.getItem() instanceof IBoots item) {
-            item.setModeInertiaCancelling(boots, message.state);
+            item.setIsInertiaCanceling(boots, message.state);
             if (GTNHLibHelper.isActive()) {
-                IBoots.renderHUDInertiaCancellingNotification(message.serverConfigValue);
+                IBoots.renderHUDInertiaNotification(message.serverConfigValue);
             }
         }
 

@@ -10,8 +10,7 @@ import io.netty.buffer.ByteBuf;
 import thaumicboots.api.IBoots;
 import thaumicboots.main.Config;
 
-public class PacketInertiaCancellingToggle
-        implements IMessage, IMessageHandler<PacketInertiaCancellingToggle, IMessage> {
+public class PacketInertiaToggle implements IMessage, IMessageHandler<PacketInertiaToggle, IMessage> {
 
     public void fromBytes(ByteBuf byteBuf) {
         // not needed
@@ -22,20 +21,20 @@ public class PacketInertiaCancellingToggle
     }
 
     @Override
-    public IMessage onMessage(PacketInertiaCancellingToggle message, MessageContext ctx) {
+    public IMessage onMessage(PacketInertiaToggle message, MessageContext ctx) {
         EntityPlayerMP player = ctx.getServerHandler().playerEntity;
         final ItemStack boots = IBoots.getBoots(player);
         if (boots != null && boots.getItem() instanceof IBoots item) {
-            boolean newInertiaCancellingState;
-            if (Config.allowInertiaCancellingFeature) {
-                newInertiaCancellingState = item.changeInertiaCancellingState(boots);
+            boolean newInertiaCancelingState;
+            if (Config.allowInertiaCancelingFeature) {
+                newInertiaCancelingState = item.changeIsInertiaCanceled(boots);
             } else {
-                item.setModeInertiaCancelling(boots, false);
-                newInertiaCancellingState = false;
+                item.setIsInertiaCanceling(boots, false);
+                newInertiaCancelingState = false;
             }
-            PacketInertiaCancellingToggleAck ackMessage = new PacketInertiaCancellingToggleAck();
-            ackMessage.state = newInertiaCancellingState;
-            ackMessage.serverConfigValue = Config.allowInertiaCancellingFeature;
+            PacketInertiaToggleAck ackMessage = new PacketInertiaToggleAck();
+            ackMessage.state = newInertiaCancelingState;
+            ackMessage.serverConfigValue = Config.allowInertiaCancelingFeature;
             PacketHandler.INSTANCE.sendTo(ackMessage, player);
         }
         return null;
