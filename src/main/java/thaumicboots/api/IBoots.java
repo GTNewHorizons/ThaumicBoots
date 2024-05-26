@@ -19,6 +19,7 @@ public interface IBoots {
     String TAG_MODE_JUMP = "jump";
     String TAG_MODE_SPEED = "speed";
     String TAG_MODE_OMNI = "omni";
+    String TAG_MODE_INERTIA_CANCELLING = "inertiacancelling";
 
     default void setModeSpeed(ItemStack stack, double modifier) {
         if (stack.stackTagCompound == null) {
@@ -39,6 +40,13 @@ public interface IBoots {
             stack.setTagCompound(new NBTTagCompound());
         }
         stack.stackTagCompound.setBoolean(TAG_MODE_OMNI, enabled);
+    }
+
+    default void setModeInertiaCancelling(ItemStack stack, boolean enabled) {
+        if (stack.stackTagCompound == null) {
+            stack.setTagCompound(new NBTTagCompound());
+        }
+        stack.stackTagCompound.setBoolean(TAG_MODE_INERTIA_CANCELLING, enabled);
     }
 
     default double changeSpeed(ItemStack stack) {
@@ -80,6 +88,17 @@ public interface IBoots {
         return omni;
     }
 
+    default boolean changeInertiaCancellingState(ItemStack stack) {
+        if (stack.stackTagCompound == null) {
+            stack.setTagCompound(new NBTTagCompound());
+        }
+        // Internally MC returns false by default if the tag is not present, we do not need a presence check.
+        boolean inertiaCancelling = stack.stackTagCompound.getBoolean(TAG_MODE_INERTIA_CANCELLING);
+        inertiaCancelling = !inertiaCancelling;
+        stack.stackTagCompound.setBoolean(TAG_MODE_INERTIA_CANCELLING, inertiaCancelling);
+        return inertiaCancelling;
+    }
+
     default double isSpeedEnabled(ItemStack stack) {
         if (stack.stackTagCompound != null) {
             return stack.stackTagCompound.getDouble(TAG_MODE_SPEED);
@@ -97,6 +116,13 @@ public interface IBoots {
     default boolean isOmniEnabled(ItemStack stack) {
         if (stack.stackTagCompound != null) {
             return stack.stackTagCompound.getBoolean(TAG_MODE_OMNI);
+        }
+        return false;
+    }
+
+    default boolean isInertiaCancellingEnabled(ItemStack stack) {
+        if (stack.stackTagCompound != null) {
+            return stack.stackTagCompound.getBoolean(TAG_MODE_INERTIA_CANCELLING);
         }
         return false;
     }
@@ -144,6 +170,31 @@ public interface IBoots {
         finalResult = EnumChatFormatting.GOLD + StatCollector.translateToLocal("thaumicboots.omniEffect")
                 + " "
                 + midResult;
+        GTNHLib.proxy.printMessageAboveHotbar(finalResult, 60, true, true);
+    }
+
+    @Optional.Method(modid = "gtnhlib")
+    @SideOnly(Side.CLIENT)
+    public static void renderHUDInertiaCancellingNotification(boolean serverConfigValue) {
+        String finalResult;
+        if (serverConfigValue) {
+            Minecraft mc = Minecraft.getMinecraft();
+            String result = "thaumicboots.inertiaCancellingState"
+                    + getBoots(mc.thePlayer).stackTagCompound.getBoolean(TAG_MODE_INERTIA_CANCELLING);
+            String midResult;
+            if (getBoots(mc.thePlayer).stackTagCompound.getBoolean(TAG_MODE_INERTIA_CANCELLING)) {
+                midResult = EnumChatFormatting.DARK_GREEN + StatCollector.translateToLocal(result);
+            } else {
+                midResult = EnumChatFormatting.DARK_RED + StatCollector.translateToLocal(result);
+            }
+            finalResult = EnumChatFormatting.GOLD
+                    + StatCollector.translateToLocal("thaumicboots.inertiaCancellingEffect")
+                    + " "
+                    + midResult;
+        } else {
+            finalResult = EnumChatFormatting.DARK_RED
+                    + StatCollector.translateToLocal("thaumicboots.inertiaCancellingConfigDisabledMessage");
+        }
         GTNHLib.proxy.printMessageAboveHotbar(finalResult, 60, true, true);
     }
 

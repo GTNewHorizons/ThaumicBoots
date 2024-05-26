@@ -102,10 +102,16 @@ itemGroup.Thaumic Boots=Thaumic Boots
 keybinding.speedtoggle=Modulate Speed Boost
 keybinding.jumptoggle=Modulate Jump Boost
 keybinding.omnitoggle=Toggle Omnidirectional Movement
+keybinding.inertiacancellingtoggle=Toggle Cancelling Flight Inertia
 
 thaumicboots.jumpEffect=Jump Boost:
 thaumicboots.speedEffect=Speed Boost:
 thaumicboots.omniEffect=Omni Mode:
+thaumicboots.inertiaCancellingEffect=Inertia Cancelling Mode:
+thaumicboots.inertiaCancellingConfigDisabledMessage=Inertia Cancelling Feature Disabled in Config
 
 thaumicboots.omniStatetrue=Activated
 thaumicboots.omniStatefalse=Deactivated
+thaumicboots.inertiaCancellingStatetrue=Activated
+thaumicboots.inertiaCancellingStatefalse=Deactivated
+

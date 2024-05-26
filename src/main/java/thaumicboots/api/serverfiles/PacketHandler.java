@@ -19,5 +19,15 @@ public class PacketHandler {
         INSTANCE.registerMessage(PacketSpeedToggleAck.class, PacketSpeedToggleAck.class, 4, Side.CLIENT);
         INSTANCE.registerMessage(PacketOmniToggle.class, PacketOmniToggle.class, 5, Side.SERVER);
         INSTANCE.registerMessage(PacketOmniToggleAck.class, PacketOmniToggleAck.class, 6, Side.CLIENT);
+        INSTANCE.registerMessage(
+                PacketInertiaCancellingToggle.class,
+                PacketInertiaCancellingToggle.class,
+                7,
+                Side.SERVER);
+        INSTANCE.registerMessage(
+                PacketInertiaCancellingToggleAck.class,
+                PacketInertiaCancellingToggleAck.class,
+                8,
+                Side.CLIENT);
     }
 }
