@@ -179,10 +179,11 @@ public class ItemBoots extends ItemArmor
             bonus *= 0.25F;
         }
         if (player.onGround || player.isOnLadder() || player.capabilities.isFlying) {
+            if (player.moveForward != 0.0) {
+                player.moveFlying(0.0F, player.moveForward, bonus);
+            }
             if (player.moveStrafing != 0.0 && itemStack.stackTagCompound.getBoolean(TAG_MODE_OMNI)) {
                 player.moveFlying(player.moveStrafing, 0.0F, bonus);
-            } else if (player.moveForward != 0.0) {
-                player.moveFlying(0.0F, player.moveForward, bonus);
             }
         } else if (Hover.getHover(player.getEntityId())) {
             player.jumpMovementFactor = 0.03F;
