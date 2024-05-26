@@ -23,6 +23,7 @@ import thaumcraft.api.IVisDiscountGear;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.items.armor.Hover;
+import thaumicboots.main.Config;
 
 public class ItemBoots extends ItemArmor
         implements ITBootJumpable, ITBootSpeed, IVisDiscountGear, IRunicArmor, IRepairable, IBoots {
@@ -134,6 +135,14 @@ public class ItemBoots extends ItemArmor
         if (negateFall && player.fallDistance > 0.0F) {
             player.fallDistance = 0.0F;
         }
+
+        if (Config.allowInertiaCancellingFeature && isInertiaCancellingEnabled(itemStack)) {
+            if (player.moveForward == 0 && player.moveStrafing == 0 && player.capabilities.isFlying) {
+                player.motionX *= 0.5;
+                player.motionZ *= 0.5;
+            }
+        }
+
         boolean omniMode = isOmniEnabled(itemStack);
         if ((player.moveForward == 0F && player.moveStrafing == 0F && omniMode)
                 || (player.moveForward <= 0F && !omniMode)) {
