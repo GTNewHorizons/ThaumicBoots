@@ -16,15 +16,18 @@ public class PacketInertiaCancellingToggleAck
         implements IMessage, IMessageHandler<PacketInertiaCancellingToggleAck, IMessage> {
 
     public boolean state;
+    public boolean serverConfigValue;
 
     @Override
     public void fromBytes(ByteBuf byteBuf) {
         state = byteBuf.readBoolean();
+        serverConfigValue = byteBuf.readBoolean();
     }
 
     @Override
     public void toBytes(ByteBuf byteBuf) {
         byteBuf.writeBoolean(state);
+        byteBuf.writeBoolean(serverConfigValue);
     }
 
     @SideOnly(Side.CLIENT)
@@ -34,7 +37,7 @@ public class PacketInertiaCancellingToggleAck
         if (boots.getItem() instanceof IBoots item) {
             item.setModeInertiaCancelling(boots, message.state);
             if (GTNHLibHelper.isActive()) {
-                IBoots.renderHUDInertiaCancellingNotification();
+                IBoots.renderHUDInertiaCancellingNotification(message.serverConfigValue);
             }
         }
 

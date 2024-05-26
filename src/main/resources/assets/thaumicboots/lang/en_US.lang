@@ -108,6 +108,7 @@ thaumicboots.jumpEffect=Jump Boost:
 thaumicboots.speedEffect=Speed Boost:
 thaumicboots.omniEffect=Omni Mode:
 thaumicboots.inertiaCancellingEffect=Inertia Cancelling Mode:
+thaumicboots.inertiaCancellingConfigDisabledMessage=Inertia Cancelling Feature Disabled in Config
 
 thaumicboots.omniStatetrue=Activated
 thaumicboots.omniStatefalse=Deactivated
