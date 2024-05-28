@@ -11,6 +11,7 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import thaumicboots.api.serverfiles.PacketHandler;
+import thaumicboots.api.serverfiles.PacketInertiaToggle;
 import thaumicboots.api.serverfiles.PacketJumpToggle;
 import thaumicboots.api.serverfiles.PacketOmniToggle;
 import thaumicboots.api.serverfiles.PacketSpeedToggle;
@@ -29,12 +30,17 @@ public class BootKeys {
             "keybinding.omnitoggle",
             Keyboard.KEY_NONE,
             "Thaumic Boots");
+    private final KeyBinding keyInertiaToggle = new KeyBinding(
+            "keybinding.inertiatoggle",
+            Keyboard.KEY_NONE,
+            "Thaumic Boots");
 
     public BootKeys() {
         FMLCommonHandler.instance().bus().register(this);
         ClientRegistry.registerKeyBinding(keyJumpToggle);
         ClientRegistry.registerKeyBinding(keySpeedToggle);
         ClientRegistry.registerKeyBinding(keyOmniToggle);
+        ClientRegistry.registerKeyBinding(keyInertiaToggle);
     }
 
     @SideOnly(Side.CLIENT)
@@ -50,6 +56,8 @@ public class BootKeys {
             toggleSpeed();
         } else if (keyOmniToggle.isPressed()) {
             toggleOmni();
+        } else if (keyInertiaToggle.isPressed()) {
+            toggleInertia();
         }
     }
 
@@ -63,5 +71,9 @@ public class BootKeys {
 
     private static void toggleOmni() {
         PacketHandler.INSTANCE.sendToServer(new PacketOmniToggle());
+    }
+
+    private static void toggleInertia() {
+        PacketHandler.INSTANCE.sendToServer(new PacketInertiaToggle());
     }
 }

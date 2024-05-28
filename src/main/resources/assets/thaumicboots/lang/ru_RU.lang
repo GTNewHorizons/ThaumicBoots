@@ -106,5 +106,5 @@ thaumicboots.jumpEffect=Ускорение прыжка:
 thaumicboots.speedEffect=Увеличение скорости:
 thaumicboots.omniEffect=Режим Omni:
 
-thaumicboots.omniStatetrue=Активировано
-thaumicboots.omniStatefalse=Деактивировано
+thaumicboots.activeStatetrue=Активировано
+thaumicboots.activeStatefalse=Деактивировано

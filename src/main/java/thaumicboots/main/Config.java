@@ -43,6 +43,7 @@ public class Config {
     public static boolean explorationsActive;
     public static double bootsJumpChangeRate;
     public static double bootsSpeedChangeRate;
+    public static boolean allowInertiaCancelingFeature;
 
     public static void Init(File configFile) {
         if (instance != null) return;
@@ -129,5 +130,7 @@ public class Config {
                 1.0);
         bootsSpeedChangeRate = p.getDouble();
 
+        p = configuration.get(BOOTS, "Allow-Inertia-Canceling-Feature", true);
+        allowInertiaCancelingFeature = p.getBoolean();
     }
 }
