@@ -94,8 +94,7 @@ public interface IBoots {
             stack.setTagCompound(new NBTTagCompound());
         }
         // Internally MC returns false by default if the tag is not present, we do not need a presence check.
-        boolean inertiaCanceling = stack.stackTagCompound.getBoolean(TAG_MODE_INERTIA);
-        inertiaCanceling = !inertiaCanceling;
+        boolean inertiaCanceling = !(stack.stackTagCompound.getBoolean(TAG_MODE_INERTIA));
         stack.stackTagCompound.setBoolean(TAG_MODE_INERTIA, inertiaCanceling);
         return inertiaCanceling;
     }
