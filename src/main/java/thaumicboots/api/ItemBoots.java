@@ -68,7 +68,6 @@ public class ItemBoots extends ItemArmor
 
     public double getJumpModifier() {
         return jumpBonus;
-
     }
 
     public float getSpeedModifier() {
