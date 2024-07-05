@@ -431,7 +431,7 @@ public class ThaumcraftHelper implements IModHelper {
         if (CalendarHelper.isChristmas()) {
             seasonalStabilized2 = new ResearchPage(seasonalToChristmas);
         } else {
-            seasonalStabilized2 = new ResearchPage("seasonalStabilized.2");
+            seasonalStabilized2 = new ResearchPage("SeasonalStabilized.2");
         }
         seasonalStabilized.setPages(seasonalStabilized1, seasonalStabilized2);
         seasonalStabilized.setParents("TB_Seasonal_Boots");
