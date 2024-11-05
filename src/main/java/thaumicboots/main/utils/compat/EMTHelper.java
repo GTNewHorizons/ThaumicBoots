@@ -120,7 +120,7 @@ public class EMTHelper implements IModHelper {
         if (ExplorationsHelper.isActive()) {
             electricComet = ThaumcraftApi.addInfusionCraftingRecipe(
                     "TB_Explorations_EMT_Compat",
-                    new ItemStack(EMTHelper.bootsElectricComet, 1, OreDictionary.WILDCARD_VALUE),
+                    new ItemStack(EMTHelper.bootsElectricComet, 1, 0),
                     0,
                     new AspectList().add(Aspect.EXCHANGE, 75).add(Aspect.MAGIC, 50).add(Aspect.CRAFT, 50)
                             .add(TB_Aspect.SPACE, 25).add(TB_Aspect.BOOTS, 25),
@@ -148,7 +148,7 @@ public class EMTHelper implements IModHelper {
 
             nanoComet = ThaumcraftApi.addInfusionCraftingRecipe(
                     "TB_Explorations_EMT_Compat",
-                    new ItemStack(EMTHelper.bootsNanoComet, 1, OreDictionary.WILDCARD_VALUE),
+                    new ItemStack(EMTHelper.bootsNanoComet, 1, 0),
                     0,
                     new AspectList().add(Aspect.EXCHANGE, 75).add(Aspect.MAGIC, 50).add(Aspect.CRAFT, 50)
                             .add(TB_Aspect.SPACE, 25).add(TB_Aspect.BOOTS, 25),
@@ -176,7 +176,7 @@ public class EMTHelper implements IModHelper {
 
             quantumComet = ThaumcraftApi.addInfusionCraftingRecipe(
                     "TB_Explorations_EMT_Compat",
-                    new ItemStack(EMTHelper.bootsQuantumComet, 1, OreDictionary.WILDCARD_VALUE),
+                    new ItemStack(EMTHelper.bootsQuantumComet, 1, 0),
                     0,
                     new AspectList().add(Aspect.EXCHANGE, 75).add(Aspect.MAGIC, 50).add(Aspect.CRAFT, 50)
                             .add(TB_Aspect.SPACE, 25).add(TB_Aspect.BOOTS, 25),
@@ -204,7 +204,7 @@ public class EMTHelper implements IModHelper {
 
             electricMeteor = ThaumcraftApi.addInfusionCraftingRecipe(
                     "TB_Explorations_EMT_Compat",
-                    new ItemStack(EMTHelper.bootsElectricMeteor, 1, OreDictionary.WILDCARD_VALUE),
+                    new ItemStack(EMTHelper.bootsElectricMeteor, 1, 0),
                     0,
                     new AspectList().add(Aspect.EXCHANGE, 75).add(Aspect.MAGIC, 50).add(Aspect.CRAFT, 50)
                             .add(TB_Aspect.SPACE, 25).add(TB_Aspect.BOOTS, 25),
@@ -232,7 +232,7 @@ public class EMTHelper implements IModHelper {
 
             nanoMeteor = ThaumcraftApi.addInfusionCraftingRecipe(
                     "TB_Explorations_EMT_Compat",
-                    new ItemStack(EMTHelper.bootsNanoMeteor, 1, OreDictionary.WILDCARD_VALUE),
+                    new ItemStack(EMTHelper.bootsNanoMeteor, 1, 0),
                     0,
                     new AspectList().add(Aspect.EXCHANGE, 75).add(Aspect.MAGIC, 50).add(Aspect.CRAFT, 50)
                             .add(TB_Aspect.SPACE, 25).add(TB_Aspect.BOOTS, 25),
@@ -260,7 +260,7 @@ public class EMTHelper implements IModHelper {
 
             quantumMeteor = ThaumcraftApi.addInfusionCraftingRecipe(
                     "TB_Explorations_EMT_Compat",
-                    new ItemStack(EMTHelper.bootsQuantumMeteor, 1, OreDictionary.WILDCARD_VALUE),
+                    new ItemStack(EMTHelper.bootsQuantumMeteor, 1, 0),
                     0,
                     new AspectList().add(Aspect.EXCHANGE, 75).add(Aspect.MAGIC, 50).add(Aspect.CRAFT, 50)
                             .add(TB_Aspect.SPACE, 25).add(TB_Aspect.BOOTS, 25),
@@ -290,7 +290,7 @@ public class EMTHelper implements IModHelper {
         if (TaintedHelper.isActive()) {
             electricVoid = ThaumcraftApi.addInfusionCraftingRecipe(
                     "TB_EMT_Tainted_Compat",
-                    new ItemStack(EMTHelper.bootsElectricVoid, 1, OreDictionary.WILDCARD_VALUE),
+                    new ItemStack(EMTHelper.bootsElectricVoid, 1, 0),
                     0,
                     new AspectList().add(Aspect.EXCHANGE, 75).add(Aspect.MAGIC, 50).add(Aspect.CRAFT, 50)
                             .add(TB_Aspect.SPACE, 25).add(TB_Aspect.BOOTS, 25),
@@ -318,7 +318,7 @@ public class EMTHelper implements IModHelper {
 
             nanoVoid = ThaumcraftApi.addInfusionCraftingRecipe(
                     "TB_EMT_Tainted_Compat",
-                    new ItemStack(EMTHelper.bootsNanoVoid, 1, OreDictionary.WILDCARD_VALUE),
+                    new ItemStack(EMTHelper.bootsNanoVoid, 1, 0),
                     0,
                     new AspectList().add(Aspect.EXCHANGE, 75).add(Aspect.MAGIC, 50).add(Aspect.CRAFT, 50)
                             .add(TB_Aspect.SPACE, 25).add(TB_Aspect.BOOTS, 25),
@@ -346,7 +346,7 @@ public class EMTHelper implements IModHelper {
 
             quantumVoid = ThaumcraftApi.addInfusionCraftingRecipe(
                     "TB_EMT_Tainted_Compat",
-                    new ItemStack(EMTHelper.bootsQuantumVoid, 1, OreDictionary.WILDCARD_VALUE),
+                    new ItemStack(EMTHelper.bootsQuantumVoid, 1, 0),
                     0,
                     new AspectList().add(Aspect.EXCHANGE, 75).add(Aspect.MAGIC, 50).add(Aspect.CRAFT, 50)
                             .add(TB_Aspect.SPACE, 25).add(TB_Aspect.BOOTS, 25),
