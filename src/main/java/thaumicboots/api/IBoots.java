@@ -12,7 +12,6 @@ import com.gtnewhorizon.gtnhlib.GTNHLib;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import thaumicboots.main.Config;
 
 public interface IBoots {
 
@@ -50,13 +49,13 @@ public interface IBoots {
         stack.stackTagCompound.setBoolean(TAG_MODE_INERTIA, enabled);
     }
 
-    default double changeSpeed(ItemStack stack) {
+    default double changeSpeed(ItemStack stack, double modifier) {
         if (stack.stackTagCompound == null) {
             stack.setTagCompound(new NBTTagCompound());
         }
         // Internally MC returns 0 by default if the tag is not present, we do not need a presence check.
         double oldSpeed = stack.stackTagCompound.getDouble(TAG_MODE_SPEED);
-        double newSpeed = oldSpeed + Config.bootsSpeedChangeRate;
+        double newSpeed = (5D * (Math.round(100D * ((oldSpeed + modifier)) / 5D))) / 100D;
         if (newSpeed > 1) {
             newSpeed = 0;
         }
@@ -64,13 +63,13 @@ public interface IBoots {
         return newSpeed;
     }
 
-    default double changeJump(ItemStack stack) {
+    default double changeJump(ItemStack stack, double modifier) {
         if (stack.stackTagCompound == null) {
             stack.setTagCompound(new NBTTagCompound());
         }
         // Internally MC returns 0 by default if the tag is not present, we do not need a presence check.
         double oldJump = stack.stackTagCompound.getDouble(TAG_MODE_JUMP);
-        double newJump = oldJump + Config.bootsSpeedChangeRate;
+        double newJump = (5D * (Math.round(100D * ((oldJump + modifier)) / 5D))) / 100D;
         if (newJump > 1) {
             newJump = 0;
         }
@@ -201,14 +200,21 @@ public interface IBoots {
     @Optional.Method(modid = "gtnhlib")
     public static String getModeText(String effect, double val) {
         String endResult = (int) val + "%";
-        String result = switch ((int) val) {
-            case 0 -> EnumChatFormatting.DARK_RED + StatCollector.translateToLocal(endResult);
-            case 25 -> EnumChatFormatting.RED + StatCollector.translateToLocal(endResult);
-            case 50 -> EnumChatFormatting.DARK_GREEN + StatCollector.translateToLocal(endResult);
-            case 75 -> EnumChatFormatting.GREEN + StatCollector.translateToLocal(endResult);
-            case 100 -> EnumChatFormatting.AQUA + StatCollector.translateToLocal(endResult);
-            default -> EnumChatFormatting.DARK_GRAY + StatCollector.translateToLocal(endResult);
-        };
+        String result = "";
+        if ((int) val == 0) {
+            result = EnumChatFormatting.DARK_RED + StatCollector.translateToLocal(endResult);
+        } else if ((int) val <= 25) {
+            result = EnumChatFormatting.RED + StatCollector.translateToLocal(endResult);
+        } else if ((int) val <= 50) {
+            result = EnumChatFormatting.DARK_GREEN + StatCollector.translateToLocal(endResult);
+        } else if ((int) val <= 75) {
+            result = EnumChatFormatting.GREEN + StatCollector.translateToLocal(endResult);
+        } else if ((int) val <= 100) {
+            result = EnumChatFormatting.AQUA + StatCollector.translateToLocal(endResult);
+        } else {
+            result = EnumChatFormatting.DARK_GRAY + StatCollector.translateToLocal(endResult);
+        }
+
         return EnumChatFormatting.GOLD + StatCollector.translateToLocal(effect) + " " + result;
     }
 }
