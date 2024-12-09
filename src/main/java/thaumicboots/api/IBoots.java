@@ -55,10 +55,11 @@ public interface IBoots {
         }
         // Internally MC returns 0 by default if the tag is not present, we do not need a presence check.
         double oldSpeed = stack.stackTagCompound.getDouble(TAG_MODE_SPEED);
-        // This is to round to the nearest multiple of 5, and attempt to avoid lossy doubles causing value drift
-        double newSpeed = (5D * (Math.round(100D * ((oldSpeed + modifier)) / 5D))) / 100D;
-        if (newSpeed > 1) {
+        double newSpeed = ((Math.round(20D * (oldSpeed + modifier)))) / 20D;
+        if (newSpeed > 1.05D) {
             newSpeed = 0;
+        } else if (newSpeed > 1) {
+            newSpeed = 1;
         }
         stack.stackTagCompound.setDouble(TAG_MODE_SPEED, newSpeed);
         return newSpeed;
@@ -70,10 +71,11 @@ public interface IBoots {
         }
         // Internally MC returns 0 by default if the tag is not present, we do not need a presence check.
         double oldJump = stack.stackTagCompound.getDouble(TAG_MODE_JUMP);
-        // This is to round to the nearest multiple of 5, and attempt to avoid lossy doubles causing value drift
-        double newJump = (5D * (Math.round(100D * ((oldJump + modifier)) / 5D))) / 100D;
-        if (newJump > 1) {
+        double newJump = ((Math.round(20D * (oldJump + modifier)))) / 20D;
+        if (newJump > 1.05D) {
             newJump = 0;
+        } else if (newJump > 1) {
+            newJump = 1;
         }
         stack.stackTagCompound.setDouble(TAG_MODE_JUMP, newJump);
         return newJump;
@@ -203,20 +205,27 @@ public interface IBoots {
     public static String getModeText(String effect, double val) {
         String endResult = (int) val + "%";
         String result = "";
-        if ((int) val == 0) {
-            result = EnumChatFormatting.DARK_RED + StatCollector.translateToLocal(endResult);
-        } else if ((int) val <= 25) {
-            result = EnumChatFormatting.RED + StatCollector.translateToLocal(endResult);
-        } else if ((int) val <= 50) {
-            result = EnumChatFormatting.DARK_GREEN + StatCollector.translateToLocal(endResult);
-        } else if ((int) val <= 75) {
-            result = EnumChatFormatting.GREEN + StatCollector.translateToLocal(endResult);
-        } else if ((int) val <= 100) {
-            result = EnumChatFormatting.AQUA + StatCollector.translateToLocal(endResult);
-        } else {
-            result = EnumChatFormatting.DARK_GRAY + StatCollector.translateToLocal(endResult);
+        String result = "";
+        switch ((int) Math.floor(val / 25.0D)) {
+            case 0:
+                result = EnumChatFormatting.DARK_RED + StatCollector.translateToLocal(endResult);
+                break;
+            case 1:
+                result = EnumChatFormatting.RED + StatCollector.translateToLocal(endResult);
+                break;
+            case 2:
+                result = EnumChatFormatting.DARK_GREEN + StatCollector.translateToLocal(endResult);
+                break;
+            case 3:
+                result = EnumChatFormatting.GREEN + StatCollector.translateToLocal(endResult);
+                break;
+            case 4:
+                result = EnumChatFormatting.AQUA + StatCollector.translateToLocal(endResult);
+                break;
+            default:
+                result = EnumChatFormatting.DARK_GRAY + StatCollector.translateToLocal(endResult);
+                break;
         }
-
         return EnumChatFormatting.GOLD + StatCollector.translateToLocal(effect) + " " + result;
     }
 }
