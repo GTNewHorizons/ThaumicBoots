@@ -205,7 +205,6 @@ public interface IBoots {
     public static String getModeText(String effect, double val) {
         String endResult = (int) val + "%";
         String result = "";
-        String result = "";
         switch ((int) Math.floor(val / 25.0D)) {
             case 0:
                 result = EnumChatFormatting.DARK_RED + StatCollector.translateToLocal(endResult);
