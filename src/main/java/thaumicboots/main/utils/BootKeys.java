@@ -12,9 +12,11 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import thaumicboots.api.serverfiles.PacketHandler;
 import thaumicboots.api.serverfiles.PacketInertiaToggle;
-import thaumicboots.api.serverfiles.PacketJumpToggle;
+import thaumicboots.api.serverfiles.PacketJumpInc;
+import thaumicboots.api.serverfiles.PacketJumpIncMod;
 import thaumicboots.api.serverfiles.PacketOmniToggle;
-import thaumicboots.api.serverfiles.PacketSpeedToggle;
+import thaumicboots.api.serverfiles.PacketSpeedInc;
+import thaumicboots.api.serverfiles.PacketSpeedIncMod;
 
 public class BootKeys {
 
@@ -34,6 +36,10 @@ public class BootKeys {
             "keybinding.inertiatoggle",
             Keyboard.KEY_NONE,
             "Thaumic Boots");
+    private final KeyBinding keyIncrementMod = new KeyBinding(
+            "keybinding.incrementmodifier",
+            Keyboard.KEY_NONE,
+            "Thaumic Boots");
 
     public BootKeys() {
         FMLCommonHandler.instance().bus().register(this);
@@ -41,6 +47,7 @@ public class BootKeys {
         ClientRegistry.registerKeyBinding(keySpeedToggle);
         ClientRegistry.registerKeyBinding(keyOmniToggle);
         ClientRegistry.registerKeyBinding(keyInertiaToggle);
+        ClientRegistry.registerKeyBinding(keyIncrementMod);
     }
 
     @SideOnly(Side.CLIENT)
@@ -51,9 +58,9 @@ public class BootKeys {
 
     private void checkKeys() {
         if (keyJumpToggle.isPressed()) {
-            toggleJump();
+            toggleJump(keyIncrementMod.getIsKeyPressed());
         } else if (keySpeedToggle.isPressed()) {
-            toggleSpeed();
+            toggleSpeed(keyIncrementMod.getIsKeyPressed());
         } else if (keyOmniToggle.isPressed()) {
             toggleOmni();
         } else if (keyInertiaToggle.isPressed()) {
@@ -61,12 +68,20 @@ public class BootKeys {
         }
     }
 
-    private static void toggleJump() {
-        PacketHandler.INSTANCE.sendToServer(new PacketJumpToggle());
+    private static void toggleJump(boolean incMod) {
+        if (incMod) {
+            PacketHandler.INSTANCE.sendToServer(new PacketJumpIncMod());
+        } else {
+            PacketHandler.INSTANCE.sendToServer(new PacketJumpInc());
+        }
     }
 
-    private static void toggleSpeed() {
-        PacketHandler.INSTANCE.sendToServer(new PacketSpeedToggle());
+    private static void toggleSpeed(boolean incMod) {
+        if (incMod) {
+            PacketHandler.INSTANCE.sendToServer(new PacketSpeedIncMod());
+        } else {
+            PacketHandler.INSTANCE.sendToServer(new PacketSpeedInc());
+        }
     }
 
     private static void toggleOmni() {

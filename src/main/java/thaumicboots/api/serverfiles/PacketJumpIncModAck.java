@@ -12,7 +12,7 @@ import io.netty.buffer.ByteBuf;
 import thaumicboots.api.IBoots;
 import thaumicboots.main.utils.compat.GTNHLibHelper;
 
-public class PacketJumpToggleAck implements IMessage, IMessageHandler<PacketJumpToggleAck, IMessage> {
+public class PacketJumpIncModAck implements IMessage, IMessageHandler<PacketJumpIncModAck, IMessage> {
 
     public double state;
 
@@ -27,7 +27,7 @@ public class PacketJumpToggleAck implements IMessage, IMessageHandler<PacketJump
     }
 
     @SideOnly(Side.CLIENT)
-    public IMessage onMessage(PacketJumpToggleAck message, MessageContext ctx) {
+    public IMessage onMessage(PacketJumpIncModAck message, MessageContext ctx) {
         Minecraft mc = Minecraft.getMinecraft();
         final ItemStack boots = IBoots.getBoots(mc.thePlayer);
         if (boots.getItem() instanceof IBoots item) {

@@ -13,13 +13,17 @@ public class PacketHandler {
             .newSimpleChannel(VersionInfo.ModID.toLowerCase());
 
     public static void initPackets() {
-        INSTANCE.registerMessage(PacketJumpToggle.class, PacketJumpToggle.class, 1, Side.SERVER);
-        INSTANCE.registerMessage(PacketJumpToggleAck.class, PacketJumpToggleAck.class, 2, Side.CLIENT);
-        INSTANCE.registerMessage(PacketSpeedToggle.class, PacketSpeedToggle.class, 3, Side.SERVER);
-        INSTANCE.registerMessage(PacketSpeedToggleAck.class, PacketSpeedToggleAck.class, 4, Side.CLIENT);
+        INSTANCE.registerMessage(PacketJumpInc.class, PacketJumpInc.class, 1, Side.SERVER);
+        INSTANCE.registerMessage(PacketJumpIncAck.class, PacketJumpIncAck.class, 2, Side.CLIENT);
+        INSTANCE.registerMessage(PacketSpeedInc.class, PacketSpeedInc.class, 3, Side.SERVER);
+        INSTANCE.registerMessage(PacketSpeedIncAck.class, PacketSpeedIncAck.class, 4, Side.CLIENT);
         INSTANCE.registerMessage(PacketOmniToggle.class, PacketOmniToggle.class, 5, Side.SERVER);
         INSTANCE.registerMessage(PacketOmniToggleAck.class, PacketOmniToggleAck.class, 6, Side.CLIENT);
         INSTANCE.registerMessage(PacketInertiaToggle.class, PacketInertiaToggle.class, 7, Side.SERVER);
         INSTANCE.registerMessage(PacketInertiaToggleAck.class, PacketInertiaToggleAck.class, 8, Side.CLIENT);
+        INSTANCE.registerMessage(PacketSpeedIncMod.class, PacketSpeedIncMod.class, 9, Side.SERVER);
+        INSTANCE.registerMessage(PacketSpeedIncModAck.class, PacketSpeedIncModAck.class, 10, Side.CLIENT);
+        INSTANCE.registerMessage(PacketJumpIncMod.class, PacketJumpIncMod.class, 11, Side.SERVER);
+        INSTANCE.registerMessage(PacketJumpIncModAck.class, PacketJumpIncModAck.class, 12, Side.CLIENT);
     }
 }
