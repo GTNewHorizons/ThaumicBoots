@@ -56,9 +56,9 @@ public interface IBoots {
         // Internally MC returns 0 by default if the tag is not present, we do not need a presence check.
         double oldSpeed = stack.stackTagCompound.getDouble(TAG_MODE_SPEED);
         double newSpeed = ((Math.round(20D * (oldSpeed + modifier)))) / 20D;
-        if (newSpeed > 1.05D) {
+        if (oldSpeed == 1) {
             newSpeed = 0;
-        } else if (newSpeed > 1) {
+        } else if (newSpeed > 1 && oldSpeed < 1) {
             newSpeed = 1;
         }
         stack.stackTagCompound.setDouble(TAG_MODE_SPEED, newSpeed);
@@ -72,9 +72,9 @@ public interface IBoots {
         // Internally MC returns 0 by default if the tag is not present, we do not need a presence check.
         double oldJump = stack.stackTagCompound.getDouble(TAG_MODE_JUMP);
         double newJump = ((Math.round(20D * (oldJump + modifier)))) / 20D;
-        if (newJump > 1.05D) {
+        if (oldJump == 1) {
             newJump = 0;
-        } else if (newJump > 1) {
+        } else if (newJump > 1 && oldJump < 1) {
             newJump = 1;
         }
         stack.stackTagCompound.setDouble(TAG_MODE_JUMP, newJump);
