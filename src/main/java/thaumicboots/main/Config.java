@@ -116,6 +116,7 @@ public class Config {
                 BOOTS,
                 "Default-Change-Rate",
                 0.25,
+                "The rate that boot jump and speed modifiers change when the Jump/Speed Modulation key is pressed.",
                 0.01,
                 1.0);
         bootsChangeRate = p.getDouble();
@@ -124,6 +125,7 @@ public class Config {
                 BOOTS,
                 "Change-Rate-Modifier",
                 .4,
+                "The value that modifies the boot change rate when the Modulation Modifier key is pressed.",
                 0.01,
                 1.0);
         changeRateModifier = p.getDouble();
