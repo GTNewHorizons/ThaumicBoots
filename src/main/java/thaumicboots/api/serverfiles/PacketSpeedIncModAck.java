@@ -12,7 +12,7 @@ import io.netty.buffer.ByteBuf;
 import thaumicboots.api.IBoots;
 import thaumicboots.main.utils.compat.GTNHLibHelper;
 
-public class PacketSpeedToggleAck implements IMessage, IMessageHandler<PacketSpeedToggleAck, IMessage> {
+public class PacketSpeedIncModAck implements IMessage, IMessageHandler<PacketSpeedIncModAck, IMessage> {
 
     public double state;
 
@@ -27,7 +27,7 @@ public class PacketSpeedToggleAck implements IMessage, IMessageHandler<PacketSpe
     }
 
     @SideOnly(Side.CLIENT)
-    public IMessage onMessage(PacketSpeedToggleAck message, MessageContext ctx) {
+    public IMessage onMessage(PacketSpeedIncModAck message, MessageContext ctx) {
         Minecraft mc = Minecraft.getMinecraft();
         final ItemStack boots = IBoots.getBoots(mc.thePlayer);
         if (boots.getItem() instanceof IBoots item) {

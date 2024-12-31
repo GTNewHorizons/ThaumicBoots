@@ -41,8 +41,8 @@ public class Config {
     public static boolean taintedMagicActive;
     public static boolean emtActive;
     public static boolean explorationsActive;
-    public static double bootsJumpChangeRate;
-    public static double bootsSpeedChangeRate;
+    public static double bootsChangeRate;
+    public static double changeRateModifier;
     public static boolean allowInertiaCancelingFeature;
 
     public static void Init(File configFile) {
@@ -114,21 +114,21 @@ public class Config {
 
         p = configuration.get(
                 BOOTS,
-                "Jump-Change-Rate",
+                "Default-Change-Rate",
                 0.25,
-                "The rate that boot jump modifier changes when the Jump Modulation key is pressed. 'I will not provide support to those who change this -Alastor'",
+                "The rate that boot jump and speed modifiers change when the Jump/Speed Modulation key is pressed.",
                 0.01,
                 1.0);
-        bootsJumpChangeRate = p.getDouble();
+        bootsChangeRate = p.getDouble();
 
         p = configuration.get(
                 BOOTS,
-                "Speed-Change-Rate",
-                0.25,
-                "The rate that boot speed modifier changes when the Speed Modulation key is pressed. 'I will not provide support to those who change this -Alastor'",
+                "Change-Rate-Modifier",
+                .4,
+                "The value that modifies the boot change rate when the Modulation Modifier key is pressed.",
                 0.01,
                 1.0);
-        bootsSpeedChangeRate = p.getDouble();
+        changeRateModifier = p.getDouble();
 
         p = configuration.get(BOOTS, "Allow-Inertia-Canceling-Feature", true);
         allowInertiaCancelingFeature = p.getBoolean();

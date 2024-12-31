@@ -8,8 +8,9 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import thaumicboots.api.IBoots;
+import thaumicboots.main.Config;
 
-public class PacketSpeedToggle implements IMessage, IMessageHandler<PacketSpeedToggle, IMessage> {
+public class PacketSpeedInc implements IMessage, IMessageHandler<PacketSpeedInc, IMessage> {
 
     public void fromBytes(ByteBuf byteBuf) {
         // not needed
@@ -20,12 +21,12 @@ public class PacketSpeedToggle implements IMessage, IMessageHandler<PacketSpeedT
     }
 
     @Override
-    public IMessage onMessage(PacketSpeedToggle message, MessageContext ctx) {
+    public IMessage onMessage(PacketSpeedInc message, MessageContext ctx) {
         EntityPlayerMP player = ctx.getServerHandler().playerEntity;
         final ItemStack boots = IBoots.getBoots(player);
         if (boots != null && boots.getItem() instanceof IBoots item) {
-            double speedState = item.changeSpeed(boots);
-            PacketSpeedToggleAck ackMessage = new PacketSpeedToggleAck();
+            double speedState = item.changeSpeed(boots, Config.bootsChangeRate);
+            PacketSpeedIncAck ackMessage = new PacketSpeedIncAck();
             ackMessage.state = speedState;
             PacketHandler.INSTANCE.sendTo(ackMessage, player);
         }

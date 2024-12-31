@@ -12,7 +12,6 @@ import com.gtnewhorizon.gtnhlib.GTNHLib;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import thaumicboots.main.Config;
 
 public interface IBoots {
 
@@ -50,29 +49,33 @@ public interface IBoots {
         stack.stackTagCompound.setBoolean(TAG_MODE_INERTIA, enabled);
     }
 
-    default double changeSpeed(ItemStack stack) {
+    default double changeSpeed(ItemStack stack, double modifier) {
         if (stack.stackTagCompound == null) {
             stack.setTagCompound(new NBTTagCompound());
         }
         // Internally MC returns 0 by default if the tag is not present, we do not need a presence check.
         double oldSpeed = stack.stackTagCompound.getDouble(TAG_MODE_SPEED);
-        double newSpeed = oldSpeed + Config.bootsSpeedChangeRate;
-        if (newSpeed > 1) {
+        double newSpeed = ((Math.round(20D * (oldSpeed + modifier)))) / 20D;
+        if (oldSpeed == 1) {
             newSpeed = 0;
+        } else if (newSpeed > 1 && oldSpeed < 1) {
+            newSpeed = 1;
         }
         stack.stackTagCompound.setDouble(TAG_MODE_SPEED, newSpeed);
         return newSpeed;
     }
 
-    default double changeJump(ItemStack stack) {
+    default double changeJump(ItemStack stack, double modifier) {
         if (stack.stackTagCompound == null) {
             stack.setTagCompound(new NBTTagCompound());
         }
         // Internally MC returns 0 by default if the tag is not present, we do not need a presence check.
         double oldJump = stack.stackTagCompound.getDouble(TAG_MODE_JUMP);
-        double newJump = oldJump + Config.bootsSpeedChangeRate;
-        if (newJump > 1) {
+        double newJump = ((Math.round(20D * (oldJump + modifier)))) / 20D;
+        if (oldJump == 1) {
             newJump = 0;
+        } else if (newJump > 1 && oldJump < 1) {
+            newJump = 1;
         }
         stack.stackTagCompound.setDouble(TAG_MODE_JUMP, newJump);
         return newJump;
@@ -201,14 +204,27 @@ public interface IBoots {
     @Optional.Method(modid = "gtnhlib")
     public static String getModeText(String effect, double val) {
         String endResult = (int) val + "%";
-        String result = switch ((int) val) {
-            case 0 -> EnumChatFormatting.DARK_RED + StatCollector.translateToLocal(endResult);
-            case 25 -> EnumChatFormatting.RED + StatCollector.translateToLocal(endResult);
-            case 50 -> EnumChatFormatting.DARK_GREEN + StatCollector.translateToLocal(endResult);
-            case 75 -> EnumChatFormatting.GREEN + StatCollector.translateToLocal(endResult);
-            case 100 -> EnumChatFormatting.AQUA + StatCollector.translateToLocal(endResult);
-            default -> EnumChatFormatting.DARK_GRAY + StatCollector.translateToLocal(endResult);
-        };
+        String result = "";
+        switch ((int) Math.floor(val / 25.0D)) {
+            case 0:
+                result = EnumChatFormatting.DARK_RED + StatCollector.translateToLocal(endResult);
+                break;
+            case 1:
+                result = EnumChatFormatting.RED + StatCollector.translateToLocal(endResult);
+                break;
+            case 2:
+                result = EnumChatFormatting.DARK_GREEN + StatCollector.translateToLocal(endResult);
+                break;
+            case 3:
+                result = EnumChatFormatting.GREEN + StatCollector.translateToLocal(endResult);
+                break;
+            case 4:
+                result = EnumChatFormatting.AQUA + StatCollector.translateToLocal(endResult);
+                break;
+            default:
+                result = EnumChatFormatting.DARK_GRAY + StatCollector.translateToLocal(endResult);
+                break;
+        }
         return EnumChatFormatting.GOLD + StatCollector.translateToLocal(effect) + " " + result;
     }
 }
