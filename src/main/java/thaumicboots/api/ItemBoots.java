@@ -126,7 +126,20 @@ public class ItemBoots extends ItemArmor
 
     protected float computeBonus(ItemStack itemStack, EntityPlayer player) {
         int ticks = player.inventory.armorItemInSlot(0).stackTagCompound.getInteger("runTicks");
-        return runBonus + ((ticks * 0.2F) * longrunningbonus);
+        return speedBonus + ((ticks * 0.2F) * longrunningbonus);
+    }
+
+    protected boolean checkNanoChestplate(EntityPlayer player) {
+        // This method checks if the player is wearing the Advanced Nanochestplate and if it's in hover and fly mode.
+        ItemStack armor = player.inventory.armorItemInSlot(2);
+        if (armor != null && armor.getItem() != null
+                && armor.getItem().getUnlocalizedName().endsWith("advNanoChestPlate")) {
+            NBTTagCompound nbttagcompound = armor.getTagCompound();
+            boolean fly = nbttagcompound.getBoolean("isFlyActive");
+            boolean hover = nbttagcompound.getBoolean("isHoverActive");
+            return fly && hover;
+        }
+        return false;
     }
 
     @Override
@@ -136,7 +149,8 @@ public class ItemBoots extends ItemArmor
         }
 
         if (Config.allowInertiaCancelingFeature && isInertiaCanceled(itemStack)) {
-            if (player.moveForward == 0 && player.moveStrafing == 0 && player.capabilities.isFlying) {
+            if (player.moveForward == 0 && player.moveStrafing == 0
+                    && (player.capabilities.isFlying || checkNanoChestplate(player))) {
                 player.motionX *= 0.5;
                 player.motionZ *= 0.5;
             }
@@ -186,7 +200,7 @@ public class ItemBoots extends ItemArmor
         if (waterEffects && player.isInWater()) {
             bonus *= 0.25F;
         }
-        if (player.onGround || player.isOnLadder() || player.capabilities.isFlying) {
+        if (player.onGround || player.isOnLadder() || player.capabilities.isFlying || checkNanoChestplate(player)) {
             if (player.moveForward != 0.0) {
                 player.moveFlying(0.0F, player.moveForward, bonus);
             }
