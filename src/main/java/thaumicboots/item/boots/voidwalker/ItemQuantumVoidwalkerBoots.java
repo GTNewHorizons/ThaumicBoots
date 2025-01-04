@@ -14,7 +14,7 @@ public class ItemQuantumVoidwalkerBoots extends ItemElectricVoidwalkerBoots {
         damageAbsorptionRatio = 3.0D;
         transferLimit = 24_000;
         jumpBonus = 1.0175D; // 11 blocks
-        runBonus = 1.250F;
+        speedBonus = 1.250F;
 
         tier = 4;
         iconResPath = "thaumicboots:quantumVoid_16x";

@@ -40,7 +40,7 @@ public class ItemElectricVoidwalkerBoots extends ItemElectricBoots implements IW
         damageAbsorptionRatio = 2.25D;
         transferLimit = 400;
         jumpBonus = 0.4675D; // 4.5 blocks
-        runBonus = 0.200F;
+        speedBonus = 0.200F;
 
         tier = 3;
         iconResPath = "thaumicboots:electricVoid_16x";
@@ -85,7 +85,7 @@ public class ItemElectricVoidwalkerBoots extends ItemElectricBoots implements IW
             }
 
             // speed boost
-            if (player.onGround || player.capabilities.isFlying) {
+            if (player.onGround || player.capabilities.isFlying || checkNanoChestplate(player)) {
                 float bonus = 0.200F;
                 final ItemStack sash = PlayerHandler.getPlayerBaubles(player).getStackInSlot(3);
                 if (sash != null && sash.getItem() == ItemRegistry.ItemVoidwalkerSash) {
@@ -95,7 +95,7 @@ public class ItemElectricVoidwalkerBoots extends ItemElectricBoots implements IW
                     bonus *= 0;
                 }
 
-                bonus = player.capabilities.isFlying ? bonus * 0.75F : bonus;
+                bonus = player.capabilities.isFlying || checkNanoChestplate(player) ? bonus * 0.75F : bonus;
                 bonus *= stack.stackTagCompound.getDouble(TAG_MODE_SPEED);
                 player.moveFlying(0.0F, 1.0F, bonus);
             } else if (Hover.getHover(player.getEntityId())) {

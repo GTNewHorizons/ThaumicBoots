@@ -13,7 +13,7 @@ public class ItemQuantumCometBoots extends ItemElectricCometBoots {
         energyPerDamage = 2_500; // 4k hits, 2x prev
         visDiscount = 5;
         transferLimit = 12_000;
-        runBonus = getEMTQuantumSpeed() + 0.220F; // quantum + comet * 4
+        speedBonus = getEMTQuantumSpeed() + 0.220F; // quantum + comet * 4
         jumpBonus = 0.9075D; // 9.5 blocks
         minimumDistance = 100.0F;
         minimumHeight = 10F;

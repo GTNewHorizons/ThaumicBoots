@@ -20,7 +20,7 @@ public class ItemElectricCometBoots extends ItemElectricBoots implements IComet 
         energyPerDamage = 100; // 1k hits
         visDiscount = 2;
         transferLimit = 100;
-        runBonus = 0.165F; // electric + comet
+        speedBonus = 0.165F; // electric + comet
         jumpBonus = 0.275D; // 3 blocks
         longrunningbonus = 0.003F;
         minimumHeight = 4F;

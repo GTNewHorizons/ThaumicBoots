@@ -30,7 +30,7 @@ public class ItemBoots extends ItemArmor
 
     public IIcon icon;
 
-    public float runBonus;
+    public float speedBonus;
     public float longrunningbonus;
     public int visDiscount;
     public int runicCharge;
@@ -53,7 +53,7 @@ public class ItemBoots extends ItemArmor
     protected void setBootsData() {
         runicCharge = 0;
         visDiscount = 0;
-        runBonus = 0.165F;
+        speedBonus = 0.165F;
         jumpBonus = 0.0D;
         omniMovement = false;
         tier = 0;
@@ -71,7 +71,7 @@ public class ItemBoots extends ItemArmor
     }
 
     public float getSpeedModifier() {
-        return runBonus;
+        return speedBonus;
     }
 
     // TODO: the part not from interfaces

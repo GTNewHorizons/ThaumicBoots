@@ -14,7 +14,7 @@ public class ItemSlowBoots extends ItemBoots {
     protected void setBootsData() {
         super.setBootsData();
         tier = 2;
-        runBonus = -0.035F;
+        speedBonus = -0.035F;
         negateFall = true;
         unlocalisedName = "ItemSlowBoots";
         iconResPath = "thaumicboots:bootsSlow_16x";

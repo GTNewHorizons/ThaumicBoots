@@ -17,7 +17,7 @@ public class ItemElectricMeteorBoots extends ItemElectricBoots implements IMeteo
         damageAbsorptionRatio = 1.25D;
         transferLimit = 100;
         jumpBonus = 0.5225D; // 5 blocks
-        runBonus = 0.055F; // base electric
+        speedBonus = 0.055F; // base electric
         tier = 2;
         negateFall = true;
         iconResPath = "thaumicboots:electricMeteor_16x";

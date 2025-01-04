@@ -17,7 +17,7 @@ public class ItemQuantumMeteorBoots extends ItemElectricMeteorBoots implements I
         damageAbsorptionRatio = 2D;
         transferLimit = 12000;
         jumpBonus = 1.1D; // 12 Blocks
-        runBonus = getEMTQuantumSpeed();
+        speedBonus = getEMTQuantumSpeed();
         tier = 4;
         iconResPath = "thaumicboots:quantumMeteor_16x";
         armorResPath = "thaumicboots:model/quantumbootsMeteor.png";
