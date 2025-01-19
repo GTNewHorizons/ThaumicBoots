@@ -14,7 +14,7 @@ public class ItemCometVoidwalkerBoots extends ItemVoidBoots implements IComet {
         visDiscount = 5;
         jumpBonus = 0.450D; // 4.5 blocks
         tier = 3;
-        runBonus = 0.215F * 3;
+        speedBonus = 0.215F * 3;
         iconResPath = "thaumicboots:voidComet_16x";
         armorResPath = "thaumicboots:model/VoidwalkerBootsComet_-_Purple.png";
         unlocalisedName = "ItemVoidComet";

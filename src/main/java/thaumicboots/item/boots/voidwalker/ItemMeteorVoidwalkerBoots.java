@@ -14,7 +14,7 @@ public class ItemMeteorVoidwalkerBoots extends ItemVoidBoots implements IMeteor 
         visDiscount = 5;
         jumpBonus = 0.88D; // 9 blocks
         tier = 3;
-        runBonus = 0.300F;
+        speedBonus = 0.300F;
         iconResPath = "thaumicboots:purpleHaze_16x";
         armorResPath = "thaumicboots:model/VoidwalkerBootsMeteor_-_Purple.png";
         unlocalisedName = "ItemVoidMeteor";

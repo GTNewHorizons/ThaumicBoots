@@ -13,7 +13,7 @@ public class ItemNanoCometBoots extends ItemElectricCometBoots {
         energyPerDamage = 500; // 2k hits, 2x prev
         visDiscount = 4;
         transferLimit = 1_600;
-        runBonus = getEMTNanoSpeed() + 0.110F; // nano + comet * 2
+        speedBonus = getEMTNanoSpeed() + 0.110F; // nano + comet * 2
         jumpBonus = 0.6325D; // 6 blocks
         minimumHeight = 6F;
         minimumDistance = 35.0F;

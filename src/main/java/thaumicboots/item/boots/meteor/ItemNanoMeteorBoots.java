@@ -14,7 +14,7 @@ public class ItemNanoMeteorBoots extends ItemElectricMeteorBoots {
         damageAbsorptionRatio = 1.5D;
         transferLimit = 1600;
         jumpBonus = 0.7975D; // 8 Blocks
-        runBonus = getEMTNanoSpeed();
+        speedBonus = getEMTNanoSpeed();
         tier = 3;
         iconResPath = "thaumicboots:nanoMeteor_16x";
         armorResPath = "thaumicboots:model/nanobootsMeteor.png";

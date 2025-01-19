@@ -18,7 +18,7 @@ public class ItemSeasonBoots extends ItemBoots {
         super.setBootsData();
         jumpBonus = 0.35D; // 3.5 blocks
         tier = 2;
-        runBonus = 0.165F;
+        speedBonus = 0.165F;
         steadyBonus = true;
         negateFall = true;
         waterEffects = true;
