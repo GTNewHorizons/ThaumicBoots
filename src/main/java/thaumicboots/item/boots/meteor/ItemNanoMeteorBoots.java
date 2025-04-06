@@ -1,6 +1,13 @@
 package thaumicboots.item.boots.meteor;
 
-public class ItemNanoMeteorBoots extends ItemElectricMeteorBoots {
+import net.minecraft.item.ItemStack;
+
+import cpw.mods.fml.common.Optional;
+import gregtech.api.hazards.Hazard;
+import gregtech.api.hazards.IHazardProtector;
+
+@Optional.Interface(iface = "gregtech.api.hazards.IHazardProtector", modid = "gregtech")
+public class ItemNanoMeteorBoots extends ItemElectricMeteorBoots implements IHazardProtector {
 
     public ItemNanoMeteorBoots(ArmorMaterial par2EnumArmorMaterial, int par3, int par4) {
         super(par2EnumArmorMaterial, par3, par4);
@@ -19,5 +26,11 @@ public class ItemNanoMeteorBoots extends ItemElectricMeteorBoots {
         iconResPath = "thaumicboots:nanoMeteor_16x";
         armorResPath = "thaumicboots:model/nanobootsMeteor.png";
         unlocalisedName = "ItemNanoMeteor";
+    }
+
+    @Override
+    @Optional.Method(modid = "gregtech")
+    public boolean protectsAgainst(ItemStack itemStack, Hazard hazard) {
+        return true;
     }
 }
