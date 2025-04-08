@@ -1,6 +1,13 @@
 package thaumicboots.item.boots.comet;
 
-public class ItemQuantumCometBoots extends ItemElectricCometBoots {
+import net.minecraft.item.ItemStack;
+
+import cpw.mods.fml.common.Optional;
+import gregtech.api.hazards.Hazard;
+import gregtech.api.hazards.IHazardProtector;
+
+@Optional.Interface(iface = "gregtech.api.hazards.IHazardProtector", modid = "gregtech")
+public class ItemQuantumCometBoots extends ItemElectricCometBoots implements IHazardProtector {
 
     public ItemQuantumCometBoots(ArmorMaterial par2EnumArmorMaterial, int par3, int par4) {
         super(par2EnumArmorMaterial, par3, par4);
@@ -22,5 +29,11 @@ public class ItemQuantumCometBoots extends ItemElectricCometBoots {
         unlocalisedName = "ItemQuantumComet";
         iconResPath = "thaumicboots:quantumComet_16x";
         armorResPath = "thaumicboots:model/quantumbootsComet.png";
+    }
+
+    @Override
+    @Optional.Method(modid = "gregtech")
+    public boolean protectsAgainst(ItemStack itemStack, Hazard hazard) {
+        return true;
     }
 }

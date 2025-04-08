@@ -1,9 +1,16 @@
 package thaumicboots.item.boots.meteor;
 
+import net.minecraft.item.ItemStack;
+
+import cpw.mods.fml.common.Optional;
+import gregtech.api.hazards.Hazard;
+import gregtech.api.hazards.IHazardProtector;
 import thaumcraft.api.IRepairable;
 import thaumcraft.api.IRunicArmor;
 
-public class ItemQuantumMeteorBoots extends ItemElectricMeteorBoots implements IRepairable, IRunicArmor {
+@Optional.Interface(iface = "gregtech.api.hazards.IHazardProtector", modid = "gregtech")
+public class ItemQuantumMeteorBoots extends ItemElectricMeteorBoots
+        implements IRepairable, IRunicArmor, IHazardProtector {
 
     public ItemQuantumMeteorBoots(ArmorMaterial par2EnumArmorMaterial, int par3, int par4) {
         super(par2EnumArmorMaterial, par3, par4);
@@ -22,5 +29,11 @@ public class ItemQuantumMeteorBoots extends ItemElectricMeteorBoots implements I
         iconResPath = "thaumicboots:quantumMeteor_16x";
         armorResPath = "thaumicboots:model/quantumbootsMeteor.png";
         unlocalisedName = "ItemQuantumMeteor";
+    }
+
+    @Override
+    @Optional.Method(modid = "gregtech")
+    public boolean protectsAgainst(ItemStack itemStack, Hazard hazard) {
+        return true;
     }
 }

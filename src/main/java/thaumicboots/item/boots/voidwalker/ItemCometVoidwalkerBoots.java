@@ -1,9 +1,15 @@
 package thaumicboots.item.boots.voidwalker;
 
+import net.minecraft.item.ItemStack;
+
+import cpw.mods.fml.common.Optional;
+import gregtech.api.hazards.Hazard;
+import gregtech.api.hazards.IHazardProtector;
 import thaumicboots.api.IComet;
 import thaumicboots.api.ItemVoidBoots;
 
-public class ItemCometVoidwalkerBoots extends ItemVoidBoots implements IComet {
+@Optional.Interface(iface = "gregtech.api.hazards.IHazardProtector", modid = "gregtech")
+public class ItemCometVoidwalkerBoots extends ItemVoidBoots implements IComet, IHazardProtector {
 
     public ItemCometVoidwalkerBoots(final ArmorMaterial material, final int j, final int k) {
         super(material, j, k);
@@ -18,5 +24,11 @@ public class ItemCometVoidwalkerBoots extends ItemVoidBoots implements IComet {
         iconResPath = "thaumicboots:voidComet_16x";
         armorResPath = "thaumicboots:model/VoidwalkerBootsComet_-_Purple.png";
         unlocalisedName = "ItemVoidComet";
+    }
+
+    @Override
+    @Optional.Method(modid = "gregtech")
+    public boolean protectsAgainst(ItemStack itemStack, Hazard hazard) {
+        return true;
     }
 }
