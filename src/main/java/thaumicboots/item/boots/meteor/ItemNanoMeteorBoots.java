@@ -6,7 +6,7 @@ import cpw.mods.fml.common.Optional;
 import gregtech.api.hazards.Hazard;
 import gregtech.api.hazards.IHazardProtector;
 
-@Optional.Interface(iface = "gregtech.api.hazards.IHazardProtector", modid = "gregtech")
+@Optional.Interface(iface = "gregtech.api.hazards.IHazardProtector", modid = "dreamcraft")
 public class ItemNanoMeteorBoots extends ItemElectricMeteorBoots implements IHazardProtector {
 
     public ItemNanoMeteorBoots(ArmorMaterial par2EnumArmorMaterial, int par3, int par4) {
@@ -29,7 +29,7 @@ public class ItemNanoMeteorBoots extends ItemElectricMeteorBoots implements IHaz
     }
 
     @Override
-    @Optional.Method(modid = "gregtech")
+    @Optional.Method(modid = "dreamcraft")
     public boolean protectsAgainst(ItemStack itemStack, Hazard hazard) {
         return true;
     }
