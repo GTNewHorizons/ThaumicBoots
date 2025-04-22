@@ -8,7 +8,7 @@ import gregtech.api.hazards.IHazardProtector;
 import thaumcraft.api.IRepairable;
 import thaumcraft.api.IRunicArmor;
 
-@Optional.Interface(iface = "gregtech.api.hazards.IHazardProtector", modid = "dreamcraft")
+@Optional.Interface(iface = "gregtech.api.hazards.IHazardProtector", modid = "gregtechNH")
 public class ItemQuantumMeteorBoots extends ItemElectricMeteorBoots
         implements IRepairable, IRunicArmor, IHazardProtector {
 
@@ -32,7 +32,7 @@ public class ItemQuantumMeteorBoots extends ItemElectricMeteorBoots
     }
 
     @Override
-    @Optional.Method(modid = "dreamcraft")
+    @Optional.Method(modid = "gregtechNH")
     public boolean protectsAgainst(ItemStack itemStack, Hazard hazard) {
         return true;
     }
