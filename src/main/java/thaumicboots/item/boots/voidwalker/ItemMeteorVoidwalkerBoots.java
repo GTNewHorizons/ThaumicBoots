@@ -8,7 +8,7 @@ import gregtech.api.hazards.IHazardProtector;
 import thaumicboots.api.IMeteor;
 import thaumicboots.api.ItemVoidBoots;
 
-@Optional.Interface(iface = "gregtech.api.hazards.IHazardProtector", modid = "gregtechNH")
+@Optional.Interface(iface = "gregtech.api.hazards.IHazardProtector", modid = "gregtech_nh")
 public class ItemMeteorVoidwalkerBoots extends ItemVoidBoots implements IMeteor, IHazardProtector {
 
     public ItemMeteorVoidwalkerBoots(final ArmorMaterial material, final int j, final int k) {
@@ -27,7 +27,7 @@ public class ItemMeteorVoidwalkerBoots extends ItemVoidBoots implements IMeteor,
     }
 
     @Override
-    @Optional.Method(modid = "gregtechNH")
+    @Optional.Method(modid = "gregtech_nh")
     public boolean protectsAgainst(ItemStack itemStack, Hazard hazard) {
         return true;
     }
