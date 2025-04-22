@@ -6,7 +6,7 @@ import cpw.mods.fml.common.Optional;
 import gregtech.api.hazards.Hazard;
 import gregtech.api.hazards.IHazardProtector;
 
-@Optional.Interface(iface = "gregtech.api.hazards.IHazardProtector", modid = "dreamcraft")
+@Optional.Interface(iface = "gregtech.api.hazards.IHazardProtector", modid = "gregtechNH")
 public class ItemQuantumCometBoots extends ItemElectricCometBoots implements IHazardProtector {
 
     public ItemQuantumCometBoots(ArmorMaterial par2EnumArmorMaterial, int par3, int par4) {
@@ -32,7 +32,7 @@ public class ItemQuantumCometBoots extends ItemElectricCometBoots implements IHa
     }
 
     @Override
-    @Optional.Method(modid = "dreamcraft")
+    @Optional.Method(modid = "gregtechNH")
     public boolean protectsAgainst(ItemStack itemStack, Hazard hazard) {
         return true;
     }
