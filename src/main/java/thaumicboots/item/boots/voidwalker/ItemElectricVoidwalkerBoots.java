@@ -23,7 +23,7 @@ import thaumcraft.common.items.armor.Hover;
 import thaumicboots.api.ItemElectricBoots;
 import thaumicboots.main.utils.TabThaumicBoots;
 
-@Optional.Interface(iface = "gregtech.api.hazards.IHazardProtector", modid = "gregtechNH")
+@Optional.Interface(iface = "gregtech.api.hazards.IHazardProtector", modid = "gregtech_nh")
 public class ItemElectricVoidwalkerBoots extends ItemElectricBoots
         implements IWarpingGear, ISpecialArmor, IHazardProtector {
 
@@ -121,7 +121,7 @@ public class ItemElectricVoidwalkerBoots extends ItemElectricBoots
     }
 
     @Override
-    @Optional.Method(modid = "gregtechNH")
+    @Optional.Method(modid = "gregtech_nh")
     public boolean protectsAgainst(ItemStack itemStack, Hazard hazard) {
         return true;
     }
