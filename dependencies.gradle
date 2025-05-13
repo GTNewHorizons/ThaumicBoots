@@ -2,7 +2,7 @@
 
 dependencies {
     api('thaumcraft:Thaumcraft:1.7.10-4.2.3.5:dev')
-    api('com.github.GTNewHorizons:Baubles:1.0.4:dev')
+    api('com.github.GTNewHorizons:Baubles-Expanded:2.1.7-GTNH:dev')
     api('com.github.GTNewHorizons:Thaumic_Exploration:1.4.0-GTNH:dev'){
         exclude group: 'com.github.GTNewHorizons', module: 'ThaumicBoots'
     }
