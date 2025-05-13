@@ -3,7 +3,6 @@ package thaumicboots.item.baubles;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
-import baubles.common.items.ItemRing;
 import thaumcraft.api.IVisDiscountGear;
 import thaumcraft.api.aspects.Aspect;
 
