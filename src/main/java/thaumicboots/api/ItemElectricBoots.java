@@ -88,7 +88,7 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem, ISpec
     protected float computeBonus(ItemStack itemStack, EntityPlayer player) {
         int ticks = player.inventory.armorItemInSlot(0).stackTagCompound.getInteger("runTicks");
 
-        float bonus = runBonus + ((ticks / 5) * 0.003F);
+        float bonus = speedBonus + ((ticks / 5) * 0.003F);
         if (ElectricItem.manager.getCharge(itemStack) == 0) {
             bonus = 0;
         } else if (player.isInWater()) {

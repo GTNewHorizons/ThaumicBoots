@@ -14,7 +14,7 @@ public class ItemNanoVoidwalkerBoots extends ItemElectricVoidwalkerBoots {
         damageAbsorptionRatio = 2.75D;
         transferLimit = 2_400;
         jumpBonus = 0.7425D; // 7.5 blocks
-        runBonus = 0.550F;
+        speedBonus = 0.550F;
         iconResPath = "thaumicboots:nanoVoid_16x";
         armorResPath = "thaumicboots:model/nanobootsVoidwalker.png";
         unlocalisedName = "ItemNanoVoid";
