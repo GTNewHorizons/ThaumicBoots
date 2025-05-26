@@ -44,6 +44,7 @@ public class ItemBoots extends ItemArmor
 
     public double jumpBonus;
     public boolean omniMovement;
+    public boolean stepAssist;
 
     public ItemBoots(ArmorMaterial par2EnumArmorMaterial, int par3, int par4) {
         super(par2EnumArmorMaterial, par3, par4);
@@ -55,6 +56,7 @@ public class ItemBoots extends ItemArmor
         visDiscount = 0;
         speedBonus = 0.165F;
         jumpBonus = 0.0D;
+        stepAssist = false;
         omniMovement = false;
         tier = 0;
         steadyBonus = false; // this is the toggle for the longrunningbonus.
@@ -163,7 +165,7 @@ public class ItemBoots extends ItemArmor
         }
 
         float bonus = getSpeedModifier();
-        stepHeight(player);
+        stepHeight(player, itemStack);
         if (steadyBonus) {
             runningTicks(player);
             bonus = computeBonus(itemStack, player);
@@ -177,15 +179,19 @@ public class ItemBoots extends ItemArmor
         applyBonus(player, bonus, itemStack);
     }
 
-    public void stepHeight(EntityPlayer player) {
+    public void stepHeight(EntityPlayer player, ItemStack itemStack) {
         if (!player.worldObj.isRemote) {
             return;
+        }
+        if (isStepEnabled(itemStack)) {
+            player.stepHeight = 1.0F;
+        } else {
+            player.stepHeight = 0.5F;
         }
         if (!Thaumcraft.instance.entityEventHandler.prevStep.containsKey(Integer.valueOf(player.getEntityId()))) {
             Thaumcraft.instance.entityEventHandler.prevStep
                     .put(Integer.valueOf(player.getEntityId()), Float.valueOf(player.stepHeight));
         }
-        player.stepHeight = 1.0F;
     }
 
     public void runningTicks(EntityPlayer player) {
