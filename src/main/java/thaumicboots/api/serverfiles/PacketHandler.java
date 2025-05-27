@@ -25,5 +25,7 @@ public class PacketHandler {
         INSTANCE.registerMessage(PacketSpeedIncModAck.class, PacketSpeedIncModAck.class, 10, Side.CLIENT);
         INSTANCE.registerMessage(PacketJumpIncMod.class, PacketJumpIncMod.class, 11, Side.SERVER);
         INSTANCE.registerMessage(PacketJumpIncModAck.class, PacketJumpIncModAck.class, 12, Side.CLIENT);
+        INSTANCE.registerMessage(PacketStepToggle.class, PacketStepToggle.class, 13, Side.SERVER);
+        INSTANCE.registerMessage(PacketStepToggleAck.class, PacketStepToggleAck.class, 14, Side.CLIENT);
     }
 }

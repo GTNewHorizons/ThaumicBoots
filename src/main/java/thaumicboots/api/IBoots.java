@@ -18,6 +18,7 @@ public interface IBoots {
     String TAG_MODE_JUMP = "jump";
     String TAG_MODE_SPEED = "speed";
     String TAG_MODE_OMNI = "omni";
+    String TAG_MODE_STEP = "step";
     /** Cancels out creative flight inertia if true, leaves flight inertia as-is if false */
     String TAG_MODE_INERTIA = "inertiacanceling";
 
@@ -40,6 +41,13 @@ public interface IBoots {
             stack.setTagCompound(new NBTTagCompound());
         }
         stack.stackTagCompound.setBoolean(TAG_MODE_OMNI, enabled);
+    }
+
+    default void setModeStep(ItemStack stack, boolean enabled) {
+        if (stack.stackTagCompound == null) {
+            stack.setTagCompound(new NBTTagCompound());
+        }
+        stack.stackTagCompound.setBoolean(TAG_MODE_STEP, enabled);
     }
 
     default void setIsInertiaCanceling(ItemStack stack, boolean enabled) {
@@ -92,6 +100,17 @@ public interface IBoots {
         return omni;
     }
 
+    default boolean changeStepState(ItemStack stack) {
+        if (stack.stackTagCompound == null) {
+            stack.setTagCompound(new NBTTagCompound());
+        }
+        // Internally MC returns false by default if the tag is not present, we do not need a presence check.
+        boolean step = stack.stackTagCompound.getBoolean(TAG_MODE_STEP);
+        step = !step;
+        stack.stackTagCompound.setBoolean(TAG_MODE_STEP, step);
+        return step;
+    }
+
     default boolean changeIsInertiaCanceled(ItemStack stack) {
         if (stack.stackTagCompound == null) {
             stack.setTagCompound(new NBTTagCompound());
@@ -119,6 +138,13 @@ public interface IBoots {
     default boolean isOmniEnabled(ItemStack stack) {
         if (stack.stackTagCompound != null) {
             return stack.stackTagCompound.getBoolean(TAG_MODE_OMNI);
+        }
+        return false;
+    }
+
+    default boolean isStepEnabled(ItemStack stack) {
+        if (stack.stackTagCompound != null) {
+            return stack.stackTagCompound.getBoolean(TAG_MODE_STEP);
         }
         return false;
     }
@@ -171,6 +197,23 @@ public interface IBoots {
             midResult = EnumChatFormatting.DARK_RED + StatCollector.translateToLocal(result);
         }
         finalResult = EnumChatFormatting.GOLD + StatCollector.translateToLocal("thaumicboots.omniEffect")
+                + " "
+                + midResult;
+        GTNHLib.proxy.printMessageAboveHotbar(finalResult, 60, true, true);
+    }
+
+    @Optional.Method(modid = "gtnhlib")
+    @SideOnly(Side.CLIENT)
+    public static void renderHUDStepNotification() {
+        Minecraft mc = Minecraft.getMinecraft();
+        String result = "thaumicboots.activeState" + getBoots(mc.thePlayer).stackTagCompound.getBoolean(TAG_MODE_STEP);
+        String midResult, finalResult;
+        if (getBoots(mc.thePlayer).stackTagCompound.getBoolean(TAG_MODE_STEP)) {
+            midResult = EnumChatFormatting.DARK_GREEN + StatCollector.translateToLocal(result);
+        } else {
+            midResult = EnumChatFormatting.DARK_RED + StatCollector.translateToLocal(result);
+        }
+        finalResult = EnumChatFormatting.GOLD + StatCollector.translateToLocal("thaumicboots.stepAssistEffect")
                 + " "
                 + midResult;
         GTNHLib.proxy.printMessageAboveHotbar(finalResult, 60, true, true);

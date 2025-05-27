@@ -17,6 +17,7 @@ import thaumicboots.api.serverfiles.PacketJumpIncMod;
 import thaumicboots.api.serverfiles.PacketOmniToggle;
 import thaumicboots.api.serverfiles.PacketSpeedInc;
 import thaumicboots.api.serverfiles.PacketSpeedIncMod;
+import thaumicboots.api.serverfiles.PacketStepToggle;
 
 public class BootKeys {
 
@@ -41,6 +42,11 @@ public class BootKeys {
             Keyboard.KEY_NONE,
             "Thaumic Boots");
 
+    private final KeyBinding keyStepAssist = new KeyBinding(
+            "keybinding.stepassist",
+            Keyboard.KEY_NONE,
+            "Thaumic Boots");
+
     public BootKeys() {
         FMLCommonHandler.instance().bus().register(this);
         ClientRegistry.registerKeyBinding(keyJumpToggle);
@@ -48,6 +54,7 @@ public class BootKeys {
         ClientRegistry.registerKeyBinding(keyOmniToggle);
         ClientRegistry.registerKeyBinding(keyInertiaToggle);
         ClientRegistry.registerKeyBinding(keyIncrementMod);
+        ClientRegistry.registerKeyBinding(keyStepAssist);
     }
 
     @SideOnly(Side.CLIENT)
@@ -65,6 +72,8 @@ public class BootKeys {
             toggleOmni();
         } else if (keyInertiaToggle.isPressed()) {
             toggleInertia();
+        } else if (keyStepAssist.isPressed()) {
+            toggleStep();
         }
     }
 
@@ -86,6 +95,10 @@ public class BootKeys {
 
     private static void toggleOmni() {
         PacketHandler.INSTANCE.sendToServer(new PacketOmniToggle());
+    }
+
+    private static void toggleStep() {
+        PacketHandler.INSTANCE.sendToServer(new PacketStepToggle());
     }
 
     private static void toggleInertia() {

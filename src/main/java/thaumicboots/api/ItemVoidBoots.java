@@ -109,7 +109,7 @@ public class ItemVoidBoots extends ItemBoots implements IWarpingGear, ISpecialAr
         }
 
         if (!player.isSneaking()) {
-            stepHeight(player);
+            stepHeight(player, stack);
         }
 
         // speed boost
