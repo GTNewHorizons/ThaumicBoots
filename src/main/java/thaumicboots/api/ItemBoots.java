@@ -2,6 +2,8 @@ package thaumicboots.api;
 
 import java.util.List;
 
+import baubles.common.lib.PlayerHandler;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,6 +19,7 @@ import net.minecraft.world.World;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import taintedmagic.common.registry.ItemRegistry;
 import thaumcraft.api.IRepairable;
 import thaumcraft.api.IRunicArmor;
 import thaumcraft.api.IVisDiscountGear;
@@ -159,17 +162,26 @@ public class ItemBoots extends ItemArmor
         }
 
         boolean omniMode = isOmniEnabled(itemStack);
-        if ((player.moveForward == 0F && player.moveStrafing == 0F && omniMode)
-                || (player.moveForward <= 0F && !omniMode)) {
+        if (player.moveForward <= 0F && !omniMode) {
+            return;
+        }
+        if ((player.moveForward == 0F && player.moveStrafing == 0F && player.motionY == 0F)) {
             return;
         }
 
-        float bonus = getSpeedModifier();
+        //step assist
         stepHeight(player, itemStack);
+
+        //speed boost
+        float bonus = getSpeedModifier();
+        bonus += sashBuff(player);
+
         if (steadyBonus) {
             runningTicks(player);
             bonus = computeBonus(itemStack, player);
         }
+
+        bonus = player.capabilities.isFlying || checkNanoChestplate(player) ? bonus * 0.75F : bonus;
 
         applyFinalBonus(bonus, player, itemStack);
     }
@@ -177,6 +189,14 @@ public class ItemBoots extends ItemArmor
     public void applyFinalBonus(float bonus, EntityPlayer player, ItemStack itemStack) {
         bonus *= isSpeedEnabled(itemStack);
         applyBonus(player, bonus, itemStack);
+    }
+
+    public float sashBuff(final EntityPlayer player) {
+        final ItemStack sash = PlayerHandler.getPlayerBaubles(player).getStackInSlot(3);
+        if (sash != null && sash.getItem() == ItemRegistry.ItemVoidwalkerSash) {
+            return 0.4F; //sash speed buff
+        }
+        return 0.0F;
     }
 
     public void stepHeight(EntityPlayer player, ItemStack itemStack) {
@@ -210,8 +230,23 @@ public class ItemBoots extends ItemArmor
             if (player.moveForward != 0.0) {
                 player.moveFlying(0.0F, player.moveForward, bonus);
             }
-            if (player.moveStrafing != 0.0 && itemStack.stackTagCompound.getBoolean(TAG_MODE_OMNI)) {
-                player.moveFlying(player.moveStrafing, 0.0F, bonus);
+            if ( itemStack.stackTagCompound.getBoolean(TAG_MODE_OMNI)) {
+                if (player.moveStrafing != 0.0) {
+                    player.moveFlying(player.moveStrafing, 0.0F, bonus);
+                }
+                if (player.motionY != 0.0) {
+                    boolean jumping = Minecraft.getMinecraft().gameSettings.keyBindJump.getIsKeyPressed();
+                    boolean sneaking = player.isSneaking();
+                    float rise = Math.abs((float) player.motionY);
+                    if (sneaking && !jumping && !player.onGround) { //no moveFlying for vertical so this extracts the internals
+                        rise *= bonus / rise;
+                        player.motionY -= rise;
+                    }
+                    if (!sneaking && jumping) {
+                        rise *= bonus / rise;
+                        player.motionY += rise;
+                    }
+                }
             }
         } else if (Hover.getHover(player.getEntityId())) {
             player.jumpMovementFactor = 0.03F;

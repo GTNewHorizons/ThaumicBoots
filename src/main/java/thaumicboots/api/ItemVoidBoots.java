@@ -27,8 +27,10 @@ public class ItemVoidBoots extends ItemBoots implements IWarpingGear, ISpecialAr
     }
 
     protected void setBootsData() {
+        super.setBootsData();
         visDiscount = 5;
         jumpBonus = 0.450D;
+        negateFall = true;
         tier = 3;
         iconResPath = "thaumicboots:voidComet_16x";
         armorResPath = "thaumicboots:model/VoidwalkerBootsComet_-_Purple.png";
@@ -93,37 +95,11 @@ public class ItemVoidBoots extends ItemBoots implements IWarpingGear, ISpecialAr
             stack.damageItem(-1, player);
         }
 
-        // negate fall damage
-        if (player.fallDistance > 3.0F) {
-            player.fallDistance = 1.0F;
-        }
-
         // particles
         final double motion = Math.abs(player.motionX) + Math.abs(player.motionZ) + Math.abs(0.5 * player.motionY);
         if (world.isRemote && (motion > 0.1D || !player.onGround) && world.rand.nextInt(3) == 0) {
             particles(world, player);
         }
-
-        if (player.moveForward <= 0F) {
-            return;
-        }
-
-        if (!player.isSneaking()) {
-            stepHeight(player, stack);
-        }
-
-        // speed boost
-        float bonus = getSpeedModifier() * sashEquiped(player);
-        bonus *= stack.stackTagCompound.getDouble(TAG_MODE_SPEED);
-        applyBonus(player, bonus, stack);
-    }
-
-    public float sashEquiped(final EntityPlayer player) {
-        final ItemStack sash = PlayerHandler.getPlayerBaubles(player).getStackInSlot(3);
-        if (sash != null && sash.getItem() == ItemRegistry.ItemVoidwalkerSash) {
-            return 3.0F;
-        }
-        return 1.0F;
     }
 
     // particle effect from Tainted Magic
