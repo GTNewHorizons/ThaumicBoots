@@ -5,7 +5,6 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
-import net.minecraftforge.common.MinecraftForge;
 
 import baubles.common.lib.PlayerHandler;
 import cpw.mods.fml.common.Optional;
@@ -32,7 +31,6 @@ public class ItemElectricVoidwalkerBoots extends ItemElectricBoots
         setCreativeTab(TabThaumicBoots.tabThaumicBoots);
         setUnlocalizedName(unlocalisedName);
         setBootsData();
-        MinecraftForge.EVENT_BUS.register(this);
     }
 
     protected void setBootsData() {
