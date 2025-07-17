@@ -193,10 +193,16 @@ public class ItemBoots extends ItemArmor
 
     public float sashBuff(final EntityPlayer player) {
         final ItemStack sash = PlayerHandler.getPlayerBaubles(player).getStackInSlot(3);
-        if (sash != null && sash.getItem() == ItemRegistry.ItemVoidwalkerSash) {
+        if (sash != null && sash.getItem() == ItemRegistry.ItemVoidwalkerSash && sashHasSpeedBoost(sash)) {
             return 0.4F; //sash speed buff
         }
         return 0.0F;
+    }
+
+    public boolean sashHasSpeedBoost(ItemStack s) {
+        if (s.stackTagCompound == null) return true;
+
+        else return s.stackTagCompound.getBoolean("mode");
     }
 
     public void stepHeight(EntityPlayer player, ItemStack itemStack) {
