@@ -6,19 +6,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 
-import baubles.common.lib.PlayerHandler;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import gregtech.api.hazards.Hazard;
 import gregtech.api.hazards.IHazardProtector;
-import ic2.api.item.ElectricItem;
-import taintedmagic.common.registry.ItemRegistry;
 import thaumcraft.api.IWarpingGear;
 import thaumcraft.client.fx.ParticleEngine;
 import thaumcraft.client.fx.particles.FXWispEG;
-import thaumcraft.common.Thaumcraft;
-import thaumcraft.common.items.armor.Hover;
 import thaumicboots.api.ItemElectricBoots;
 import thaumicboots.main.utils.TabThaumicBoots;
 

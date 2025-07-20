@@ -9,10 +9,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 
-import baubles.common.lib.PlayerHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import taintedmagic.common.registry.ItemRegistry;
 import thaumcraft.api.IWarpingGear;
 import thaumcraft.client.fx.ParticleEngine;
 import thaumcraft.client.fx.particles.FXWispEG;

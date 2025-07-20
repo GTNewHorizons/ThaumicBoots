@@ -2,7 +2,6 @@ package thaumicboots.api;
 
 import java.util.List;
 
-import baubles.common.lib.PlayerHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -17,6 +16,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
+import baubles.common.lib.PlayerHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import taintedmagic.common.registry.ItemRegistry;
@@ -169,10 +169,10 @@ public class ItemBoots extends ItemArmor
             return;
         }
 
-        //step assist
+        // step assist
         stepHeight(player, itemStack);
 
-        //speed boost
+        // speed boost
         float bonus = getSpeedModifier();
         bonus += sashBuff(player);
 
@@ -194,7 +194,7 @@ public class ItemBoots extends ItemArmor
     public float sashBuff(final EntityPlayer player) {
         final ItemStack sash = PlayerHandler.getPlayerBaubles(player).getStackInSlot(3);
         if (sash != null && sash.getItem() == ItemRegistry.ItemVoidwalkerSash && sashHasSpeedBoost(sash)) {
-            return 0.4F; //sash speed buff
+            return 0.4F; // sash speed buff
         }
         return 0.0F;
     }
