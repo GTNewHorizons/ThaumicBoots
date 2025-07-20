@@ -248,7 +248,6 @@ public class ItemBoots extends ItemArmor
                     } else if (jumping && !sneaking) {
                         player.motionY += bonus;
                     }
-                    }
                 }
             }
         } else if (Hover.getHover(player.getEntityId())) {
