@@ -165,7 +165,7 @@ public class ItemBoots extends ItemArmor
         if (player.moveForward <= 0F && !omniMode) {
             return;
         }
-        if ((player.moveForward == 0F && player.moveStrafing == 0F && player.motionY == 0F)) {
+        if (player.moveForward == 0F && player.moveStrafing == 0F && player.motionY == 0F) {
             return;
         }
 
@@ -236,7 +236,7 @@ public class ItemBoots extends ItemArmor
             if (player.moveForward != 0.0) {
                 player.moveFlying(0.0F, player.moveForward, bonus);
             }
-            if ( itemStack.stackTagCompound.getBoolean(TAG_MODE_OMNI)) {
+            if (itemStack.hasTagCompound() && itemStack.stackTagCompound.getBoolean(TAG_MODE_OMNI)) {
                 if (player.moveStrafing != 0.0) {
                     player.moveFlying(player.moveStrafing, 0.0F, bonus);
                 }
