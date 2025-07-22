@@ -175,7 +175,10 @@ public class ItemBoots extends ItemArmor
 
         // speed boost
         float bonus = getSpeedModifier();
-        bonus += sashBuffLocal(player);
+
+        if (TaintedHelper.isActive()) {
+            bonus += sashBuff(player);
+        }
 
         if (steadyBonus) {
             runningTicks(player);
@@ -190,13 +193,6 @@ public class ItemBoots extends ItemArmor
     public void applyFinalBonus(float bonus, EntityPlayer player, ItemStack itemStack) {
         bonus *= isSpeedEnabled(itemStack);
         applyBonus(player, bonus, itemStack);
-    }
-
-    private float sashBuffLocal(final EntityPlayer player) {
-        if (TaintedHelper.isActive()) {
-            return sashBuff(player);
-        }
-        return 0.0F;
     }
 
     public void stepHeight(EntityPlayer player, ItemStack itemStack) {
