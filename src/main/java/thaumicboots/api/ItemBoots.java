@@ -1,5 +1,7 @@
 package thaumicboots.api;
 
+import static taintedmagic.common.items.equipment.ItemVoidwalkerBoots.sashBuff;
+
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
@@ -26,7 +28,6 @@ import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.items.armor.Hover;
 import thaumicboots.main.Config;
 import thaumicboots.main.utils.compat.TaintedHelper;
-import static taintedmagic.common.items.equipment.ItemVoidwalkerBoots.sashBuff;
 
 public class ItemBoots extends ItemArmor
         implements ITBootJumpable, ITBootSpeed, IVisDiscountGear, IRunicArmor, IRepairable, IBoots {
@@ -197,7 +198,6 @@ public class ItemBoots extends ItemArmor
         }
         return 0.0F;
     }
-
 
     public void stepHeight(EntityPlayer player, ItemStack itemStack) {
         if (!player.worldObj.isRemote) {

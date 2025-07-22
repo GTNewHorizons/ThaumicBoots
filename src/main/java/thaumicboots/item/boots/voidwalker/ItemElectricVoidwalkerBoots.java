@@ -18,8 +18,7 @@ import thaumcraft.client.fx.particles.FXWispEG;
 import thaumicboots.api.ItemElectricBoots;
 import thaumicboots.main.utils.TabThaumicBoots;
 
-@Optional.InterfaceList({
-        @Optional.Interface(iface = "taintedmagic.api.IVoidwalker", modid = "TaintedMagic"),
+@Optional.InterfaceList({ @Optional.Interface(iface = "taintedmagic.api.IVoidwalker", modid = "TaintedMagic"),
         @Optional.Interface(iface = "gregtech.api.hazards.IHazardProtector", modid = "gregtech_nh") })
 public class ItemElectricVoidwalkerBoots extends ItemElectricBoots
         implements IVoidwalker, IWarpingGear, ISpecialArmor, IHazardProtector {
