@@ -1,5 +1,6 @@
 package thaumicboots.api;
 
+import cpw.mods.fml.common.Optional;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,12 +12,14 @@ import net.minecraftforge.common.ISpecialArmor;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import taintedmagic.api.IVoidwalker;
 import thaumcraft.api.IWarpingGear;
 import thaumcraft.client.fx.ParticleEngine;
 import thaumcraft.client.fx.particles.FXWispEG;
 import thaumicboots.main.utils.TabThaumicBoots;
 
-public class ItemVoidBoots extends ItemBoots implements IWarpingGear, ISpecialArmor {
+@Optional.Interface(iface = "taintedmagic.api.IVoidwalker", modid = "TaintedMagic")
+public class ItemVoidBoots extends ItemBoots implements IVoidwalker, IWarpingGear, ISpecialArmor {
 
     public ItemVoidBoots(ArmorMaterial par2EnumArmorMaterial, int par3, int par4) {
         super(par2EnumArmorMaterial, par3, par4);

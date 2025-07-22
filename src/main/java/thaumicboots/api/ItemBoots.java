@@ -16,10 +16,8 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
-import baubles.common.lib.PlayerHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import taintedmagic.common.registry.ItemRegistry;
 import thaumcraft.api.IRepairable;
 import thaumcraft.api.IRunicArmor;
 import thaumcraft.api.IVisDiscountGear;
@@ -27,6 +25,8 @@ import thaumcraft.api.aspects.Aspect;
 import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.items.armor.Hover;
 import thaumicboots.main.Config;
+import thaumicboots.main.utils.compat.TaintedHelper;
+import static taintedmagic.common.items.equipment.ItemVoidwalkerBoots.sashBuff;
 
 public class ItemBoots extends ItemArmor
         implements ITBootJumpable, ITBootSpeed, IVisDiscountGear, IRunicArmor, IRepairable, IBoots {
@@ -174,7 +174,7 @@ public class ItemBoots extends ItemArmor
 
         // speed boost
         float bonus = getSpeedModifier();
-        bonus += sashBuff(player);
+        bonus += sashBuffLocal(player);
 
         if (steadyBonus) {
             runningTicks(player);
@@ -191,19 +191,13 @@ public class ItemBoots extends ItemArmor
         applyBonus(player, bonus, itemStack);
     }
 
-    public float sashBuff(final EntityPlayer player) {
-        final ItemStack sash = PlayerHandler.getPlayerBaubles(player).getStackInSlot(3);
-        if (sash != null && sash.getItem() == ItemRegistry.ItemVoidwalkerSash && sashHasSpeedBoost(sash)) {
-            return 0.4F; // sash speed buff
+    private float sashBuffLocal(final EntityPlayer player) {
+        if (TaintedHelper.isActive()) {
+            return sashBuff(player);
         }
         return 0.0F;
     }
 
-    public boolean sashHasSpeedBoost(ItemStack s) {
-        if (s.stackTagCompound == null) return true;
-
-        else return s.stackTagCompound.getBoolean("mode");
-    }
 
     public void stepHeight(EntityPlayer player, ItemStack itemStack) {
         if (!player.worldObj.isRemote) {

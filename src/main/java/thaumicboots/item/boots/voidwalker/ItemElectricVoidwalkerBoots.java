@@ -11,15 +11,18 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import gregtech.api.hazards.Hazard;
 import gregtech.api.hazards.IHazardProtector;
+import taintedmagic.api.IVoidwalker;
 import thaumcraft.api.IWarpingGear;
 import thaumcraft.client.fx.ParticleEngine;
 import thaumcraft.client.fx.particles.FXWispEG;
 import thaumicboots.api.ItemElectricBoots;
 import thaumicboots.main.utils.TabThaumicBoots;
 
-@Optional.Interface(iface = "gregtech.api.hazards.IHazardProtector", modid = "gregtech_nh")
+@Optional.InterfaceList({
+        @Optional.Interface(iface = "taintedmagic.api.IVoidwalker", modid = "TaintedMagic"),
+        @Optional.Interface(iface = "gregtech.api.hazards.IHazardProtector", modid = "gregtech_nh") })
 public class ItemElectricVoidwalkerBoots extends ItemElectricBoots
-        implements IWarpingGear, ISpecialArmor, IHazardProtector {
+        implements IVoidwalker, IWarpingGear, ISpecialArmor, IHazardProtector {
 
     public ItemElectricVoidwalkerBoots(final ArmorMaterial material, final int j, final int k) {
         super(material, j, k);
