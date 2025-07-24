@@ -1,7 +1,10 @@
 package thaumicboots.api;
 
+import static taintedmagic.common.items.equipment.ItemVoidwalkerBoots.sashBuff;
+
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,6 +27,7 @@ import thaumcraft.api.aspects.Aspect;
 import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.items.armor.Hover;
 import thaumicboots.main.Config;
+import thaumicboots.main.utils.compat.TaintedHelper;
 
 public class ItemBoots extends ItemArmor
         implements ITBootJumpable, ITBootSpeed, IVisDiscountGear, IRunicArmor, IRepairable, IBoots {
@@ -159,17 +163,29 @@ public class ItemBoots extends ItemArmor
         }
 
         boolean omniMode = isOmniEnabled(itemStack);
-        if ((player.moveForward == 0F && player.moveStrafing == 0F && omniMode)
-                || (player.moveForward <= 0F && !omniMode)) {
+        if (player.moveForward <= 0F && !omniMode) {
+            return;
+        }
+        if (player.moveForward == 0F && player.moveStrafing == 0F && player.motionY == 0F) {
             return;
         }
 
-        float bonus = getSpeedModifier();
+        // step assist
         stepHeight(player, itemStack);
+
+        // speed boost
+        float bonus = getSpeedModifier();
+
+        if (TaintedHelper.isActive()) {
+            bonus += sashBuff(player);
+        }
+
         if (steadyBonus) {
             runningTicks(player);
             bonus = computeBonus(itemStack, player);
         }
+
+        bonus = player.capabilities.isFlying || checkNanoChestplate(player) ? bonus * 0.75F : bonus;
 
         applyFinalBonus(bonus, player, itemStack);
     }
@@ -210,8 +226,19 @@ public class ItemBoots extends ItemArmor
             if (player.moveForward != 0.0) {
                 player.moveFlying(0.0F, player.moveForward, bonus);
             }
-            if (player.moveStrafing != 0.0 && itemStack.stackTagCompound.getBoolean(TAG_MODE_OMNI)) {
-                player.moveFlying(player.moveStrafing, 0.0F, bonus);
+            if (itemStack.hasTagCompound() && itemStack.stackTagCompound.getBoolean(TAG_MODE_OMNI)) {
+                if (player.moveStrafing != 0.0) {
+                    player.moveFlying(player.moveStrafing, 0.0F, bonus);
+                }
+                if (player.motionY != 0.0) {
+                    boolean jumping = Minecraft.getMinecraft().gameSettings.keyBindJump.getIsKeyPressed();
+                    boolean sneaking = player.isSneaking();
+                    if (sneaking && !jumping && !player.onGround) {
+                        player.motionY -= bonus;
+                    } else if (jumping && !sneaking) {
+                        player.motionY += bonus;
+                    }
+                }
             }
         } else if (Hover.getHover(player.getEntityId())) {
             player.jumpMovementFactor = 0.03F;
