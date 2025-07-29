@@ -1,10 +1,7 @@
 package thaumicboots.api;
 
-import static taintedmagic.common.items.equipment.ItemVoidwalkerBoots.sashBuff;
-
 import java.util.List;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,6 +17,7 @@ import net.minecraft.world.World;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import taintedmagic.common.items.equipment.ItemVoidwalkerBoots;
 import thaumcraft.api.IRepairable;
 import thaumcraft.api.IRunicArmor;
 import thaumcraft.api.IVisDiscountGear;
@@ -28,6 +26,7 @@ import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.items.armor.Hover;
 import thaumicboots.main.Config;
 import thaumicboots.main.utils.compat.TaintedHelper;
+import thaumicboots.mixins.early.minecraft.EntityLivingBaseAccessor;
 
 public class ItemBoots extends ItemArmor
         implements ITBootJumpable, ITBootSpeed, IVisDiscountGear, IRunicArmor, IRepairable, IBoots {
@@ -177,7 +176,7 @@ public class ItemBoots extends ItemArmor
         float bonus = getSpeedModifier();
 
         if (TaintedHelper.isActive()) {
-            bonus += sashBuff(player);
+            bonus += ItemVoidwalkerBoots.sashBuff(player);
         }
 
         if (steadyBonus) {
@@ -231,7 +230,7 @@ public class ItemBoots extends ItemArmor
                     player.moveFlying(player.moveStrafing, 0.0F, bonus);
                 }
                 if (player.motionY != 0.0) {
-                    boolean jumping = Minecraft.getMinecraft().gameSettings.keyBindJump.getIsKeyPressed();
+                    boolean jumping = ((EntityLivingBaseAccessor) player).getIsJumping();
                     boolean sneaking = player.isSneaking();
                     if (sneaking && !jumping && !player.onGround) {
                         player.motionY -= bonus;
