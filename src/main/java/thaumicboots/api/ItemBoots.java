@@ -49,6 +49,8 @@ public class ItemBoots extends ItemArmor
     public boolean omniMovement;
     public boolean stepAssist;
 
+    public static final float BASE_JUMP_BONUS = 0.2750000059604645F;
+
     public ItemBoots(ArmorMaterial par2EnumArmorMaterial, int par3, int par4) {
         super(par2EnumArmorMaterial, par3, par4);
         setBootsData();
@@ -190,8 +192,9 @@ public class ItemBoots extends ItemArmor
     }
 
     public void applyFinalBonus(float bonus, EntityPlayer player, ItemStack itemStack) {
-        bonus *= isSpeedEnabled(itemStack);
-        applyBonus(player, bonus, itemStack);
+        double speed = isSpeedEnabled(itemStack);
+        bonus *= speed;
+        applyBonus(player, bonus, (float) speed, itemStack);
     }
 
     public void stepHeight(EntityPlayer player, ItemStack itemStack) {
@@ -217,7 +220,7 @@ public class ItemBoots extends ItemArmor
         }
     }
 
-    public void applyBonus(EntityPlayer player, float bonus, ItemStack itemStack) {
+    public void applyBonus(EntityPlayer player, float bonus, float speedMod, ItemStack itemStack) {
         if (waterEffects && player.isInWater()) {
             bonus *= 0.25F;
         }
@@ -240,9 +243,9 @@ public class ItemBoots extends ItemArmor
                 }
             }
         } else if (Hover.getHover(player.getEntityId())) {
-            player.jumpMovementFactor = 0.03F;
+            player.jumpMovementFactor = (0.03F / BASE_JUMP_BONUS * (float) jumpBonus - 0.02F) * speedMod + 0.02F;
         } else {
-            player.jumpMovementFactor = 0.05F;
+            player.jumpMovementFactor = (0.05F / BASE_JUMP_BONUS * (float) jumpBonus - 0.02F) * speedMod + 0.02F;
         }
     }
 }

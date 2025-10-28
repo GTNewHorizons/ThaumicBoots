@@ -153,7 +153,8 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem, ISpec
         if (ElectricItem.manager.getCharge(itemStack) == 0) {
             bonus *= 0;
         }
-        bonus *= itemStack.stackTagCompound.getDouble(TAG_MODE_SPEED);
-        applyBonus(player, bonus, itemStack);
+        double speed = itemStack.stackTagCompound.getDouble(TAG_MODE_SPEED);
+        bonus *= speed;
+        applyBonus(player, bonus, (float) speed, itemStack);
     }
 }
