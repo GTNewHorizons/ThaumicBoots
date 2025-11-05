@@ -3,17 +3,17 @@
 dependencies {
     api('thaumcraft:Thaumcraft:1.7.10-4.2.3.5:dev')
     api('com.github.GTNewHorizons:Baubles-Expanded:2.2.2-GTNH:dev')
-    api('com.github.GTNewHorizons:Thaumic_Exploration:1.5.0-GTNH:dev'){
+    api('com.github.GTNewHorizons:Thaumic_Exploration:1.5.3-GTNH:dev'){
         exclude group: 'com.github.GTNewHorizons', module: 'ThaumicBoots'
         exclude module: 'Baubles'
     }
-    api('com.github.GTNewHorizons:Electro-Magic-Tools:1.7.0:dev'){
+    api('com.github.GTNewHorizons:Electro-Magic-Tools:1.7.4:dev'){
         exclude group: 'com.github.GTNewHorizons', module: 'ThaumicBoots'
         exclude module: 'Baubles'
     }
     api('com.github.GTNewHorizons:Tainted-Magic:7.7.0-GTNH'){transitive = false}
-    api('com.github.GTNewHorizons:GTNHLib:0.7.3')
-    compileOnly('com.github.GTNewHorizons:GT5-Unofficial:5.09.52.85:dev'){
+    api('com.github.GTNewHorizons:GTNHLib:0.7.7')
+    compileOnly('com.github.GTNewHorizons:GT5-Unofficial:5.09.52.97:dev'){
 		exclude group: 'com.github.GTNewHorizons', module: 'ThaumicBoots'
 	}
 	
