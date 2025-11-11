@@ -128,14 +128,14 @@ public interface IBoots {
         if (stack.stackTagCompound != null) {
             return stack.stackTagCompound.getDouble(TAG_MODE_SPEED);
         }
-        return 0;
+        return 1d;
     }
 
     static double isJumpEnabled(ItemStack stack) {
         if (stack.stackTagCompound != null) {
             return stack.stackTagCompound.getDouble(TAG_MODE_JUMP);
         }
-        return 0;
+        return 1d;
     }
 
     default boolean isOmniEnabled(ItemStack stack) {
