@@ -47,7 +47,6 @@ public class ItemBoots extends ItemArmor
 
     public double jumpBonus;
     public boolean omniMovement;
-    public boolean stepAssist;
 
     public static final float BASE_JUMP_BONUS = 0.2750000059604645F;
 
@@ -61,7 +60,6 @@ public class ItemBoots extends ItemArmor
         visDiscount = 0;
         speedBonus = 0.165F;
         jumpBonus = 0.0D;
-        stepAssist = false;
         omniMovement = false;
         tier = 0;
         steadyBonus = false; // this is the toggle for the longrunningbonus.
@@ -192,24 +190,20 @@ public class ItemBoots extends ItemArmor
     }
 
     public void applyFinalBonus(float bonus, EntityPlayer player, ItemStack itemStack) {
-        double speed = isSpeedEnabled(itemStack);
+        float speed = (float) isSpeedEnabled(itemStack);
         bonus *= speed;
-        applyBonus(player, bonus, (float) speed, itemStack);
+        applyBonus(player, bonus, speed, itemStack);
     }
 
     public void stepHeight(EntityPlayer player, ItemStack itemStack) {
-        if (!player.worldObj.isRemote) {
+        if (!player.worldObj.isRemote || !isStepEnabled(itemStack) || player.isSneaking()) {
             return;
-        }
-        if (isStepEnabled(itemStack)) {
-            player.stepHeight = 1.0F;
-        } else {
-            player.stepHeight = 0.5F;
         }
         if (!Thaumcraft.instance.entityEventHandler.prevStep.containsKey(Integer.valueOf(player.getEntityId()))) {
             Thaumcraft.instance.entityEventHandler.prevStep
                     .put(Integer.valueOf(player.getEntityId()), Float.valueOf(player.stepHeight));
         }
+        player.stepHeight = 1.0F;
     }
 
     public void runningTicks(EntityPlayer player) {
@@ -228,7 +222,7 @@ public class ItemBoots extends ItemArmor
             if (player.moveForward != 0.0) {
                 player.moveFlying(0.0F, player.moveForward, bonus);
             }
-            if (itemStack.hasTagCompound() && itemStack.stackTagCompound.getBoolean(TAG_MODE_OMNI)) {
+            if (isOmniEnabled(itemStack)) {
                 if (player.moveStrafing != 0.0) {
                     player.moveFlying(player.moveStrafing, 0.0F, bonus);
                 }

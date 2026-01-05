@@ -58,98 +58,77 @@ public interface IBoots {
     }
 
     default double changeSpeed(ItemStack stack, double modifier) {
-        if (stack.stackTagCompound == null) {
-            stack.setTagCompound(new NBTTagCompound());
-        }
-        // Internally MC returns 0 by default if the tag is not present, we do not need a presence check.
-        double oldSpeed = stack.stackTagCompound.hasKey(TAG_MODE_SPEED)
-                ? stack.stackTagCompound.getDouble(TAG_MODE_SPEED)
-                : 1d;
+        double oldSpeed = isSpeedEnabled(stack);
         double newSpeed = ((Math.round(20D * (oldSpeed + modifier)))) / 20D;
+
         if (oldSpeed == 1) {
             newSpeed = 0;
         } else if (newSpeed > 1 && oldSpeed < 1) {
             newSpeed = 1;
         }
-        stack.stackTagCompound.setDouble(TAG_MODE_SPEED, newSpeed);
+
+        setModeSpeed(stack, newSpeed);
         return newSpeed;
     }
 
     default double changeJump(ItemStack stack, double modifier) {
-        if (stack.stackTagCompound == null) {
-            stack.setTagCompound(new NBTTagCompound());
-        }
-        // Internally MC returns 0 by default if the tag is not present, we do not need a presence check.
-        double oldJump = stack.stackTagCompound.hasKey(TAG_MODE_JUMP) ? stack.stackTagCompound.getDouble(TAG_MODE_JUMP)
-                : 1d;
+        double oldJump = isJumpEnabled(stack);
         double newJump = ((Math.round(20D * (oldJump + modifier)))) / 20D;
+
         if (oldJump == 1) {
             newJump = 0;
         } else if (newJump > 1 && oldJump < 1) {
             newJump = 1;
         }
-        stack.stackTagCompound.setDouble(TAG_MODE_JUMP, newJump);
+
+        setModeJump(stack, newJump);
         return newJump;
     }
 
     default boolean changeOmniState(ItemStack stack) {
-        if (stack.stackTagCompound == null) {
-            stack.setTagCompound(new NBTTagCompound());
-        }
-        // Internally MC returns false by default if the tag is not present, we do not need a presence check.
-        boolean omni = stack.stackTagCompound.getBoolean(TAG_MODE_OMNI);
-        omni = !omni;
-        stack.stackTagCompound.setBoolean(TAG_MODE_OMNI, omni);
-        return omni;
+        boolean newOmni = !isOmniEnabled(stack);
+        setModeOmni(stack, newOmni);
+        return newOmni;
     }
 
     default boolean changeStepState(ItemStack stack) {
-        if (stack.stackTagCompound == null) {
-            stack.setTagCompound(new NBTTagCompound());
-        }
-        // Internally MC returns false by default if the tag is not present, we do not need a presence check.
-        boolean step = stack.stackTagCompound.getBoolean(TAG_MODE_STEP);
-        step = !step;
-        stack.stackTagCompound.setBoolean(TAG_MODE_STEP, step);
-        return step;
+        boolean newStep = !isStepEnabled(stack);
+        setModeStep(stack, newStep);
+        return newStep;
     }
 
     default boolean changeIsInertiaCanceled(ItemStack stack) {
-        if (stack.stackTagCompound == null) {
-            stack.setTagCompound(new NBTTagCompound());
-        }
-        // Internally MC returns false by default if the tag is not present, we do not need a presence check.
-        boolean inertiaCanceling = !(stack.stackTagCompound.getBoolean(TAG_MODE_INERTIA));
-        stack.stackTagCompound.setBoolean(TAG_MODE_INERTIA, inertiaCanceling);
-        return inertiaCanceling;
+        boolean newInertiaCanceling = !isInertiaCanceled(stack);
+        setIsInertiaCanceling(stack, newInertiaCanceling);
+        return newInertiaCanceling;
     }
 
     default double isSpeedEnabled(ItemStack stack) {
-        if (stack.stackTagCompound != null) {
+        if (stack.stackTagCompound != null && stack.stackTagCompound.hasKey(TAG_MODE_SPEED)) {
             return stack.stackTagCompound.getDouble(TAG_MODE_SPEED);
         }
         return 1d;
     }
 
     static double isJumpEnabled(ItemStack stack) {
-        if (stack.stackTagCompound != null) {
+        if (stack.stackTagCompound != null && stack.stackTagCompound.hasKey(TAG_MODE_JUMP)) {
             return stack.stackTagCompound.getDouble(TAG_MODE_JUMP);
         }
         return 1d;
     }
 
     default boolean isOmniEnabled(ItemStack stack) {
-        if (stack.stackTagCompound != null) {
+        if (stack.stackTagCompound != null && stack.stackTagCompound.hasKey(TAG_MODE_OMNI)) {
             return stack.stackTagCompound.getBoolean(TAG_MODE_OMNI);
         }
-        return false;
+        return true;
     }
 
     default boolean isStepEnabled(ItemStack stack) {
-        if (stack.stackTagCompound != null) {
+        if (stack.stackTagCompound != null && stack.stackTagCompound.hasKey(TAG_MODE_STEP)) {
             return stack.stackTagCompound.getBoolean(TAG_MODE_STEP);
         }
-        return false;
+        return true;
     }
 
     default boolean isInertiaCanceled(ItemStack stack) {
