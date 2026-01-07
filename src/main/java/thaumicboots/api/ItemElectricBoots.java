@@ -151,10 +151,8 @@ public class ItemElectricBoots extends ItemBoots implements IElectricItem, ISpec
     @Override
     public void applyFinalBonus(float bonus, EntityPlayer player, ItemStack itemStack) {
         if (ElectricItem.manager.getCharge(itemStack) == 0) {
-            bonus *= 0;
+            bonus = 0;
         }
-        double speed = itemStack.stackTagCompound.getDouble(TAG_MODE_SPEED);
-        bonus *= speed;
-        applyBonus(player, bonus, (float) speed, itemStack);
+        super.applyFinalBonus(bonus, player, itemStack);
     }
 }
