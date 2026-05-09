@@ -199,9 +199,8 @@ public class ItemBoots extends ItemArmor
         if (!player.worldObj.isRemote || !isStepEnabled(itemStack) || player.isSneaking()) {
             return;
         }
-        if (!Thaumcraft.instance.entityEventHandler.prevStep.containsKey(Integer.valueOf(player.getEntityId()))) {
-            Thaumcraft.instance.entityEventHandler.prevStep
-                    .put(Integer.valueOf(player.getEntityId()), Float.valueOf(player.stepHeight));
+        if (!Thaumcraft.instance.entityEventHandler.prevStep.containsKey(player.getEntityId())) {
+            Thaumcraft.instance.entityEventHandler.prevStep.put(player.getEntityId(), player.stepHeight);
         }
         player.stepHeight = 1.0F;
     }
