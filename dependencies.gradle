@@ -17,9 +17,7 @@ dependencies {
 		exclude group: 'com.github.GTNewHorizons', module: 'ThaumicBoots'
 	}
 	
-    runtimeOnly('com.github.GTNewHorizons:AspectRecipeIndex:1.0.16:dev') {
-        exclude module: 'Baubles'
-    }
+    runtimeOnly('com.github.GTNewHorizons:AspectRecipeIndex:1.0.16:dev')
 }
 
 
