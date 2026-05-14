@@ -100,7 +100,7 @@ public class Config {
         thaumcraftActive = configuration.get(CATEGORY_MODULES, "Thaumcraft", true).getBoolean();
 
         // Optional Modules
-        p = configuration.get(CATEGORY_MODULES, "Electro-Magic-Tools", true);
+        p = configuration.get(CATEGORY_MODULES, "GTNHLib", true);
         gtnhLibActive = p.getBoolean();
 
         p = configuration.get(CATEGORY_MODULES, "Tainted-Magic", true);
