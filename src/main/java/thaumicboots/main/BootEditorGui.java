@@ -16,6 +16,7 @@ import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.ModularScreen;
 import com.cleanroommc.modularui.screen.UISettings;
 import com.cleanroommc.modularui.utils.Alignment;
+import com.cleanroommc.modularui.utils.MathUtils;
 import com.cleanroommc.modularui.value.sync.DoubleSyncValue;
 import com.cleanroommc.modularui.value.sync.GenericSyncValue;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
@@ -83,7 +84,9 @@ public class BootEditorGui implements IGuiHolder<GuiData> {
                 .child(
                         new SliderWidget().syncHandler(syncKey).width(SIZE * 4).bounds(0, 1).stopper(0.01f)
                                 .overlay(new Rectangle().color(0xFF0000)) // wanna do a custom texture later
-                ).child(new TextFieldWidget().syncHandler(syncKey).size(SIZE, SIZE).setTextAlignment(Alignment.CENTER));
+                ).child(
+                        new TextFieldWidget().syncHandler(syncKey).size(SIZE, SIZE).setTextAlignment(Alignment.CENTER)
+                                .setNumbersDouble((a) -> Math.round(MathUtils.clamp(a, 0, 1) * 100) / 100d));
     }
 
     public static class Command extends CommandBase {
