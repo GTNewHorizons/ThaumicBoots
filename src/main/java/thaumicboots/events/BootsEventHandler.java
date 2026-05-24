@@ -1,7 +1,5 @@
 package thaumicboots.events;
 
-import java.util.HashMap;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.PlayerCapabilities;
 import net.minecraft.item.Item;
@@ -19,7 +17,6 @@ import thaumicboots.api.ISpecialEffect;
 import thaumicboots.api.ItemBoots;
 import thaumicboots.api.ItemElectricBoots;
 import thaumicboots.item.boots.comet.ItemElectricCometBoots;
-import thaumicboots.item.boots.meteor.ItemElectricMeteorBoots;
 import thaumicboots.main.Config;
 import thaumicboots.main.utils.compat.EMTHelper;
 
@@ -40,14 +37,6 @@ public class BootsEventHandler {
             return;
         }
 
-        ItemStack boots = player.inventory.armorItemInSlot(0);
-
-        if ((this.prevStep.containsKey(event.entity.getEntityId()))
-                && ((boots == null) || !((boots.getItem() instanceof ItemElectricMeteorBoots)
-                        || (boots.getItem() instanceof ItemElectricCometBoots)))) {
-            event.entity.stepHeight = (this.prevStep.get(event.entity.getEntityId()));
-            this.prevStep.remove(event.entity.getEntityId());
-        }
     }
 
     @SubscribeEvent
@@ -56,8 +45,6 @@ public class BootsEventHandler {
             EntityPlayer player = (EntityPlayer) event.entity;
         }
     }
-
-    HashMap<Integer, Float> prevStep = new HashMap<>();
 
     @SubscribeEvent
     public void playerJumps(LivingEvent.LivingJumpEvent event) {
