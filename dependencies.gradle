@@ -20,5 +20,3 @@ dependencies {
 
     runtimeOnly('com.github.GTNewHorizons:AspectRecipeIndex:1.0.16:dev')
 }
-
-

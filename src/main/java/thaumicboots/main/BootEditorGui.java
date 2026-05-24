@@ -21,6 +21,7 @@ import com.cleanroommc.modularui.value.StringValue;
 import com.cleanroommc.modularui.value.sync.*;
 import com.cleanroommc.modularui.widget.Widget;
 import com.cleanroommc.modularui.widget.sizer.Box;
+import com.cleanroommc.modularui.widgets.ButtonWidget;
 import com.cleanroommc.modularui.widgets.ItemDisplayWidget;
 import com.cleanroommc.modularui.widgets.ProgressWidget;
 import com.cleanroommc.modularui.widgets.SliderWidget;
@@ -61,6 +62,14 @@ public class BootEditorGui implements IGuiHolder<GuiData> {
     @Override
     public ModularPanel buildUI(GuiData data, PanelSyncManager syncManager, UISettings settings) {
         ItemStack itemStack = data.getPlayer().getCurrentArmor(0);
+//
+//        if (!itemStack.stackTagCompound.hasKey("speed")) {
+//            itemStack.stackTagCompound.setDouble("speed", 0d);
+//        }
+//
+//        if (!itemStack.stackTagCompound.hasKey("jump")) {
+//            itemStack.stackTagCompound.setDouble("jump", 0d);
+//        }
 
         syncManager.syncValue("display_item", GenericSyncValue.forItem(() -> itemStack, null));
         syncManager.syncValue("speed_boost", new DoubleSyncValue(
@@ -76,49 +85,64 @@ public class BootEditorGui implements IGuiHolder<GuiData> {
         syncManager.syncValue("charge", new DoubleSyncValue(() -> itemStack.stackTagCompound.getDouble("charge")));
 
         return ModularPanel.defaultPanel("boot_editor")
+            .coverChildren()
             .child(Flow.col()
+                .coverChildren()
+                .childPadding(2)
+                .rightRel(1f)
+                .top(4)
+                .child(createToggleButton(itemStack, "omni"))
+                .child(createToggleButton(itemStack, "inertiacancelling"))
+                .child(createToggleButton(itemStack, "step"))
+            )
+            .child(Flow.col()
+                .topRel(0f)
+                .leftRel(0f)
+                .coverChildren()
                 .crossAxisAlignment(Alignment.CrossAxis.START)
                 .childPadding(4)
                 .margin(7)
                 .child(IKey.str("Modulation Control").asWidget())
-                .child(Flow.row()
-                    .childPadding(0)
-                    .height(32)
-                    .child(new ItemDisplayWidget()
-                        .syncHandler("display_item")
-                        .size(32,32)
-                    )
-                    .child(new SliderWidget()
-                        .syncHandler("speed_boost")
-                        .bounds(0, 1)
-                        .expanded()
-                        .background(new Rectangle().color(0xFF0000)) // wanna do a custom texture later
-                    )
-                    .child(new TextFieldWidget()
-                        .syncHandler("speed_boost")
-                        .size(32,32)
-                        .setTextAlignment(Alignment.CENTER)
-                    )
-                )
-                .child(Flow.row()
-                    .childPadding(0)
-                    .height(32)
-                    .child(new ItemDisplayWidget()
-                        .syncHandler("display_item")
-                        .size(32,32)
-                    )
-                    .child(new SliderWidget()
-                        .syncHandler("jump_boost")
-                        .bounds(0, 1)
-                        .expanded()
-                        .background(new Rectangle().color(0xFF0000)) // wanna do a custom texture later
-                    )
-                    .child(new TextFieldWidget()
-                        .syncHandler("jump_boost")
-                        .size(32,32)
-                        .setTextAlignment(Alignment.CENTER)
-                    )
-                )
+                .child(createRow("speed_boost"))
+                .child(createRow("jump_boost"))
+            );
+    }
+
+    private ButtonWidget createToggleButton(ItemStack itemStack, String toggleNBTKey) {
+        return new ButtonWidget<>()
+            .size(16,16)
+            .onMousePressed(button -> {
+                if (!itemStack.stackTagCompound.getBoolean(toggleNBTKey)) {
+                    itemStack.stackTagCompound.setBoolean(toggleNBTKey, true);
+                } else {
+                    itemStack.stackTagCompound.setBoolean(toggleNBTKey, false);
+                }
+                return true;
+            });
+    }
+
+    private Flow createRow(String syncKey) {
+        final int SIZE = 28;
+
+        return Flow.row()
+            .coverChildren()
+            .childPadding(0)
+            .height(SIZE)
+            .child(new ItemDisplayWidget()
+                .syncHandler("display_item")
+                .size(SIZE, SIZE)
+            )
+            .child(new SliderWidget()
+                .syncHandler(syncKey)
+                .width(SIZE * 4)
+                .bounds(0, 1)
+                .stopper(0.01f)
+                .overlay(new Rectangle().color(0xFF0000)) // wanna do a custom texture later
+            )
+            .child(new TextFieldWidget()
+                .syncHandler(syncKey)
+                .size(SIZE, SIZE)
+                .setTextAlignment(Alignment.CENTER)
             );
     }
 
@@ -136,7 +160,7 @@ public class BootEditorGui implements IGuiHolder<GuiData> {
 
         @Override
         public void processCommand(ICommandSender sender, String[] args) {
-            if (sender instanceof EntityPlayerMP entityPlayerMP && entityPlayerMP.capabilities.isCreativeMode) {
+            if (sender instanceof EntityPlayerMP entityPlayerMP && !entityPlayerMP.capabilities.isCreativeMode) {
                 GUI.open(entityPlayerMP);
             } else {
                 throw new CommandException("Player must be creative mode!");
