@@ -1,5 +1,7 @@
 package thaumicboots.main;
 
+import java.util.ArrayList;
+
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -9,7 +11,9 @@ import net.minecraft.item.ItemStack;
 import com.cleanroommc.modularui.ModularUI;
 import com.cleanroommc.modularui.api.IGuiHolder;
 import com.cleanroommc.modularui.api.drawable.IKey;
+import com.cleanroommc.modularui.api.widget.IWidget;
 import com.cleanroommc.modularui.drawable.Rectangle;
+import com.cleanroommc.modularui.drawable.UITexture;
 import com.cleanroommc.modularui.factory.GuiData;
 import com.cleanroommc.modularui.factory.SimpleGuiFactory;
 import com.cleanroommc.modularui.screen.ModularPanel;
@@ -25,6 +29,8 @@ import com.cleanroommc.modularui.widgets.ItemDisplayWidget;
 import com.cleanroommc.modularui.widgets.SliderWidget;
 import com.cleanroommc.modularui.widgets.layout.Flow;
 import com.cleanroommc.modularui.widgets.textfield.TextFieldWidget;
+
+import thaumicboots.main.utils.VersionInfo;
 
 public class BootEditorGui implements IGuiHolder<GuiData> {
 
@@ -52,28 +58,36 @@ public class BootEditorGui implements IGuiHolder<GuiData> {
                         jump -> itemStack.stackTagCompound.setDouble("jump", Math.round(jump * 100) / 100.0)));
         syncManager.syncValue("charge", new DoubleSyncValue(() -> itemStack.stackTagCompound.getDouble("charge")));
 
-        return ModularPanel.defaultPanel("boot_editor").coverChildren()
-                .child(
-                        Flow.col().coverChildren().childPadding(2).rightRel(1f).top(4)
-                                .child(createToggleButton(itemStack, "omni"))
-                                .child(createToggleButton(itemStack, "inertiacancelling"))
-                                .child(createToggleButton(itemStack, "step")))
+        return ModularPanel.defaultPanel("boot_editor").coverChildren().child(
+                Flow.col().coverChildren().childPadding(2).rightRel(1f).top(4).children(createToggleButtons(itemStack)))
                 .child(
                         Flow.col().topRel(0f).leftRel(0f).coverChildren().crossAxisAlignment(Alignment.CrossAxis.START)
                                 .childPadding(4).margin(7).child(IKey.str("Modulation Control").asWidget())
                                 .child(createRow("speed_boost")).child(createRow("jump_boost")));
     }
 
-    private ButtonWidget createToggleButton(ItemStack itemStack, String toggleNBTKey) {
-        return new ButtonWidget<>().size(16, 16).onMousePressed(button -> {
-            if (!itemStack.stackTagCompound.getBoolean(toggleNBTKey)
-                    || !itemStack.stackTagCompound.hasKey(toggleNBTKey)) {
-                itemStack.stackTagCompound.setBoolean(toggleNBTKey, true);
-            } else {
-                itemStack.stackTagCompound.setBoolean(toggleNBTKey, false);
-            }
-            return true;
-        });
+    private ArrayList<IWidget> createToggleButtons(ItemStack itemStack) {
+        ArrayList<IWidget> buttons = new ArrayList<>();
+
+        final String[] NBTKeys = { "omni", "inertiacancelling", "step" };
+
+        for (int i = 0; i < 3; i++) {
+            String toggleNBTKey = NBTKeys[i];
+
+            buttons.add(new ButtonWidget<>().size(16, 16).onMousePressed(button -> {
+                if (!itemStack.stackTagCompound.getBoolean(toggleNBTKey)
+                        || !itemStack.stackTagCompound.hasKey(toggleNBTKey)) {
+                    itemStack.stackTagCompound.setBoolean(toggleNBTKey, true);
+                } else {
+                    itemStack.stackTagCompound.setBoolean(toggleNBTKey, false);
+                }
+                return true;
+            }).overlay(
+                    UITexture.builder().location(VersionInfo.ModID, "gui/OIS.png").imageSize(24 * 3, 24)
+                            .subAreaXYWH(24 * i, 0, 24, 24).build()));
+        }
+
+        return buttons;
     }
 
     private Flow createRow(String syncKey) {
