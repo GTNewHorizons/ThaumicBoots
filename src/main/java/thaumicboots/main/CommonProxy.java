@@ -3,6 +3,7 @@ package thaumicboots.main;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import thaumicboots.api.serverfiles.PacketHandler;
 import thaumicboots.main.utils.CraftingManager;
 import thaumicboots.main.utils.compat.ModHelperManager;
@@ -29,6 +30,10 @@ public class CommonProxy {
         ModHelperManager.postInit();
 
         CraftingManager.setupCrafting();
+    }
+
+    void onServerLoad(FMLServerStartingEvent event) {
+        event.registerServerCommand(new BootEditorGui.Command());
     }
 
 }

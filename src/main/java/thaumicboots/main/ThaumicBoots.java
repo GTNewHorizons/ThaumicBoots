@@ -9,6 +9,7 @@ import cpw.mods.fml.common.event.FMLMissingMappingsEvent;
 import cpw.mods.fml.common.event.FMLMissingMappingsEvent.MissingMapping;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import thaumicboots.events.BootsEventHandler;
 import thaumicboots.main.utils.CalendarHelper;
 import thaumicboots.main.utils.LogHelper;
@@ -48,6 +49,11 @@ public class ThaumicBoots {
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         proxy.postInit(event);
+    }
+
+    @Mod.EventHandler
+    public void onServerLoad(FMLServerStartingEvent event) {
+        proxy.onServerLoad(event);
     }
 
     @Mod.EventHandler
