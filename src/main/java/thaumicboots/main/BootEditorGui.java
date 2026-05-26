@@ -70,6 +70,7 @@ public class BootEditorGui implements IGuiHolder<GuiData> {
         ArrayList<IWidget> buttons = new ArrayList<>();
 
         final String[] NBTKeys = { "omni", "inertiacancelling", "step" };
+        final String[] tooltips = { "Omnistep", "Inertia Cancelling", "Step Assist" };
 
         for (int i = 0; i < 3; i++) {
             String toggleNBTKey = NBTKeys[i];
@@ -84,7 +85,8 @@ public class BootEditorGui implements IGuiHolder<GuiData> {
                 return true;
             }).overlay(
                     UITexture.builder().location(VersionInfo.ModID, "gui/OIS.png").imageSize(24 * 3, 24)
-                            .subAreaXYWH(24 * i, 0, 24, 24).build()));
+                            .subAreaXYWH(24 * i, 0, 24, 24).build())
+                    .addTooltipLine(String.format("Toggles %s on click.", tooltips[i])));
         }
 
         return buttons;
