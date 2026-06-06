@@ -21,6 +21,7 @@ public class ItemQuantumCometBoots extends ItemElectricCometBoots implements IHa
         visDiscount = 5;
         transferLimit = 12_000;
         speedBonus = getEMTQuantumSpeed() + 0.220F; // quantum + comet * 4
+        longrunningbonus = 0.009F; // 3x base
         jumpBonus = 0.9075D; // 9.5 blocks
         minimumDistance = 100.0F;
         minimumHeight = 10F;

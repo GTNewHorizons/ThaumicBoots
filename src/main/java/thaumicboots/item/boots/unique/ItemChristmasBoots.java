@@ -26,7 +26,7 @@ public class ItemChristmasBoots extends ItemBoots implements IComet {
         jumpBonus = 0.35D; // 3.5 blocks
         tier = 2;
         speedBonus = 0.165F;
-        longrunningbonus = 0.012F * modifier;
+        longrunningbonus = 0.003F * modifier;
         steadyBonus = true;
         negateFall = true;
         waterEffects = true;

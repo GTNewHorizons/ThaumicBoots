@@ -21,6 +21,7 @@ public class ItemNanoCometBoots extends ItemElectricCometBoots implements IHazar
         visDiscount = 4;
         transferLimit = 1_600;
         speedBonus = getEMTNanoSpeed() + 0.110F; // nano + comet * 2
+        longrunningbonus = 0.006F; // 2x base
         jumpBonus = 0.6325D; // 6 blocks
         minimumHeight = 6F;
         minimumDistance = 35.0F;
