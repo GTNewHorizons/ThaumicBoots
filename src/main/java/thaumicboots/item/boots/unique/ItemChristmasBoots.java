@@ -18,7 +18,7 @@ public class ItemChristmasBoots extends ItemBoots implements IComet {
     protected void setBootsData() {
         super.setBootsData();
         if (CalendarHelper.isChristmas()) {
-            visDiscount = 12;
+            visDiscount = 9;
             modifier = 25;
         } else {
             visDiscount = 2;

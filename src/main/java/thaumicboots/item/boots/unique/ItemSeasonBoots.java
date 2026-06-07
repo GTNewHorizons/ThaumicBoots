@@ -30,7 +30,7 @@ public class ItemSeasonBoots extends ItemBoots {
             iconResPath = "thaumicboots:bootsChristmas";
             armorResPath = "thaumicboots:model/boots_christmas.png";
             visDiscount = 6;
-            modifier = 6;
+            modifier = 12;
         }
         longrunningbonus = 0.003F * modifier;
     }
