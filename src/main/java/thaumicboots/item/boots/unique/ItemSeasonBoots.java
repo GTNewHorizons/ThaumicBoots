@@ -29,7 +29,7 @@ public class ItemSeasonBoots extends ItemBoots {
         if (CalendarHelper.isChristmas()) {
             iconResPath = "thaumicboots:bootsChristmas";
             armorResPath = "thaumicboots:model/boots_christmas.png";
-            visDiscount = 12;
+            visDiscount = 6;
             modifier = 12;
         }
         longrunningbonus = 0.003F * modifier;
